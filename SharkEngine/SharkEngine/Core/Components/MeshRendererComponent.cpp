@@ -22,3 +22,23 @@ void MeshRendererComponent::Render() {
 		glFrontFace(GL_CCW);
 	}
 }
+
+Mesh* MeshRendererComponent::GetMesh() const
+{
+	return m_Mesh;
+}
+
+Material* MeshRendererComponent::GetMaterial() const
+{
+	return m_Material;
+}
+
+void MeshRendererComponent::SetMesh(Mesh* mesh)
+{
+	m_Mesh = mesh ? mesh : nullptr;
+}
+
+void MeshRendererComponent::SetMaterial(Material* mat)
+{
+	m_Material = mat ? mat : nullptr;
+}

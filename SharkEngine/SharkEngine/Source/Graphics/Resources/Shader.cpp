@@ -6,8 +6,19 @@
 #include <sstream>
 #include <iostream>
 
+#if defined(_MSC_VER) && _MSC_VER < 1914
+    // Visual Studio 2017 and earlier: use experimental/filesystem
+    #include <experimental/filesystem>
+    namespace fs = std::experimental::filesystem;
+#else
+    // Visual Studio 2017.7+ and later: use standard filesystem
+    #include <filesystem>
+    namespace fs = std::filesystem;
+#endif
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath) {
+
+	std::cout << "Attempting to load shader at: " << fs::absolute(vertexPath) << std::endl;
 	// 1. Retrieve the vertex/fragment source code from filePath
 	std::string vertexCode;
 	std::string fragmentCode;

@@ -17,12 +17,12 @@ public:
 	void Render();
 
 	// --- Asset Getters ---
-	Mesh* GetMesh() const { return m_Mesh; }
-	Material* GetMaterial() const { return m_Material; }
+	Mesh* GetMesh() const;
+	Material* GetMaterial() const;
 
 	// --- Asset Setters ---
-	void SetMesh(Mesh* mesh) { m_Mesh = mesh; }
-	void SetMaterial(Material* mat) { m_Material = mat; }
+	void SetMesh(Mesh* mesh);
+	void SetMaterial(Material* mat);
 
 private:
 	Mesh* m_Mesh{ nullptr };

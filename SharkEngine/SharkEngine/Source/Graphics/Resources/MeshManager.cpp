@@ -88,7 +88,7 @@ Mesh* MeshManager::LoadMesh(const std::string& filePath)
 		return cachedMesh;
 	}
 
-	std::cout << Time::CreateTimeStamp() << "Cache miss! Loading " << filePath << " from disk..." << std::endl;
+	std::cout << Time::CreateTimeStamp() << ": Cache miss! Loading " << filePath << " from disk..." << std::endl;
 
 	// 2. Load from disk
 	Mesh* newMesh = new Mesh();

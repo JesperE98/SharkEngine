@@ -39,21 +39,21 @@ void EngineContext::OnInit() {
 	m_Scene->CreateCamera(aspectRatio);
 
 	/* ----------------- Example Objects ----------------- */
-	Memory::CheckMemoryStatus();
-	GameObject* house = new GameObject("Viking_House");
-	MeshManager::CreateFromObj(house, "Assets/Models/Viking_House.obj");
-	house->GetComponent<MeshRendererComponent>()->GetMaterial()->m_Texture = new Texture("Assets/Models/Viking_House.png");
-	m_Scene->AddGameObject(house);
-	house->GetTransform().position = Vector3(1.0f, 0.0f, 0.0f);
-	house->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
+	//Memory::CheckMemoryStatus();
+	//GameObject* house = new GameObject("Viking_House");
+	//MeshManager::CreateFromObj(house, "Assets/Models/Viking_House.obj");
+	//house->GetComponent<MeshRendererComponent>()->GetMaterial()->m_Texture = new Texture("Assets/Models/Viking_House.png");
+	//m_Scene->AddGameObject(house);
+	//house->GetTransform().position = Vector3(1.0f, 0.0f, 0.0f);
+	//house->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
 
-	Memory::CheckMemoryStatus();
-	GameObject* house2 = new GameObject("Viking_House2");
-	MeshManager::CreateFromObj(house2, "Assets/Models/Viking_House.obj");
-	house2->GetComponent<MeshRendererComponent>()->GetMaterial()->m_Texture = new Texture("Assets/Models/Viking_House.png");
-	m_Scene->AddGameObject(house2);
-	house2->GetTransform().position = Vector3(3.0f, 0.0f, 0.0f);
-	house2->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
+	//Memory::CheckMemoryStatus();
+	//GameObject* house2 = new GameObject("Viking_House2");
+	//MeshManager::CreateFromObj(house2, "Assets/Models/Viking_House.obj");
+	//house2->GetComponent<MeshRendererComponent>()->GetMaterial()->m_Texture = new Texture("Assets/Models/Viking_House.png");
+	//m_Scene->AddGameObject(house2);
+	//house2->GetTransform().position = Vector3(3.0f, 0.0f, 0.0f);
+	//house2->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
 
 	Memory::CheckMemoryStatus();
 	GameObject* cube = new GameObject("MyCube");
@@ -71,6 +71,7 @@ void EngineContext::OnInit() {
 void EngineContext::OnUpdate(float deltaTime) {
 	m_Engine->Run();
 	m_Scene->Update(deltaTime);
+	glGetError(); // Clear OpenGL errors each frame
 }
 
 void EngineContext::OnEnd() {
