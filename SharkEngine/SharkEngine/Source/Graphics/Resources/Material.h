@@ -15,10 +15,10 @@ public:
 
 	Shader* GetShader() const { return m_Shader; }
 
+	Texture* m_Texture{ nullptr };
 private:
 
 	Shader* m_Shader{ nullptr };
-	Texture* m_Texture{ nullptr };
 
 	void CreateDefaultShader();
 	void CreateDefaultTexture();

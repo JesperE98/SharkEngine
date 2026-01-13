@@ -1,4 +1,7 @@
 #include "GameObject.h"
+#include "Core/Components/Component.h"
+#include <string>
+#include "Object.h"
 
 GameObject::GameObject(const std::string& name)
 	: Object(name)

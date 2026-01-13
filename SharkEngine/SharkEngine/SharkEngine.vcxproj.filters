@@ -75,7 +75,7 @@
     <ClCompile Include="Source\Graphics\Resources\PrimitiveMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\MeshLoader.cpp">
+    <ClCompile Include="Source\Graphics\Resources\MeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Graphics\Framebuffer\Framebuffer.cpp">
@@ -167,7 +167,7 @@
     <ClInclude Include="Source\Graphics\Resources\PrimitiveMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\MeshLoader.h">
+    <ClInclude Include="Source\Graphics\Resources\MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics\Framebuffer\Framebuffer.h">

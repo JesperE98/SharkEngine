@@ -145,7 +145,7 @@
     <ClCompile Include="Core\Math\Vector4.cpp" />
     <ClCompile Include="Core\Utilities\Memory.cpp" />
     <ClCompile Include="Source\Graphics\Framebuffer\Framebuffer.cpp" />
-    <ClCompile Include="Source\Graphics\Resources\MeshLoader.cpp" />
+    <ClCompile Include="Source\Graphics\Resources\MeshManager.cpp" />
     <ClCompile Include="Source\Graphics\Resources\PrimitiveMesh.cpp" />
     <ClCompile Include="Core\Components\MeshRendererComponent.cpp" />
     <ClCompile Include="Core\Components\Component.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="Core\Math\Vector4.h" />
     <ClInclude Include="Core\Utilities\Memory.h" />
     <ClInclude Include="Source\Graphics\Framebuffer\Framebuffer.h" />
-    <ClInclude Include="Source\Graphics\Resources\MeshLoader.h" />
+    <ClInclude Include="Source\Graphics\Resources\MeshManager.h" />
     <ClInclude Include="Source\Graphics\Resources\PrimitiveMesh.h" />
     <ClInclude Include="Core\Components\MeshRendererComponent.h" />
     <ClInclude Include="Core\Components\Component.h" />

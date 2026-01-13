@@ -1,4 +1,12 @@
 #include "InspectorPanel.h"
+#include <string.h>
+#include <ImGui/imgui.h>
+#include <Core/Components/Transform.h>
+#include <Core/Math/MathUtils.h>
+#include <Core/Math/Vector3.h>
+#include <SharkEngine/Core/Components/MeshRendererComponent.h>
+#include <SharkEngine/Source/Graphics/Resources/PrimitiveMesh.h>
+#include <SharkEngine/Source/Graphics/Resources/MeshManager.h>
 
 InspectorPanel::~InspectorPanel()
 {
@@ -15,6 +23,7 @@ void InspectorPanel::OnRenderPanel(float deltaTime)
 	ImGui::Begin(m_Name.c_str(), &m_IsVisible);
 
 	if (m_SelectedObject) {
+
 		static char nameBuffer[128];
 		strncpy_s(nameBuffer, m_SelectedObject->GetName().c_str(), sizeof(nameBuffer));
 		nameBuffer[sizeof(nameBuffer - 1)] = '\0'; // Ensures null-termination
@@ -61,8 +70,53 @@ void InspectorPanel::OnRenderPanel(float deltaTime)
 		}
 
 		transform.position = { pos[0], pos[1], pos[2] };
-		euler = { rot[0], rot[1], rot[2] };
+		Vector3 updatedEuler = { rot[0], rot[1], rot[2] };
+		transform.rotation = Math::FromEulerDegrees(updatedEuler);
 		transform.scale = { scale[0], scale[1], scale[2] };
+
+		ImGui::Separator();
+
+		// --------- MESH RENDERER COMPONENT SECTION ----------
+
+		auto* renderer = m_SelectedObject->GetComponent<MeshRendererComponent>();
+		if (renderer) {
+			if (ImGui::CollapsingHeader("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+				// Primitive Enum dropdown
+				const char* primitiveNames[] = { "Select Primitive", "Cube", "Sphere", "Plane", "Cylinder", "Cone" };
+				static int selectedPrim = 0;
+
+				if (ImGui::Combo("Primitive", &selectedPrim, primitiveNames, IM_ARRAYSIZE(primitiveNames))) {
+					if (selectedPrim > 0) {
+						PrimitiveType type = static_cast<PrimitiveType>(selectedPrim);
+						Mesh* newMesh = MeshManager::Get().LoadMesh(type);
+
+						if (newMesh) renderer->SetMesh(newMesh);
+					}
+				}
+
+				ImGui::Spacing();
+
+				// String Path Input
+				static char pathBuffer[256] = "";
+				ImGui::Text("Mesh Path (.obj)");
+				if (ImGui::InputText("##MeshPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					// MeshManager handles the cache lookup automatically
+					Mesh* newMesh = MeshManager::Get().LoadMesh(pathBuffer);
+
+					if (newMesh) {
+						renderer->SetMesh(newMesh);
+						std::cout << "Swapped to:" << pathBuffer << std::endl;
+					}
+					memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
+				}
+				ImGui::SameLine();
+				ImGui::TextDisabled("(?)");
+				if (ImGui::IsItemHovered()) {
+					ImGui::SetTooltip("Enter path and press ENTER to load.");
+				}
+			}
+		}
 	}
 	else {
 		ImGui::Text("No Object Selected");

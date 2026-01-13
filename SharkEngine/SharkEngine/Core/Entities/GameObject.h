@@ -2,8 +2,9 @@
 #define GAMEOBJECT_H
 
 #include "Object.h"
-#include "Core/Components/Component.h"
 #include "Core/Components/Transform.h"
+#include <string>
+#include <vector>
 
 class Component;
 

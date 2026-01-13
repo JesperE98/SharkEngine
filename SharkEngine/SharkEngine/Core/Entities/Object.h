@@ -1,11 +1,10 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "Core/Utilities/Time.h"
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include <type_traits>
 
 class Object
 {

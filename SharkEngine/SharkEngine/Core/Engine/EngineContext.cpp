@@ -1,13 +1,19 @@
 #include "EngineContext.h"
 #include "Core/Engine/Scene.h"
 #include "Core/Input/InputManager.h"
+#include "Core/Components/MeshRendererComponent.h"
 #include "Graphics/Rendering/ForwardRenderer.h"
 #include "Core/Utilities/Time.h"
-#include "Graphics/Resources/MeshLoader.h"
+#include "Graphics/Resources/MeshManager.h"
 #include "Graphics/Resources/PrimitiveMesh.h"
 #include "Core/Utilities/Memory.h"
 
 #include <iostream>
+#include "SharkEngine.h"
+#include <Core/Entities/GameObject.h>
+#include <Core/Math/Vector3.h>
+#include <Graphics/Resources/Texture.h>
+#include <GLFW/glfw3.h>
 
 void EngineContext::OnInit() {
 	std::cout << Time::CreateTimeStamp() << ": " << "Initializing EngineContext!\n";
@@ -35,15 +41,31 @@ void EngineContext::OnInit() {
 	/* ----------------- Example Objects ----------------- */
 	Memory::CheckMemoryStatus();
 	GameObject* house = new GameObject("Viking_House");
-	MeshLoader::CreateFromObj(house, "Assets/Models/Viking_House.obj");
-	house->GetTransform().position = Vector3(0.0f, 0.0f, 0.0f);
+	MeshManager::CreateFromObj(house, "Assets/Models/Viking_House.obj");
+	house->GetComponent<MeshRendererComponent>()->GetMaterial()->m_Texture = new Texture("Assets/Models/Viking_House.png");
 	m_Scene->AddGameObject(house);
-
-	GameObject* cube = new GameObject("MyCube");
-	cube = PrimitiveMesh::CreatePrimitveCube(cube);
-	m_Scene->AddGameObject(cube);
+	house->GetTransform().position = Vector3(1.0f, 0.0f, 0.0f);
+	house->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
 
 	Memory::CheckMemoryStatus();
+	GameObject* house2 = new GameObject("Viking_House2");
+	MeshManager::CreateFromObj(house2, "Assets/Models/Viking_House.obj");
+	house2->GetComponent<MeshRendererComponent>()->GetMaterial()->m_Texture = new Texture("Assets/Models/Viking_House.png");
+	m_Scene->AddGameObject(house2);
+	house2->GetTransform().position = Vector3(3.0f, 0.0f, 0.0f);
+	house2->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
+
+	Memory::CheckMemoryStatus();
+	GameObject* cube = new GameObject("MyCube");
+	cube = PrimitiveMesh::CreatePrimitive(cube, PrimitiveType::Cube);
+	m_Scene->AddGameObject(cube);
+	cube->GetTransform().position = Vector3(-1.0f, 0.0f, 0.0f);
+
+	Memory::CheckMemoryStatus();
+	GameObject* cube2 = new GameObject("MyCube2");
+	cube = PrimitiveMesh::CreatePrimitive(cube2, PrimitiveType::Cube);
+	m_Scene->AddGameObject(cube2);
+	cube2->GetTransform().position = Vector3(-3.0f, 0.0f, 0.0f);
 }
 
 void EngineContext::OnUpdate(float deltaTime) {
@@ -53,6 +75,8 @@ void EngineContext::OnUpdate(float deltaTime) {
 
 void EngineContext::OnEnd() {
 	std::cout << Time::CreateTimeStamp() << ": " << "Closing EngineContext!\n";
+
+	MeshManager::Get().Shutdown();
 
 	m_Engine->Shutdown();
 

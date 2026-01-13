@@ -1,12 +1,17 @@
-﻿#include "PrimitiveMesh.h"
+﻿#include "Core/Components/MeshRendererComponent.h"
 #include "Core/Entities/GameObject.h"
-#include "Core/Components/MeshRendererComponent.h"
 #include "Core/Utilities/Time.h"
-#include <iostream>
-#include <ostream>
-#include <vector>
 #include "Material.h"
 #include "Mesh.h"
+#include "PrimitiveMesh.h"
+#include "MeshManager.h"
+#include <Core/Math/MathUtils.h>
+#include <Core/Math/Vector2.h>
+#include <Core/Math/Vector3.h>
+#include <iostream>
+#include <ostream>
+#include <string>
+#include <vector>
 
 void PrimitiveMesh::DebugFace(const std::string& name, const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& expectedNormal)
 {
@@ -72,7 +77,7 @@ Mesh* PrimitiveMesh::CreateCube()
 
 	// Loop through face
 	for (int f = 0; f < 6; ++f) {
-		int baseIndex = vertices.size();
+		int baseIndex = static_cast<int>(vertices.size());
 
 		for (int v = 0; v < 4; ++v) {
 			Vertex vertex;
@@ -98,11 +103,11 @@ Mesh* PrimitiveMesh::CreateCube()
 		Vector3 v2 = corners[faces[f][2]];
 		Vector3 v3 = corners[faces[f][3]];
 
-		DebugFace("Face " + std::to_string(f), v0, v1, v2, v3, normals[f]);
-		// Debug info
-		std::cout << "Face " << f
-			<< " normal: " << normals[f]
-			<< " winding: CCW" << std::endl;
+		//DebugFace("Face " + std::to_string(f), v0, v1, v2, v3, normals[f]);
+		//// Debug info
+		//std::cout << "Face " << f
+		//	<< " normal: " << normals[f]
+		//	<< " winding: CCW" << std::endl;
 
 	}
 
@@ -111,11 +116,27 @@ Mesh* PrimitiveMesh::CreateCube()
 	return new Mesh(vertices, indices);
 }
 
-GameObject* PrimitiveMesh::CreatePrimitveCube(GameObject* obj, Material* mat)
+GameObject* PrimitiveMesh::CreatePrimitive(GameObject* obj, PrimitiveType type, Material* mat)
 {
-	Mesh* mesh = CreateCube();
-	Material* material = mat ? mat : new Material();
-	obj->AddComponent(new MeshRendererComponent(obj, mesh, material));
-	std::cout << Time::CreateTimeStamp() << ": Created Primitive Cube: " << obj->GetName() << std::endl;
+	if (!obj) {
+		std::cerr << Time::CreateTimeStamp() << ": PrimitiveMesh::CreatePrimitive - Passed null GameObject!" << std::endl;
+		return nullptr;
+	}
+
+	Mesh* mesh = MeshManager::Get().LoadMesh(type);
+
+	if (mesh) {
+		Material* matetrial = mat ? mat : new Material(); // if none mat wasn't provided, create default material
+		obj->AddComponent(new MeshRendererComponent(obj, mesh, matetrial));
+
+		std::string typeName = (type == PrimitiveType::Cube) ? "Cube" :
+			(type == PrimitiveType::Sphere) ? "Sphere" :
+			(type == PrimitiveType::Cylinder) ? "Cylinder" :
+			(type == PrimitiveType::Plane) ? "Plane" : "Unknown";
+
+		std::cout << Time::CreateTimeStamp() << ": PrimitiveMesh::CreatePrimitive - Created " << typeName << " primitive and attached to GameObject: " << obj->GetName() << std::endl;
+	}
+
 	return obj;
 }
+

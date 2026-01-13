@@ -46,6 +46,18 @@ void Mesh::Draw() const {
 bool Mesh::LoadMeshFromModel(const std::string& filename)
 {
 	std::ifstream file(filename);
+
+
+	if(!vertices.empty()) 
+		vertices.clear();
+	if(!indices.empty()) 
+		indices.clear(); // Optional, in case of reusing the mesh
+
+	// Temporary storage for the seperate data pools
+	std::vector<Vector3> temp_positions;
+	std::vector<Vector2> temp_uvs;
+	std::vector<Vector3> temp_normals;
+
 	std::string line;
 
 	if (!file.is_open()) {
@@ -53,35 +65,68 @@ bool Mesh::LoadMeshFromModel(const std::string& filename)
 		return false;
 	}
 
-	if(!vertices.empty()) 
-		vertices.clear();
-	if(!indices.empty()) 
-		indices.clear(); // Optional, in case of reusing the mesh
-
 	while (std::getline(file, line)) {
 		std::istringstream iss(line);
 		std::string prefix;
 		iss >> prefix;
 
 		if (prefix == "v") { // Vertex position
-			Vertex vertex{};
-			iss >> vertex.position.x >> vertex.position.y >> vertex.position.z;
-
-			this->vertices.push_back(vertex);
+			Vector3 pos;
+			iss >> pos.x >> pos.y >> pos.z;
+			temp_positions.push_back(pos);
+		}
+		else if (prefix == "vt") // Extra objective : UVs
+		{
+			Vector2 uv;
+			iss >> uv.x >> uv.y;
+			temp_uvs.push_back(uv);
+		}
+		else if (prefix == "vn") // Extra objective : Normals
+		{
+			Vector3 norm;
+			iss >> norm.x >> norm.y >> norm.z;
+			temp_normals.push_back(norm);
 		}
 		else if (prefix == "f") { // Face indices
-			std::vector<unsigned int> faceIndices;
-			std::string token;
+			std::string vertexData;
+			std::vector<unsigned int> faceVertexIndices;
 
-			while (iss >> token) {
-				std::istringstream tokenStream(token);
-				std::string vStr;
-				std::getline(tokenStream, vStr, '/');
-				faceIndices.push_back(std::stoi(vStr) - 1); // OBJ indices are 1-based
+			while (iss >> vertexData) {
+				// Parse the "v/vt/vn" format
+				unsigned int vIdx = 0, vtIdx = 0, vnIdx = 0;
+
+				// Replace the slashes with spaces to make parsing easier
+				for (auto& c : vertexData) {
+					if (c == '/') {
+						c = ' ';
+					}
+				}
+
+				std::istringstream vss(vertexData);
+
+				vss >> vIdx;
+
+				Vertex v{};
+				v.position = temp_positions[vIdx - 1];
+
+				// if UVs exists in this token
+				if (vss >> vtIdx) {
+					v.uV = temp_uvs[vtIdx - 1];
+				}
+
+				// If Normals exists in this token
+				if (vss >> vnIdx) {
+					v.normal = temp_normals[vnIdx - 1];
+				}
+
+				// For now, adds every vertex as unique
+				vertices.push_back(v);
+				faceVertexIndices.push_back(static_cast<unsigned int>(vertices.size() - 1));
 			}
 
-			auto triangle = Triangulize(faceIndices);
-			indices.insert(indices.end(), triangle.begin(), triangle.end());
+			// Triangulize supports quads
+			auto tris = Triangulize(faceVertexIndices);
+			indices.insert(indices.end(), tris.begin(), tris.end());
 		}
 	}
 
