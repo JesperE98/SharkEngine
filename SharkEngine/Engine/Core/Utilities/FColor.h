@@ -1,55 +1,42 @@
 #ifndef ENGINE_CORE_UTILITIES_COLOR_H
 #define ENGINE_CORE_UTILITIES_COLOR_H
 
-#include <Windows.h>
+namespace Shark::Core {
 
-// FColor struct to represent Windows Console Color Codes
-struct FColor {
+	// FColor struct to represent Color Codes
+	struct FColor {
 
-	WORD Code;
+		const char* Code;
 
-	// Constructor to allow "static constexpr FColor Red = 12"
-	constexpr FColor(WORD InCode) : Code(InCode) {}
+		// Constructor to allow "static constexpr FColor Red = 12"
+		constexpr FColor(const char* InCode) : Code(InCode) {}
 
-	// Implicit conversion to WORD
-	operator WORD() const { return Code; }
+		// Windows Console Color Codes
+		static const FColor Black, DarkBlue, DarkGreen, DarkCyan, DarkRed,
+							DarkMagenta, DarkYellow, LightGrey, DarkGrey,
+							Blue, Green, Cyan, Red, Magenta, Yellow, White, Reset;
+	};
+
+    // ANSI Escape Sequences: \033[ is the "Escape" + [1;XXm defines the color
+    inline constexpr FColor FColor::Reset =         "\033[0m";
+    inline constexpr FColor FColor::Black =         "\033[1;30m";
+    inline constexpr FColor FColor::DarkRed =       "\033[0;31m";
+    inline constexpr FColor FColor::Red =           "\033[1;31m";
+    inline constexpr FColor FColor::DarkGreen =     "\033[0;32m";
+    inline constexpr FColor FColor::Green =         "\033[1;32m";
+    inline constexpr FColor FColor::DarkYellow =    "\033[0;33m";
+    inline constexpr FColor FColor::Yellow =        "\033[1;33m";
+    inline constexpr FColor FColor::DarkBlue =      "\033[0;34m";
+    inline constexpr FColor FColor::Blue =          "\033[1;34m";
+    inline constexpr FColor FColor::DarkMagenta =   "\033[0;35m";
+    inline constexpr FColor FColor::Magenta =       "\033[1;35m";
+    inline constexpr FColor FColor::DarkCyan =      "\033[0;36m";
+    inline constexpr FColor FColor::Cyan =          "\033[1;36m";
+    inline constexpr FColor FColor::DarkGrey =      "\033[1;90m";
+    inline constexpr FColor FColor::LightGrey =     "\033[0;37m";
+    inline constexpr FColor FColor::White =         "\033[1;37m";
 
 
-	// Windows Console Color Codes
-	static const FColor Black;
-	static const FColor DarkBlue;
-	static const FColor DarkGreen;
-	static const FColor DarkCyan;
-	static const FColor DarkRed;
-	static const FColor DarkMagenta;
-	static const FColor DarkYellow;
-	static const FColor LightGrey;
-	static const FColor DarkGrey;
-	static const FColor Blue;
-	static const FColor Green;
-	static const FColor Cyan;
-	static const FColor Red;
-	static const FColor Magenta;
-	static const FColor Yellow;
-	static const FColor White;
-};
-
-inline constexpr FColor FColor::Black		= 0;
-inline constexpr FColor FColor::DarkBlue	= 1;
-inline constexpr FColor FColor::DarkGreen	= 2;
-inline constexpr FColor FColor::DarkCyan	= 3;
-inline constexpr FColor FColor::DarkRed		= 4;
-inline constexpr FColor FColor::DarkMagenta = 5;
-inline constexpr FColor FColor::DarkYellow	= 6;
-inline constexpr FColor FColor::LightGrey	= 7;
-inline constexpr FColor FColor::DarkGrey	= 8;
-inline constexpr FColor FColor::Blue		= 9;
-inline constexpr FColor FColor::Green		= 10;
-inline constexpr FColor FColor::Cyan		= 11;
-inline constexpr FColor FColor::Red			= 12;
-inline constexpr FColor FColor::Magenta		= 13;
-inline constexpr FColor FColor::Yellow		= 14;
-inline constexpr FColor FColor::White		= 15;
-
+}
 
 #endif // ENGINE_CORE_UTILITIES_COLOR_H

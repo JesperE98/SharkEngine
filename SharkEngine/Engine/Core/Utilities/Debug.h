@@ -3,119 +3,139 @@
 
 #include "Time.h"
 #include "FColor.h"
-#include <Windows.h>
 #include <iostream>
 #include <string_view>
 #include <format>
 #include <sstream>
 
-enum class LogCategory{ 
-	Engine,		// General startup/shutdown
-	Editor,		// UI and Tooling logic
-	Physics,	// Collision and Rigidbody updates
-	Rendering,	// High-level: Mesh, Lights, Camera
-	OpenGL,		// Low-level: Buffers, Gl-Errors
-	IO,			// File loading (PathManager)
-	Temp,		// For temporarily debugging
-	Material,	// Shaders, Texture, Uniforms
-};
+namespace Shark::Core {
 
-class Debug
-{
-public:
+	enum class LogCategory {
+		Engine,		// General startup/shutdown
+		Editor,		// UI and Tooling logic
+		Physics,	// Collision and Rigidbody updates
+		Rendering,	// High-level: Mesh, Lights, Camera
+		OpenGL,		// Low-level: Buffers, Gl-Errors
+		IO,			// File loading (PathManager)
+		Temp,		// For temporarily debugging
+		Material,	// Shaders, Texture, Uniforms
+		Messaging,	// Message Queue related logs
+	};
 
-	// Basic Logs (White)
-	template<typename... Args>
-	static void Log(LogCategory category, std::string_view message, Args&&... args) {
-		Print(category, "LOG", FColor::White, message, std::forward<Args>(args)...);
-	}
+	class Debug
+	{
+	public:
 
-	template<typename... Args>
-	static void LogWarning(LogCategory category, std::string_view message, Args&&... args) {
-		Print(category, "WARNING", FColor::Yellow, message, std::forward<Args>(args)...);
-	}
-
-	template<typename... Args>
-	static void LogError(LogCategory category, std::string_view message, Args&&... args) {
-		Print(category, "ERROR", FColor::Red, message, std::forward<Args>(args)...);
-	}
-
-private:
-	template<typename... Args>
-	static void Print(LogCategory category, const char* level, FColor color, std::string_view message, Args&&... args) {
-
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		// Get time stamp
-		std::string formattedMessage = FormatMessage(message, std::forward<Args>(args)...);
-
-		// Set color based on log level and print prefix [Time][Level][Category]
-		SetConsoleTextAttribute(hConsole, FColor::DarkGrey); // Dark grey for timestamp
-		std::cout << '[' << Time::CreateTimeStamp() << "]: ";
-
-		SetConsoleTextAttribute(hConsole, color); // Color for log level
-		std::cout << '[' << level << "][" << CategoryToString(category) << "] " << formattedMessage << std::endl;
-	}
-
-	static std::string_view CategoryToString(LogCategory category) {
-		switch(category) {
-			case LogCategory::Engine:		return "Engine";
-			case LogCategory::Editor:		return "Editor";
-			case LogCategory::Physics:		return "Physics";
-			case LogCategory::Rendering:	return "Rendering";
-			case LogCategory::OpenGL:		return "OpenGL";
-			case LogCategory::IO:			return "IO";
-			case LogCategory::Temp:			return "Temp";
-			case LogCategory::Material:		return "Material";
-			default:						return "General";
+		// Basic Logs (White)
+		template<typename... Args>
+		static void Log(LogCategory category, std::string_view message, Args&&... args) {
+			Print(category, "LOG", FColor::White, message, std::forward<Args>(args)...);
 		}
-	}
 
-	template<typename... Args>
-	static std::string FormatMessage(std::string_view fmt, Args&&... args) {
-
-		// If no args, just return the string
-		if constexpr (sizeof...(args) == 0) return std::string(fmt);
-
-		// Use stringstream to handle types that have operator<<
-		std::stringstream ss;
-		size_t argIndex = 0;
-		auto argTuple = std::make_tuple(std::forward<Args>(args)...);
-
-		// This is a simplified manual parser for the ({}) brackets
-		for (size_t i = 0; i < fmt.length(); ++i) {
-			if (fmt[i] == '{' && i + 1 < fmt.length() && fmt[i + 1] == '}') {
-
-				// Insert the next argument from our tuple into the stream
-				std::apply([&ss, argIndex](auto&&... unpackedArgs){
-					size_t currentIndex = 0;
-					((currentIndex++ == argIndex ? (ss << unpackedArgs, 0) : 0), ...);
-				}, argTuple);
-
-				argIndex++;
-				i++; // Skip the '}'
-			}
-			else {
-				ss << fmt[i];
-			}
+		template<typename... Args>
+		static void LogWarning(LogCategory category, std::string_view message, Args&&... args) {
+			Print(category, "WARNING", FColor::Yellow, message, std::forward<Args>(args)...);
 		}
-		return ss.str();
-	}
-};
+
+		template<typename... Args>
+		static void LogError(LogCategory category, std::string_view message, Args&&... args) {
+			Print(category, "ERROR", FColor::Red, message, std::forward<Args>(args)...);
+		}
+
+		template<typename... Args>
+		static void LogSuccess(LogCategory category, std::string_view message, Args&&... args) {
+			Print(category, "SUCCESS", FColor::Green, message, std::forward<Args>(args)...);
+		}
+
+		template<typename... Args>
+		static void LogRequest(LogCategory category, std::string_view message, Args&&... args) {
+			Print(category, "REQUEST", FColor::Cyan, message, std::forward<Args>(args)...);
+		}
+
+		template<typename... Args>
+		static void LogFatal(LogCategory category, std::string_view message, Args&&... args) {
+
+            // With the following two lines:
+            std::string fatalMsg = FormatMessage(message, std::forward<Args>(args)...);
+            Print(category, "FATAL", FColor::DarkRed, fatalMsg);
+            throw std::runtime_error(fatalMsg);
+		}
+
+	private:
+
+		static std::string_view CategoryToString(LogCategory category);
+
+		template<typename... Args>
+		static void Print(LogCategory category, const char* level, FColor color, std::string_view message, Args&&... args) {
+
+			// Get time stamp
+			std::string formattedMessage = FormatMessage(message, std::forward<Args>(args)...);
+
+			// Set color based on log level and print prefix [Time][Level][Category]
+			std::cout << FColor::DarkGrey.Code <<'[' << Time::CreateTimeStamp() << "]: ";
+
+			std::cout << color.Code << '[' << CategoryToString(category) << "]	[" << level << "] " << formattedMessage << std::endl;
+		}
+
+
+		template<typename... Args>
+		static std::string FormatMessage(std::string_view fmt, Args&&... args) {
+
+			// If no args, just return the string
+			if constexpr (sizeof...(args) == 0) return std::string(fmt);
+
+			// Use stringstream to handle types that have operator<<
+			std::stringstream ss;
+			size_t argIndex = 0;
+			auto argTuple = std::make_tuple(std::forward<Args>(args)...);
+
+			// This is a simplified manual parser for the ({}) brackets
+			for (size_t i = 0; i < fmt.length(); ++i) {
+				if (fmt[i] == '{' && i + 1 < fmt.length() && fmt[i + 1] == '}') {
+
+					// Insert the next argument from our tuple into the stream
+					std::apply([&ss, argIndex](auto&&... unpackedArgs) {
+						size_t currentIndex = 0;
+						((currentIndex++ == argIndex ? (ss << unpackedArgs, 0) : 0), ...);
+						}, argTuple);
+
+					argIndex++;
+					i++; // Skip the '}'
+				}
+				else {
+					ss << fmt[i];
+				}
+			}
+			return ss.str();
+		}
+	};
+}
 
 #pragma region SHARK ENGINE LOGGING MACROS
 
 // Standard Log (White/BrightWhite)
 #define SHARK_LOG(Category, Message, ...) \
-	Debug::Log(LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::Log(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Warning (Yellow) - Pointing to LogWarning
 #define SHARK_WARN(Category, Message, ...) \
-	Debug::LogWarning(LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogWarning(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Error (Red) - Pointing to LogError
 #define SHARK_ERR(Category, Message, ...) \
-	Debug::LogError(LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogError(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+
+// Success (Green) - Pointing to LogSuccess
+#define SHARK_SUCCESS(Category, Message, ...) \
+	Shark::Core::Debug::LogSuccess(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+
+// Request (Cyan) - Pointing to LogRequest
+#define SHARK_REQUEST(Category, Message, ...) \
+	Shark::Core::Debug::LogRequest(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+
+// Fatal Error (DarkRed) - Pointing to LogFatal
+#define SHARK_FATAL(Category, Message, ...) \
+	Shark::Core::Debug::LogFatal(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 #pragma endregion
 
 #endif // ENGINE_CORE_UTILITIES_DEBUG_H

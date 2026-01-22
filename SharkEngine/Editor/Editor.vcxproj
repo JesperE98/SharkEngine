@@ -141,8 +141,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Editor\Editor.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\EditorApp.cpp" />
+    <ClCompile Include="Source\Managers\LevelEditorManager.cpp" />
+    <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Panels\HierarchyPanel.cpp" />
     <ClCompile Include="Source\Panels\InspectorPanel.cpp" />
     <ClCompile Include="Source\Viewport\SceneViewport.cpp" />
@@ -155,7 +156,9 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Editor\Editor.h" />
+    <ClInclude Include="Source\EditorApp.h" />
+    <ClInclude Include="Source\Interfaces\IViewport.h" />
+    <ClInclude Include="Source\Managers\LevelEditorManager.h" />
     <ClInclude Include="Source\Interfaces\IPanel.h" />
     <ClInclude Include="Source\Panels\HierarchyPanel.h" />
     <ClInclude Include="Source\Panels\InspectorPanel.h" />

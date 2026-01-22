@@ -72,7 +72,7 @@ Index of this file:
 // [SECTION] Helpers
 // [SECTION] Demo Window / ShowDemoWindow()
 // [SECTION] DemoWindowMenuBar()
-// [SECTION] Helpers: ExampleTreeNode, ExampleMemberInfo (for use by Property Editor & Multi-Select demos)
+// [SECTION] Helpers: ExampleTreeNode, ExampleMemberInfo (for use by Property EditorApp & Multi-Select demos)
 // [SECTION] DemoWindowWidgetsBasic()
 // [SECTION] DemoWindowWidgetsBullets()
 // [SECTION] DemoWindowWidgetsCollapsingHeaders()
@@ -104,13 +104,13 @@ Index of this file:
 // [SECTION] DemoWindowTables()
 // [SECTION] DemoWindowInputs()
 // [SECTION] About Window / ShowAboutWindow()
-// [SECTION] Style Editor / ShowStyleEditor()
+// [SECTION] Style EditorApp / ShowStyleEditor()
 // [SECTION] User Guide / ShowUserGuide()
 // [SECTION] Example App: Main Menu Bar / ShowExampleAppMainMenuBar()
 // [SECTION] Example App: Debug Console / ShowExampleAppConsole()
 // [SECTION] Example App: Debug Log / ShowExampleAppLog()
 // [SECTION] Example App: Simple Layout / ShowExampleAppLayout()
-// [SECTION] Example App: Property Editor / ShowExampleAppPropertyEditor()
+// [SECTION] Example App: Property EditorApp / ShowExampleAppPropertyEditor()
 // [SECTION] Example App: Long Text / ShowExampleAppLongText()
 // [SECTION] Example App: Auto Resize / ShowExampleAppAutoResize()
 // [SECTION] Example App: Constrained Resize / ShowExampleAppConstrainedResize()
@@ -261,7 +261,7 @@ static void DemoWindowTables();
 static void DemoWindowColumns();
 static void DemoWindowInputs();
 
-// Helper tree functions used by Property Editor & Multi-Select demos
+// Helper tree functions used by Property EditorApp & Multi-Select demos
 struct ExampleTreeNode;
 static ExampleTreeNode* ExampleTree_CreateNode(const char* name, int uid, ExampleTreeNode* parent);
 static void             ExampleTree_DestroyNode(ExampleTreeNode* node);
@@ -379,7 +379,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     if (demo_data.ShowAbout)                { ImGui::ShowAboutWindow(&demo_data.ShowAbout); }
     if (demo_data.ShowStyleEditor)
     {
-        ImGui::Begin("Dear ImGui Style Editor", &demo_data.ShowStyleEditor);
+        ImGui::Begin("Dear ImGui Style EditorApp", &demo_data.ShowStyleEditor);
         ImGui::ShowStyleEditor();
         ImGui::End();
     }
@@ -452,7 +452,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
         ImGui::SeparatorText("ABOUT THIS DEMO:");
         ImGui::BulletText("Sections below are demonstrating many aspects of the library.");
         ImGui::BulletText("The \"Examples\" menu above leads to more demo contents.");
-        ImGui::BulletText("The \"Tools\" menu above gives access to: About Box, Style Editor,\n"
+        ImGui::BulletText("The \"Tools\" menu above gives access to: About Box, Style EditorApp,\n"
                           "and Metrics/Debugger (general purpose Dear ImGui debugging tool).");
 
         ImGui::SeparatorText("PROGRAMMER GUIDE:");
@@ -655,9 +655,9 @@ void ImGui::ShowDemoWindow(bool* p_open)
         IMGUI_DEMO_MARKER("Configuration/Style, Fonts");
         if (ImGui::TreeNode("Style, Fonts"))
         {
-            ImGui::Checkbox("Style Editor", &demo_data.ShowStyleEditor);
+            ImGui::Checkbox("Style EditorApp", &demo_data.ShowStyleEditor);
             ImGui::SameLine();
-            HelpMarker("The same contents can be accessed in 'Tools->Style Editor' or by calling the ShowStyleEditor() function.");
+            HelpMarker("The same contents can be accessed in 'Tools->Style EditorApp' or by calling the ShowStyleEditor() function.");
             ImGui::TreePop();
             ImGui::Spacing();
         }
@@ -782,7 +782,7 @@ static void DemoWindowMenuBar(ImGuiDemoWindowData* demo_data)
                 ImGui::DebugStartItemPicker();
             if (!is_debugger_present)
                 ImGui::SetItemTooltip("Requires io.ConfigDebugIsDebuggerPresent=true to be set.\n\nWe otherwise disable some extra features to avoid casual users crashing the application.");
-            ImGui::MenuItem("Style Editor", NULL, &demo_data->ShowStyleEditor);
+            ImGui::MenuItem("Style EditorApp", NULL, &demo_data->ShowStyleEditor);
             ImGui::MenuItem("About Dear ImGui", NULL, &demo_data->ShowAbout);
 
             ImGui::EndMenu();
@@ -792,7 +792,7 @@ static void DemoWindowMenuBar(ImGuiDemoWindowData* demo_data)
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Helpers: ExampleTreeNode, ExampleMemberInfo (for use by Property Editor & Multi-Select demos)
+// [SECTION] Helpers: ExampleTreeNode, ExampleMemberInfo (for use by Property EditorApp & Multi-Select demos)
 //-----------------------------------------------------------------------------
 
 // Simple representation for a tree
@@ -4097,7 +4097,7 @@ static void DemoWindowWidgetsTreeNodes()
     IMGUI_DEMO_MARKER("Widgets/Tree Nodes");
     if (ImGui::TreeNode("Tree Nodes"))
     {
-        // See see "Examples -> Property Editor" (ShowExampleAppPropertyEditor() function) for a fancier, data-driven tree.
+        // See see "Examples -> Property EditorApp" (ShowExampleAppPropertyEditor() function) for a fancier, data-driven tree.
         IMGUI_DEMO_MARKER("Widgets/Tree Nodes/Basic trees");
         if (ImGui::TreeNode("Basic trees"))
         {
@@ -8361,7 +8361,7 @@ void ImGui::ShowAboutWindow(bool* p_open)
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Style Editor / ShowStyleEditor()
+// [SECTION] Style EditorApp / ShowStyleEditor()
 //-----------------------------------------------------------------------------
 // - ShowStyleSelector()
 // - ShowStyleEditor()
@@ -8409,7 +8409,7 @@ static const char* GetTreeLinesFlagsName(ImGuiTreeNodeFlags flags)
 // We omit the ImGui:: prefix in this function, as we don't expect user to be copy and pasting this code.
 void ImGui::ShowStyleEditor(ImGuiStyle* ref)
 {
-    IMGUI_DEMO_MARKER("Tools/Style Editor");
+    IMGUI_DEMO_MARKER("Tools/Style EditorApp");
     // You can pass in a reference ImGuiStyle structure to compare to, revert to and save to
     // (without a reference style pointer, we will use one compared locally as a reference)
     ImGuiStyle& style = GetStyle();
@@ -9489,7 +9489,7 @@ static void ShowExampleAppLayout(bool* p_open)
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Example App: Property Editor / ShowExampleAppPropertyEditor()
+// [SECTION] Example App: Property EditorApp / ShowExampleAppPropertyEditor()
 //-----------------------------------------------------------------------------
 // Some of the interactions are a bit lack-luster:
 // - We would want pressing validating or leaving the filter to somehow restore focus.
@@ -9559,26 +9559,26 @@ struct ExampleAppPropertyEditor
                         case ImGuiDataType_Bool:
                         {
                             IM_ASSERT(field_desc.DataCount == 1);
-                            ImGui::Checkbox("##Editor", (bool*)field_ptr);
+                            ImGui::Checkbox("##EditorApp", (bool*)field_ptr);
                             break;
                         }
                         case ImGuiDataType_S32:
                         {
                             int v_min = INT_MIN, v_max = INT_MAX;
                             ImGui::SetNextItemWidth(-FLT_MIN);
-                            ImGui::DragScalarN("##Editor", field_desc.DataType, field_ptr, field_desc.DataCount, 1.0f, &v_min, &v_max);
+                            ImGui::DragScalarN("##EditorApp", field_desc.DataType, field_ptr, field_desc.DataCount, 1.0f, &v_min, &v_max);
                             break;
                         }
                         case ImGuiDataType_Float:
                         {
                             float v_min = 0.0f, v_max = 1.0f;
                             ImGui::SetNextItemWidth(-FLT_MIN);
-                            ImGui::SliderScalarN("##Editor", field_desc.DataType, field_ptr, field_desc.DataCount, &v_min, &v_max);
+                            ImGui::SliderScalarN("##EditorApp", field_desc.DataType, field_ptr, field_desc.DataCount, &v_min, &v_max);
                             break;
                         }
                         case ImGuiDataType_String:
                         {
-                            ImGui::InputText("##Editor", reinterpret_cast<char*>(field_ptr), 28);
+                            ImGui::InputText("##EditorApp", reinterpret_cast<char*>(field_ptr), 28);
                             break;
                         }
                         }
@@ -9633,7 +9633,7 @@ static void ShowExampleAppPropertyEditor(bool* p_open, ImGuiDemoWindowData* demo
         return;
     }
 
-    IMGUI_DEMO_MARKER("Examples/Property Editor");
+    IMGUI_DEMO_MARKER("Examples/Property EditorApp");
     static ExampleAppPropertyEditor property_editor;
     if (demo_data->DemoTree == NULL)
         demo_data->DemoTree = ExampleTree_CreateDemoTree();

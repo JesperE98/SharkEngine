@@ -21,94 +21,91 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Framebuffer\Framebuffer.h">
+    <ClInclude Include="Graphics\Framebuffer\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Rendering\ForwardRenderer.h">
+    <ClInclude Include="Graphics\Rendering\ForwardRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Rendering\ForwardRenderPass.h">
+    <ClInclude Include="Graphics\Rendering\ForwardRenderPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Rendering\Renderer.h">
+    <ClInclude Include="Graphics\Rendering\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Rendering\RenderPass.h">
+    <ClInclude Include="Graphics\Rendering\RenderPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\Material.h">
+    <ClInclude Include="Graphics\Resources\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\Mesh.h">
+    <ClInclude Include="Graphics\Resources\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\MeshManager.h">
+    <ClInclude Include="Managers\MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\PrimitiveMesh.h">
+    <ClInclude Include="Graphics\Resources\PrimitiveMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\Shader.h">
+    <ClInclude Include="Graphics\Resources\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Resources\Texture.h">
+    <ClInclude Include="Graphics\Resources\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Interfaces\IRenderable.h">
+    <ClInclude Include="Interfaces\IRenderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Interfaces\IViewport.h">
+    <ClInclude Include="Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Components\Component.h">
+    <ClInclude Include="Components\MeshRendererComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Components\MeshRendererComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Components\Transform.h">
+    <ClInclude Include="Math\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Engine\EngineContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Engine\Scene.h">
+    <ClInclude Include="Scene\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Engine\SceneManager.h">
+    <ClInclude Include="Managers\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Entities\Camera.h">
+    <ClInclude Include="Entities\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Entities\GameObject.h">
+    <ClInclude Include="Entities\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Entities\Object.h">
+    <ClInclude Include="Core\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Input\CameraController.h">
+    <ClInclude Include="Entities\CameraController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Input\InputManager.h">
+    <ClInclude Include="Managers\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\MathUtils.h">
+    <ClInclude Include="Math\MathUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Quaternion.h">
+    <ClInclude Include="Math\Quaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Vector2.h">
+    <ClInclude Include="Math\Vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Vector3.h">
+    <ClInclude Include="Math\Vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Vector4.h">
+    <ClInclude Include="Math\Vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utilities\MemoryManager.h">
+    <ClInclude Include="Managers\MemoryManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utilities\Time.h">
@@ -117,13 +114,19 @@
     <ClInclude Include="Core\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utilities\PathManager.h">
+    <ClInclude Include="Managers\PathManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utilities\Debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utilities\FColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Messaging\EngineMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Messaging\MessageQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,79 +137,79 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Framebuffer\Framebuffer.cpp">
+    <ClCompile Include="Graphics\Framebuffer\Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Rendering\ForwardRenderer.cpp">
+    <ClCompile Include="Graphics\Rendering\ForwardRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Rendering\ForwardRenderPass.cpp">
+    <ClCompile Include="Graphics\Rendering\ForwardRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Rendering\RenderPass.cpp">
+    <ClCompile Include="Graphics\Rendering\RenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\Material.cpp">
+    <ClCompile Include="Graphics\Resources\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\Mesh.cpp">
+    <ClCompile Include="Graphics\Resources\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\MeshManager.cpp">
+    <ClCompile Include="Managers\MeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\PrimitiveMesh.cpp">
+    <ClCompile Include="Graphics\Resources\PrimitiveMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\Shader.cpp">
+    <ClCompile Include="Graphics\Resources\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Resources\Texture.cpp">
+    <ClCompile Include="Graphics\Resources\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Components\Component.cpp">
+    <ClCompile Include="Components\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Components\MeshRendererComponent.cpp">
+    <ClCompile Include="Components\MeshRendererComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Engine\EngineContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\Scene.cpp">
+    <ClCompile Include="Scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\SceneManager.cpp">
+    <ClCompile Include="Managers\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Entities\Camera.cpp">
+    <ClCompile Include="Entities\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Entities\GameObject.cpp">
+    <ClCompile Include="Entities\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Entities\Object.cpp">
+    <ClCompile Include="Core\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Input\CameraController.cpp">
+    <ClCompile Include="Entities\CameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Input\InputManager.cpp">
+    <ClCompile Include="Managers\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Math\Quaternion.cpp">
+    <ClCompile Include="Math\Quaternion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Math\Vector2.cpp">
+    <ClCompile Include="Math\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Math\Vector3.cpp">
+    <ClCompile Include="Math\Vector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Math\Vector4.cpp">
+    <ClCompile Include="Math\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Utilities\MemoryManager.cpp">
+    <ClCompile Include="Managers\MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Utilities\Time.cpp">
@@ -215,7 +218,7 @@
     <ClCompile Include="ThirdParty\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Utilities\PathManager.cpp">
+    <ClCompile Include="Managers\PathManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Utilities\Debug.cpp">

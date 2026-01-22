@@ -1,137 +1,150 @@
 #include "InspectorPanel.h"
-#include <string.h>
-#include <ImGui/imgui.h>
-#include <Core/Components/Transform.h>
-#include <Core/Math/MathUtils.h>
-#include <Core/Math/Vector3.h>
-#include <Core/Components/MeshRendererComponent.h>
+
+#include <Components/MeshRendererComponent.h>
 #include <Core/Utilities/Debug.h>
-#include <Source/Graphics/Resources/PrimitiveMesh.h>
-#include <Source/Graphics/Resources/MeshManager.h>
+#include <Entities/GameObject.h>
+#include <Graphics/Resources/PrimitiveMesh.h>
+#include <ImGui/imgui.h>
+#include <Managers/MeshManager.h>
+#include <Math/MathUtils.h>
+#include <Math/Transform.h>
+#include <Math/Vector3.h>
 
-InspectorPanel::~InspectorPanel()
-{
-}
+namespace Shark::Editor {
 
-void InspectorPanel::OnInit() {
-	
-}
+	using Shark::Entities::GameObject;
+	using Shark::Math::Transform;
+	using Shark::Math::Vector3;
+	using Shark::Components::MeshRendererComponent;
+	using Shark::Graphics::Mesh;
+	using Shark::Graphics::PrimitiveType;
+	using Shark::Managers::MeshManager;
 
-void InspectorPanel::OnRenderPanel(float deltaTime)
-{
-	if (!m_IsVisible) return;
+	InspectorPanel::~InspectorPanel()
+	{
+	}
 
-	ImGui::Begin(m_Name.c_str(), &m_IsVisible);
+	void InspectorPanel::OnInit() {
 
-	if (m_SelectedObject) {
+	}
 
-		static char nameBuffer[128];
-		strncpy_s(nameBuffer, m_SelectedObject->GetName().c_str(), sizeof(nameBuffer));
-		nameBuffer[sizeof(nameBuffer - 1)] = '\0'; // Ensures null-termination
-		ImGui::Text("Name");
-		ImGui::SameLine();
-		ImGui::InputText("##Name", nameBuffer, sizeof(nameBuffer));
+	void InspectorPanel::OnRenderPanel(float deltaTime)
+	{
+		if (!m_IsVisible) return;
 
-		Transform& transform = m_SelectedObject->GetTransform();
+		ImGui::Begin(m_Name.c_str(), &m_IsVisible);
 
-		// Position
-		float pos[3] = { transform.position.x, transform.position.y, transform.position.z };
+		if (m_SelectedObject) {
 
-		// Rotation
-		Vector3 euler = Math::ToEulerDegrees(transform.rotation);
-		float rot[3] = { euler.x, euler.y, euler.z };
+			static char nameBuffer[128];
+			strncpy_s(nameBuffer, m_SelectedObject->GetName().c_str(), sizeof(nameBuffer));
+			nameBuffer[sizeof(nameBuffer - 1)] = '\0'; // Ensures null-termination
+			ImGui::Text("Name");
+			ImGui::SameLine();
+			ImGui::InputText("##Name", nameBuffer, sizeof(nameBuffer));
 
-		// Scale
-		float scale[3] = { transform.scale.x, transform.scale.y, transform.scale.z };
-
-		if (ImGui::BeginTable("InspectorTable", 2, ImGuiTableFlags_SizingStretchProp)) {
+			Transform& transform = m_SelectedObject->GetTransform();
 
 			// Position
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Position");
-			ImGui::TableSetColumnIndex(1);
-			ImGui::DragFloat3("##Position", pos, 0.01f);
+			float pos[3] = { transform.position.x, transform.position.y, transform.position.z };
 
 			// Rotation
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Rotation");
-			ImGui::TableSetColumnIndex(1);
-			ImGui::DragFloat3("##Rotation", rot, 0.01f);
+			Vector3 euler = Math::ToEulerDegrees(transform.rotation);
+			float rot[3] = { euler.x, euler.y, euler.z };
 
 			// Scale
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Scale");
-			ImGui::TableSetColumnIndex(1);
-			ImGui::DragFloat3("##Scale", scale, 0.01f);
+			float scale[3] = { transform.scale.x, transform.scale.y, transform.scale.z };
 
-			ImGui::EndTable();
-		}
+			if (ImGui::BeginTable("InspectorTable", 2, ImGuiTableFlags_SizingStretchProp)) {
 
-		transform.position = { pos[0], pos[1], pos[2] };
-		Vector3 updatedEuler = { rot[0], rot[1], rot[2] };
-		transform.rotation = Math::FromEulerDegrees(updatedEuler);
-		transform.scale = { scale[0], scale[1], scale[2] };
+				// Position
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text("Position");
+				ImGui::TableSetColumnIndex(1);
+				ImGui::DragFloat3("##Position", pos, 0.01f);
 
-		ImGui::Separator();
+				// Rotation
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text("Rotation");
+				ImGui::TableSetColumnIndex(1);
+				ImGui::DragFloat3("##Rotation", rot, 0.01f);
 
-		// --------- MESH RENDERER COMPONENT SECTION ----------
+				// Scale
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text("Scale");
+				ImGui::TableSetColumnIndex(1);
+				ImGui::DragFloat3("##Scale", scale, 0.01f);
 
-		auto* renderer = m_SelectedObject->GetComponent<MeshRendererComponent>();
-		if (renderer) {
-			if (ImGui::CollapsingHeader("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen)) {
+				ImGui::EndTable();
+			}
 
-				// Primitive Enum dropdown
-				const char* primitiveNames[] = { "Select Primitive", "Cube", "Sphere", "Plane", "Cylinder", "Cone" };
-				static int selectedPrim = 0;
+			transform.position = { pos[0], pos[1], pos[2] };
+			Vector3 updatedEuler = { rot[0], rot[1], rot[2] };
+			transform.rotation = Math::FromEulerDegrees(updatedEuler);
+			transform.scale = { scale[0], scale[1], scale[2] };
 
-				if (ImGui::Combo("Primitive", &selectedPrim, primitiveNames, IM_ARRAYSIZE(primitiveNames))) {
-					if (selectedPrim > 0) {
-						PrimitiveType type = static_cast<PrimitiveType>(selectedPrim);
-						Mesh* newMesh = MeshManager::Get().LoadMesh(type);
+			ImGui::Separator();
 
-						if (newMesh) renderer->SetMesh(newMesh);
+			// --------- MESH RENDERER COMPONENT SECTION ----------
+
+			auto* renderer = m_SelectedObject->GetComponent<MeshRendererComponent>();
+			if (renderer) {
+				if (ImGui::CollapsingHeader("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+					// Primitive Enum dropdown
+					const char* primitiveNames[] = { "Select Primitive", "Cube", "Sphere", "Plane", "Cylinder", "Cone" };
+					static int selectedPrim = 0;
+
+					if (ImGui::Combo("Primitive", &selectedPrim, primitiveNames, IM_ARRAYSIZE(primitiveNames))) {
+						if (selectedPrim > 0) {
+							PrimitiveType type = static_cast<PrimitiveType>(selectedPrim);
+							Mesh* newMesh = MeshManager::Get().LoadMesh(type);
+
+							if (newMesh) renderer->SetMesh(newMesh);
+						}
 					}
-				}
 
-				ImGui::Spacing();
+					ImGui::Spacing();
 
-				// String Path Input
-				static char pathBuffer[256] = "";
-				ImGui::Text("Mesh Path (.obj)");
-				if (ImGui::InputText("##MeshPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					// MeshManager handles the cache lookup automatically
-					Mesh* newMesh = MeshManager::Get().LoadMesh(pathBuffer);
+					// String Path Input
+					static char pathBuffer[256] = "";
+					ImGui::Text("Mesh Path (.obj)");
+					if (ImGui::InputText("##MeshPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+						// MeshManager handles the cache lookup automatically
+						Mesh* newMesh = MeshManager::Get().LoadMesh(pathBuffer);
 
-					if (newMesh) {
-						renderer->SetMesh(newMesh);
-						SHARK_LOG(Editor, "InspectorPanel - Mesh path swapped to: {}", pathBuffer);
+						if (newMesh) {
+							renderer->SetMesh(newMesh);
+							SHARK_LOG(Editor, "InspectorPanel - Mesh path swapped to: {}", pathBuffer);
+						}
+						memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
 					}
-					memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
-				}
-				ImGui::SameLine();
-				ImGui::TextDisabled("(?)");
-				if (ImGui::IsItemHovered()) {
-					ImGui::SetTooltip("Enter path and press ENTER to load.");
+					ImGui::SameLine();
+					ImGui::TextDisabled("(?)");
+					if (ImGui::IsItemHovered()) {
+						ImGui::SetTooltip("Enter path and press ENTER to load.");
+					}
 				}
 			}
 		}
+		else {
+			ImGui::Text("No Object Selected");
+		}
+
+		ImGui::End();
 	}
-	else {
-		ImGui::Text("No Object Selected");
+
+	void InspectorPanel::OnShutdown()
+	{
+		m_SelectedObject = nullptr;
 	}
 
-	ImGui::End();
-}
+	void InspectorPanel::SetVisible(bool value)
+	{
+		m_IsVisible = value;
+	}
 
-void InspectorPanel::OnShutdown()
-{
-	m_SelectedObject = nullptr;
-}
-
-void InspectorPanel::SetVisible(bool value)
-{
-	m_IsVisible = value;
 }
