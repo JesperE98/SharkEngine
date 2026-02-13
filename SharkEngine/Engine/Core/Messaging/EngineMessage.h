@@ -26,8 +26,8 @@ namespace Shark::Core {
 	};
 
 	struct EngineMessage {
-		MessageType type;
-		std::string payload;
+		MessageType type = MessageType::None;
+		std::string payload = "";
 		void* data{ nullptr };
 	};
 }

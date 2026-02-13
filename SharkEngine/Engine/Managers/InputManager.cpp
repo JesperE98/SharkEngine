@@ -1,14 +1,13 @@
 #include "InputManager.h"
 
 namespace Shark::Managers {
-	GLFWwindow* InputManager::m_Window{ nullptr };
-	double InputManager::m_LastX = 0.0f;
-	double InputManager::m_LastY = 0.0f;
-	float InputManager::m_MouseDeltaX = 0.0f;
-	float InputManager::m_MouseDeltaY = 0.0f;
-	bool InputManager::m_FirstMouse = true;
 
-	void InputManager::Init(GLFWwindow* window)
+	InputManager& InputManager::Get()
+	{
+		static InputManager instance;
+		return instance;
+	}
+	void InputManager::Initialize(GLFWwindow* window)
 	{
 		m_Window = window;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

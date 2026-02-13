@@ -11,21 +11,21 @@ namespace Shark::Graphics {
 
 	ForwardRenderer::ForwardRenderer()
 	{
-		SHARK_LOG(Rendering, "ForwardRenderer::ForwardRenderer() - Created ForwardRenderer.");
+		SE_LOG(Rendering, "ForwardRenderer::ForwardRenderer() - Created ForwardRenderer.");
 	}
 
 	void ForwardRenderer::Init()
 	{
-		SHARK_LOG(Rendering, "ForwardRenderer::Init() - Initializing ForwardRenderer.");
+		SE_LOG(Rendering, "ForwardRenderer::Init() - Initializing ForwardRenderer.");
 
 		sceneFb = std::make_unique<Framebuffer>(Shark::Core::WINDOW_WIDTH, Shark::Core::WINDOW_HEIGHT);
 
 		std::unique_ptr<ForwardRenderPass> pass = std::make_unique<ForwardRenderPass>(sceneFb.get());
-		//SHARK_LOG(Rendering, "ForwardRenderer::Init() - Adding {} to RenderPasses vector.", pass);
+		//SE_LOG(Rendering, "ForwardRenderer::Init() - Adding {} to RenderPasses vector.", pass);
 		renderPasses.push_back(std::move(pass));
 
-		SHARK_LOG(Rendering, "ForwardRenderer::Init() - ForwardRenderer initialized successfully.");
-		SHARK_LOG(Rendering, "ForwardRenderer::Init() - Amount of passes in RenderPasses: {}", renderPasses.size());
+		SE_LOG(Rendering, "ForwardRenderer::Init() - ForwardRenderer initialized successfully.");
+		SE_LOG(Rendering, "ForwardRenderer::Init() - Amount of passes in RenderPasses: {}", renderPasses.size());
 	}
 
 	void ForwardRenderer::BeginFrame()

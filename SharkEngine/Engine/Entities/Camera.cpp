@@ -10,7 +10,7 @@ namespace Shark::Entities {
 	Camera::Camera(std::string name, float fov, float aspect, float nearPlane, float farPlane)
 		: GameObject(name), m_FOV(fov), m_AspectRatio(aspect), m_NearClip(nearPlane), m_FarClip(farPlane), m_Yaw(0.f), m_Pitch(0.0f)
 	{
-		SHARK_LOG(Rendering, "Camera::Camera() - Created Camera: {} | FOV: {} | AspectRatio: {} | NearClip: {} | FarClip: {}",
+		SE_LOG(Rendering, "Camera::Camera() - Created Camera: {} | FOV: {} | AspectRatio: {} | NearClip: {} | FarClip: {}",
 			name, fov, aspect, nearPlane, farPlane);
 
 		transform.position = Vector3(0.0f, 0.0f, -5.0f);

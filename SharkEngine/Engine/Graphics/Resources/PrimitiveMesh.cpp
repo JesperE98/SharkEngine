@@ -31,7 +31,7 @@ namespace Shark::Graphics {
 		float dot = Math::Dot(normal, expectedNormal);
 		bool flipped = dot < 0.0f;
 
-		SHARK_LOG(Rendering, " PrimitiveMesh::DebugFace - Face: {} | Normal: {} -> {}",
+		SE_LOG(Rendering, " PrimitiveMesh::DebugFace - Face: {} | Normal: {} -> {}",
 			name, normal, (flipped ? "FLIPPED" : "OK"));
 	}
 
@@ -116,7 +116,7 @@ namespace Shark::Graphics {
 
 		}
 
-		SHARK_LOG(Rendering, "PrimitiveMesh::CreateCube() - Created Cube Mesh with {} vertices and {} triangles.",
+		SE_LOG(Rendering, "PrimitiveMesh::CreateCube() - Created Cube Mesh with {} vertices and {} triangles.",
 			vertices.size(), indices.size());
 
 		return new Mesh(vertices, indices);
@@ -125,7 +125,7 @@ namespace Shark::Graphics {
 	GameObject* PrimitiveMesh::CreatePrimitive(GameObject* obj, PrimitiveType type, Material* mat)
 	{
 		if (!obj) {
-			SHARK_ERR(Rendering, "PrimitiveMesh::CreatePrimitive - Passed null GameObject!");
+			SE_ERR(Rendering, "PrimitiveMesh::CreatePrimitive - Passed null GameObject!");
 			return nullptr;
 		}
 
@@ -140,7 +140,7 @@ namespace Shark::Graphics {
 				(type == PrimitiveType::Cylinder) ? "Cylinder" :
 				(type == PrimitiveType::Plane) ? "Plane" : "Unknown";
 
-			SHARK_LOG(Rendering, "Created {} primitive and attached to GameObject: {}", typeName, obj->GetName());
+			SE_LOG(Rendering, "Created {} primitive and attached to GameObject: {}", typeName, obj->GetName());
 		}
 
 		return obj;

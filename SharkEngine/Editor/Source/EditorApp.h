@@ -38,6 +38,7 @@ namespace Shark {
 		void RenderPanels(float deltaTime);
 		void RenderSceneViewport();
 		void Render();
+		void RenderStatsWindow();
 	};
 }
 

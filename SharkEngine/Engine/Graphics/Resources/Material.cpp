@@ -7,7 +7,7 @@ namespace Shark::Graphics {
 	Material::Material(Shader* shaderProgram, Texture* texture)
 		: m_Shader(shaderProgram), m_Texture(texture)
 	{
-		SHARK_LOG(Material, "Material::Material() - Creating Material.");
+		SE_LOG(Material, "Material::Material() - Creating Material.");
 
 		if (shaderProgram) {
 		}

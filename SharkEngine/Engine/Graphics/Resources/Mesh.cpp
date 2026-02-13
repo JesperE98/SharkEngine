@@ -20,20 +20,20 @@ namespace Shark::Graphics {
 	Mesh::Mesh(const std::vector<Vertex>& verts)
 		: vertices(verts)
 	{
-		SHARK_LOG(Rendering, "Creating Mesh (non-indexed) with {} vertices.", vertices.size());
+		SE_LOG(Rendering, "Creating Mesh (non-indexed) with {} vertices.", vertices.size());
 		UploadToGPU();
 	}
 
 	Mesh::Mesh(const std::vector<Vertex>& verts, const std::vector<unsigned int>& indices)
 		: vertices(verts), indices(indices)
 	{
-		SHARK_LOG(Rendering, "Creating Mesh (indexed) with {} vertices and {} indices.",
+		SE_LOG(Rendering, "Creating Mesh (indexed) with {} vertices and {} indices.",
 			vertices.size(), indices.size());
 		UploadToGPU();
 	}
 
 	Mesh::~Mesh() {
-		SHARK_LOG(Rendering, "Mesh::~Mesh() - Destroying Mesh.");
+		SE_LOG(Rendering, "Mesh::~Mesh() - Destroying Mesh.");
 		if (VAO) glDeleteVertexArrays(1, &VAO);
 		if (VBO) glDeleteBuffers(1, &VBO);
 		if (EBO) glDeleteBuffers(1, &EBO);
@@ -53,7 +53,7 @@ namespace Shark::Graphics {
 	bool Mesh::LoadMeshFromModel(const std::string& filename)
 	{
 
-		std::string fullPath = PathManager::GetInstance().GetContentPath(filename);
+		std::string fullPath = PathManager::Get().GetContentPath(filename);
 
 		std::ifstream file(fullPath);
 
@@ -70,7 +70,7 @@ namespace Shark::Graphics {
 		std::string line;
 
 		if (!file.is_open()) {
-			SHARK_WARN(Rendering, "Mesh::LoadMeshFromModel() - Failed to open file.");
+			SE_WARN(Rendering, "Mesh::LoadMeshFromModel() - Failed to open file.");
 			return false;
 		}
 
@@ -141,7 +141,7 @@ namespace Shark::Graphics {
 
 		file.close();
 
-		SHARK_LOG(Rendering, "Mesh::LoadMeshFromModel() - Loaded {} vertices from {}",
+		SE_LOG(Rendering, "Mesh::LoadMeshFromModel() - Loaded {} vertices from {}",
 			vertices.size(), fullPath);
 
 		UploadToGPU();
@@ -167,9 +167,9 @@ namespace Shark::Graphics {
 
 	void Mesh::UploadToGPU()
 	{
-		SHARK_LOG(Rendering, "Mesh::UploadToGPU() - Uploading Mesh to GPU.");
+		SE_LOG(Rendering, "Mesh::UploadToGPU() - Uploading Mesh to GPU.");
 
-		SHARK_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP BUFFERS.");
+		SE_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP BUFFERS.");
 		// Generate and bind VAO
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
@@ -181,13 +181,13 @@ namespace Shark::Graphics {
 
 		// Optional EBO
 		if (!indices.empty()) {
-			SHARK_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP INDICES.");
+			SE_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP INDICES.");
 			glGenBuffers(1, &EBO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 		}
 
-		SHARK_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP VERTEX ATTRIBUTES.");
+		SE_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP VERTEX ATTRIBUTES.");
 		// Vertex Attributes
 		glEnableVertexAttribArray(0); // Position
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);

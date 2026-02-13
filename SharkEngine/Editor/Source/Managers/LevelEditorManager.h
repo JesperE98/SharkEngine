@@ -26,10 +26,15 @@ namespace Shark::Editor {
 		// The UI call that triggers the request
 		void RequestModelLoad(const std::string& path);
 
+		void ReceiveMessage(const Shark::Core::EngineMessage& msg);
+
 	private:
-		LevelEditorManager() = default;
 
 		std::vector<Shark::Graphics::Mesh*> m_ActiveMeshes;
+
+		LevelEditorManager() = default;
+
+		void ProcessEngineReply(const Shark::Core::EngineMessage& msg);
 	};
 }
 #endif

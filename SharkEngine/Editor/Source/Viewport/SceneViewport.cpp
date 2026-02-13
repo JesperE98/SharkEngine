@@ -39,8 +39,6 @@ namespace Shark::Editor {
             rend.RenderScene(static_cast<float>(Time::GetDeltaTime()), &scene, cam);
             rend.EndFrame();
         }
-
-
     }
 
     unsigned int SceneViewport::GetColorAttachment() const

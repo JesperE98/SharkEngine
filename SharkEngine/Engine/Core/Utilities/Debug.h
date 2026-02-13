@@ -114,27 +114,27 @@ namespace Shark::Core {
 #pragma region SHARK ENGINE LOGGING MACROS
 
 // Standard Log (White/BrightWhite)
-#define SHARK_LOG(Category, Message, ...) \
+#define SE_LOG(Category, Message, ...) \
 	Shark::Core::Debug::Log(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Warning (Yellow) - Pointing to LogWarning
-#define SHARK_WARN(Category, Message, ...) \
+#define SE_WARN(Category, Message, ...) \
 	Shark::Core::Debug::LogWarning(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Error (Red) - Pointing to LogError
-#define SHARK_ERR(Category, Message, ...) \
+#define SE_ERR(Category, Message, ...) \
 	Shark::Core::Debug::LogError(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Success (Green) - Pointing to LogSuccess
-#define SHARK_SUCCESS(Category, Message, ...) \
+#define SE_SUCC(Category, Message, ...) \
 	Shark::Core::Debug::LogSuccess(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Request (Cyan) - Pointing to LogRequest
-#define SHARK_REQUEST(Category, Message, ...) \
+#define SE_REQ(Category, Message, ...) \
 	Shark::Core::Debug::LogRequest(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Fatal Error (DarkRed) - Pointing to LogFatal
-#define SHARK_FATAL(Category, Message, ...) \
+#define SE_FAT(Category, Message, ...) \
 	Shark::Core::Debug::LogFatal(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 #pragma endregion
 

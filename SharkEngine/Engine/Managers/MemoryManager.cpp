@@ -1,5 +1,4 @@
 #include "MemoryManager.h"
-#include "Core/Utilities/Debug.h"
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -8,7 +7,7 @@
 #include <Windows.h>
 
 namespace Shark::Managers {
-	MemoryManager& MemoryManager::GetInstance()
+	MemoryManager& MemoryManager::Get()
 	{
 		static MemoryManager instance;
 		return instance;
@@ -19,10 +18,13 @@ namespace Shark::Managers {
 		MEMORYSTATUSEX memInfo{};
 		memInfo.dwLength = sizeof(memInfo);
 
-		GlobalMemoryStatusEx(&memInfo);
+		if (GlobalMemoryStatusEx(&memInfo)) {
+			// Store the values so the UI can read them
+			m_AvailableMemory = memInfo.ullAvailPhys;
+			m_TotalMemory = memInfo.ullTotalPhys;
+		}
 
-		SHARK_LOG(Engine, "MemoryManager::CheckMemoryStatus - There is {} MB of physical memory available out of {} MB.",
-			memInfo.ullAvailPhys / (1024 * 1024), memInfo.ullTotalPhys / (1024 * 1024));
+		memInfo.ullAvailPhys / (1024 * 1024), memInfo.ullTotalPhys / (1024 * 1024);
 	}
 
 	void MemoryManager::PrintMemoryStatus(const char* value)

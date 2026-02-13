@@ -11,7 +11,7 @@ namespace Shark::Graphics {
 
 	Texture::Texture(const char* filePath) {
 
-		std::string texturePath = PathManager::GetInstance().GetContentPath(filePath);
+		std::string texturePath = PathManager::Get().GetContentPath(filePath);
 		glGenTextures(1, &m_ID);
 		glBindTexture(GL_TEXTURE_2D, m_ID);
 
@@ -43,7 +43,7 @@ namespace Shark::Graphics {
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 		else {
-			SHARK_ERR(Material, "Texture::Texture() - Failed to load texture at path: {}", texturePath);
+			SE_ERR(Material, "Texture::Texture() - Failed to load texture at path: {}", texturePath);
 		}
 
 		stbi_image_free(data);

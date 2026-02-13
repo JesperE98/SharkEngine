@@ -4,7 +4,7 @@
 
 namespace Shark::Managers {
 
-	PathManager& PathManager::GetInstance()
+	PathManager& PathManager::Get()
 	{
 		static PathManager instance;
 		return instance;
@@ -22,14 +22,14 @@ namespace Shark::Managers {
 				// Sets the root folder to "Runtime/" so all future paths start from there
 				m_RootPath = (currentPath / "Runtime").make_preferred().string() + '\\';
 
-				SHARK_LOG(IO, "PathManager::Initialize() - Engine Root Found: {}", m_RootPath);
+				SE_SUCC(IO, "PathManager::Initialize() - Engine Root Found: {}", m_RootPath);
 				return;
 			}
 			currentPath = currentPath.parent_path();
 		}
 
 		m_RootPath = "/.";
-		SHARK_WARN(IO, "PathManager::Initialize() - Could not find Content folder! Fallback to /.");
+		SE_ERR(IO, "PathManager::Initialize() - Could not find Content folder! Fallback to /.");
 	}
 
 	std::string PathManager::GetContentPath(const std::string& relativePath) const

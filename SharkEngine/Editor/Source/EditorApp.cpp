@@ -4,11 +4,14 @@
 #include "Panels/HierarchyPanel.h"
 #include "Panels/InspectorPanel.h"
 #include "Viewport/SceneViewport.h"
+#include "Managers/LevelEditorManager.h"
 #pragma endregion
 
 #pragma region Engine Libraries
 #include <Core/Engine/EngineContext.h>
 #include <Core/Utilities/Debug.h>
+#include <Managers/MemoryManager.h>
+#include <Managers/SceneManager.h>
 #pragma endregion
 
 #pragma region ImGUI libraries
@@ -21,16 +24,17 @@ namespace Shark {
 
 	using Shark::Core::EngineContext;
 	using Shark::Core::Time;
+	using Shark::Managers::MemoryManager;
+	using Shark::Managers::SceneManager;
 	using Shark::Editor::SceneViewport;
 	using Shark::Editor::HierarchyPanel;
 	using Shark::Editor::InspectorPanel;
+	using Shark::Editor::LevelEditorManager;
 
 	EditorApp::EditorApp()
 	{
-		SHARK_LOG(Editor, "EditorApp::Edtior() - Created EditorApp.");
+		SE_LOG(Editor, "EditorApp::Edtior() - Created EditorApp.");
 		EngineContext::Get().OnInit();
-		const GLubyte* version = glGetString(GL_VERSION);
-		SHARK_LOG(OpenGL, "OpenGL version: {}", version);
 	}
 
 	EditorApp::~EditorApp()
@@ -58,13 +62,18 @@ namespace Shark {
 			// Time difference between frames
 			deltaTime = static_cast<float>(Time::GetDeltaTime());
 
+			LevelEditorManager::Get().Update(deltaTime);
+
 			BeginFrame();
 
 			// Update Engine + scene logic
 			EngineContext::Get().OnUpdate(deltaTime);
 
+			// Render the stats window
+			RenderStatsWindow();
+
 			// Render into SceneViewport framebuffer
-			m_SceneViewport->OnRender(*EngineContext::Get().m_Scene, *EngineContext::Get().m_Renderer);
+			m_SceneViewport->OnRender(*SceneManager::Get().GetActiveScene(), *EngineContext::Get().m_Renderer);
 
 			// Panels + viewport UI
 			RenderPanels(deltaTime);
@@ -83,7 +92,7 @@ namespace Shark {
 	{
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR) {
-			SHARK_ERR(OpenGL, "EditorApp::CheckGlErrors() - {}: OpenGL error: {}", context, err);
+			SE_ERR(OpenGL, "EditorApp::CheckGlErrors() - {}: OpenGL error: {}", context, err);
 		}
 
 	}
@@ -92,7 +101,10 @@ namespace Shark {
 	{
 		glfwMakeContextCurrent(EngineContext::Get().m_Window);	//// Just a dummy VAO for OpenGL 3.3 core profile
 
-		SHARK_LOG(Editor, "EditorApp::CreateEditorWindow() - Creating EditorApp Window.");
+		SE_LOG(Editor, "EditorApp::CreateEditorWindow() - Creating EditorApp Window.");
+
+		const GLubyte* version = glGetString(GL_VERSION);
+		SE_LOG(OpenGL, "OpenGL version: {}", version);
 
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -170,7 +182,7 @@ namespace Shark {
 	{
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR) {
-			SHARK_ERR(OpenGL, "EditorApp::RenderPanels() - OpenGL error before rendering panels: {}", err);
+			SE_ERR(OpenGL, "EditorApp::RenderPanels() - OpenGL error before rendering panels: {}", err);
 		}
 		for (auto& panel : m_Panels) {
 			if (panel->IsVisible()) {
@@ -179,7 +191,7 @@ namespace Shark {
 		}
 
 		while ((err = glGetError()) != GL_NO_ERROR) {
-			SHARK_ERR(OpenGL, "EditorApp::RenderPanels() - OpenGL error after rendering panels: {}", err);
+			SE_ERR(OpenGL, "EditorApp::RenderPanels() - OpenGL error after rendering panels: {}", err);
 		}
 	}
 
@@ -202,7 +214,7 @@ namespace Shark {
 
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR) {
-			SHARK_ERR(OpenGL, "EditorApp::Render() - OpenGL error after ImGui: {}", err);
+			SE_ERR(OpenGL, "EditorApp::Render() - OpenGL error after ImGui: {}", err);
 		}
 
 		// If multi-viewport enabled, update and render platform windows
@@ -213,5 +225,26 @@ namespace Shark {
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backup_current_context);
 		}
+	}
+	void EditorApp::RenderStatsWindow()
+	{
+		ImGui::Begin("Engine Statistics");
+
+		auto& mem = MemoryManager::Get();
+
+		// Periodically refresh the data (maybe every 100 frames so I don't spam the API)
+		if (ImGui::GetFrameCount() % 60 == 0){
+			mem.CheckMemoryStatus();
+		}
+
+		ImGui::Text("Physical Memory Status:");
+		ImGui::Text("Available: %llu MB", mem.GetAvailableMemory());
+		ImGui::Text("Total:		%llu MB", mem.GetTotalMemory());
+
+		// Adds a nice visual bar for portfolio
+		float usage = 1.0f - (static_cast<float>(mem.GetAvailableMemory()) / static_cast<float>(mem.GetTotalMemory()));
+		ImGui::ProgressBar(usage, ImVec2(0, 0), "RAM Usage");
+
+		ImGui::End();
 	}
 }

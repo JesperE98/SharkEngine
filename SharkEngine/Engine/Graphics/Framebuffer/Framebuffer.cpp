@@ -27,7 +27,7 @@ namespace Shark::Graphics {
 
 		// Check completeness
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-			SHARK_FATAL(Rendering, "Framebuffer::Framebuffer() - not complete!");
+			SE_FAT(Rendering, "Framebuffer::Framebuffer() - not complete!");
 		}
 
 		Unbind();
@@ -74,7 +74,7 @@ namespace Shark::Graphics {
 
 		// Check completeness again
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-			SHARK_FATAL(Rendering, "Framebuffer::Resize() - Resize failed!");
+			SE_FAT(Rendering, "Framebuffer::Resize() - Resize failed!");
 		}
 
 		Unbind();

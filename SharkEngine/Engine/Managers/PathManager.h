@@ -13,7 +13,7 @@ namespace Shark::Managers {
 		PathManager& operator=(const PathManager&) = delete;
 
 		// Global access point
-		static PathManager& GetInstance();
+		static PathManager& Get();
 
 		// Call this once during Engine::Initialize()
 		void Initialize();

@@ -1,5 +1,3 @@
-// Engine.cpp : Defines the functions for the static library.
-//
 #include "Engine.h"
 #include "EngineContext.h"
 #include "Graphics/Rendering/Renderer.h"
@@ -19,21 +17,21 @@ namespace Shark::Core {
 
 	Engine::Engine()
 	{
-		SHARK_LOG(Engine, "Engine::Engine() - Engine created.");
+		SE_LOG(Engine, "Engine::Engine() - Engine created.");
 	}
 
 	Engine::~Engine()
 	{
-		SHARK_LOG(Engine, "Engine::~Engine() - Engine destroyed.");
+		SE_LOG(Engine, "Engine::~Engine() - Engine destroyed.");
 	}
 
 	void Engine::Initialize()
 	{
-		SHARK_LOG(Engine, "Engine::Initialize() - Initializing Engine.");
+		SE_LOG(Engine, "Engine::Initialize() - Initializing Engine.");
 
 		if (!glfwInit())
 		{
-			SHARK_ERR(Engine, "Engine::Initialize() - Failed to initialize GLFW.");
+			SE_ERR(Engine, "Engine::Initialize() - Failed to initialize GLFW.");
 			return;
 		}
 
@@ -50,7 +48,7 @@ namespace Shark::Core {
 
 		if (!EngineContext::Get().m_Window)
 		{
-			SHARK_ERR(Engine, "Engine::Initialize() - Failed to create GLFW window.");
+			SE_ERR(Engine, "Engine::Initialize() - Failed to create GLFW window.");
 			glfwTerminate();
 			return;
 		}
@@ -60,34 +58,34 @@ namespace Shark::Core {
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
 			std::cout << Time::CreateTimeStamp() << ": [Engine] Failed to initialize GLAD" << std::endl;
-			SHARK_ERR(Engine, "Engine::Initialize() - Failed to initialize GLAD.");
+			SE_ERR(Engine, "Engine::Initialize() - Failed to initialize GLAD.");
 			return;
 		}
 
 		glfwSetFramebufferSizeCallback(EngineContext::Get().m_Window, Renderer::FramebufferSizeCallback);
 
-		SHARK_LOG(Engine, "Engine::Initialize() - Engine setup complete. Entering main loop.");
+		SE_LOG(Engine, "Engine::Initialize() - Engine setup complete. Entering main loop.");
 	}
 
 	void Engine::Run()
 	{
 		if (!EngineContext::Get().m_Window)
 		{
-			SHARK_ERR(Engine, "Engine::Run() - Cannot run engine without a valid window.");
+			SE_ERR(Engine, "Engine::Run() - Cannot run engine without a valid window.");
 			return;
 		}
 	}
 
 	void Engine::Shutdown()
 	{
-		SHARK_LOG(Engine, "Engine::Shutdown() - Shutting down engine.");
+		SE_LOG(Engine, "Engine::Shutdown() - Shutting down engine.");
 
 		if (EngineContext::Get().m_Window) {
 			glfwDestroyWindow(EngineContext::Get().m_Window);
 			glfwTerminate();
 		}
 
-		SHARK_LOG(Engine, "Engine::Shutdown() - Engine shutdown complete.");
+		SE_LOG(Engine, "Engine::Shutdown() - Engine shutdown complete.");
 	}
 
 	bool Engine::IsWindowClosed()

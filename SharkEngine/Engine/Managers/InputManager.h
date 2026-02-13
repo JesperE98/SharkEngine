@@ -7,19 +7,28 @@ namespace Shark::Managers {
 	class InputManager
 	{
 	public:
-		static void Init(GLFWwindow* window);
-		static void Update(float deltaTime);
-		static void GetMouseDelta(float& xOffset, float& yOffset);
+		static InputManager& Get();
 
-		static bool IsKeyPressed(int key);
-		static bool IsMouseButtonPressed(int key);
-		static GLFWwindow* GetWindow() { return m_Window; }
+		void Initialize(GLFWwindow* window);
+		void Update(float deltaTime);
+
+		bool IsKeyPressed(int key);
+		bool IsMouseButtonPressed(int key);
+		void GetMouseDelta(float& xOffset, float& yOffset);
+		GLFWwindow* GetWindow() { return m_Window; }
 
 	private:
-		static GLFWwindow* m_Window;
-		static double m_LastX, m_LastY;
-		static float m_MouseDeltaX, m_MouseDeltaY;
-		static bool m_FirstMouse;
+		InputManager() = default;
+		~InputManager() = default;
+
+		// Delete copy/assignment for Singleton safety
+		InputManager(const InputManager&) = delete;
+		InputManager& operator=(const InputManager&) = delete;
+
+		GLFWwindow* m_Window{ nullptr };
+		double m_LastX{ 0.0f }, m_LastY{ 0.0f };
+		float m_MouseDeltaX{ 0.0f }, m_MouseDeltaY{ 0.0f };
+		bool m_FirstMouse{ true };
 	};
 
 }

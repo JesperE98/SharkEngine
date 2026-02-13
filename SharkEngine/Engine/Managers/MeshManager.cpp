@@ -6,6 +6,8 @@
 #include "Graphics/Resources/Mesh.h"
 #include "Graphics/Resources/PrimitiveMesh.h"
 
+#include <Source/Managers/LevelEditorManager.h>
+
 #include <iostream>
 #include <ostream>
 
@@ -19,6 +21,7 @@ namespace Shark::Managers {
 	using Shark::Graphics::Material;
 	using Shark::Graphics::PrimitiveType;
 	using Shark::Graphics::PrimitiveMesh;
+	using Shark::Editor::LevelEditorManager;
 
 	void MeshManager::Update(float DeltaTime)
 	{
@@ -91,7 +94,7 @@ namespace Shark::Managers {
 		case PrimitiveType::Plane:
 			break;
 		default:
-			SHARK_WARN(Rendering, "MeshManager::LoadMesh() - Unknown PrimitiveType!");
+			SE_WARN(Rendering, "MeshManager::LoadMesh() - Unknown PrimitiveType!");
 			return nullptr;
 		}
 
@@ -110,7 +113,7 @@ namespace Shark::Managers {
 			return cachedMesh;
 		}
 
-		SHARK_WARN(Rendering, "MeshManager::LoadMesh() - Cache miss! Loading {} from disk...", filePath);
+		SE_WARN(Rendering, "MeshManager::LoadMesh() - Cache miss! Loading {} from disk...", filePath);
 		// 2. Load from disk
 		Mesh* newMesh = new Mesh();
 		if (newMesh->LoadMeshFromModel(filePath)) {
@@ -135,7 +138,7 @@ namespace Shark::Managers {
 	void MeshManager::CreateFromObj(GameObject* obj, const std::string& filePath, Material* mat) {
 
 		if (!obj) {
-			SHARK_ERR(Rendering, "MeshManager::CreateFromObj() - Passing null GameObject to CreateFromObj");
+			SE_ERR(Rendering, "MeshManager::CreateFromObj() - Passing null GameObject to CreateFromObj");
 			return;
 		}
 
@@ -143,15 +146,16 @@ namespace Shark::Managers {
 		if (newMesh) {
 			Material* material = mat ? mat : new Material(); // if none mat wasn't provided, create default material
 			obj->AddComponent(new MeshRendererComponent(obj, newMesh, material));
-			SHARK_LOG(Rendering, "MeshManager::CreateFromObj() - Loaded mesh from {} and attached to GameObject: {}", filePath, obj->GetName());
+			SE_LOG(Rendering, "MeshManager::CreateFromObj() - Loaded mesh from {} and attached to GameObject: {}", filePath, obj->GetName());
 		}
 		else {
-			SHARK_ERR(Rendering, "MeshManager::CreateFromObj() - Failed to load mesh from {}", filePath);
+			SE_ERR(Rendering, "MeshManager::CreateFromObj() - Failed to load mesh from {}", filePath);
 		}
 	}
 
 	void MeshManager::ProcessLoadRequest(const std::string& path)
 	{
+		SE_REQ(Rendering, "MeshManager::ProcessLoadRequest() - Handshake sent to {}", path);
 		Mesh* loadedMesh = LoadMesh(path);
 
 		if (loadedMesh) {
@@ -160,15 +164,16 @@ namespace Shark::Managers {
 			reply.payload = path;
 			reply.data = static_cast<void*>(loadedMesh);
 
-			//LevelEditorManager::Get().inbox.Push(reply);
+			LevelEditorManager::Get().ReceiveMessage(reply);
 
-			SHARK_LOG(Rendering, "MeshManager::ProcessLoadRequest() - Handshake sent to {}", path);
 		}
 		else {
 			EngineMessage errorMsg;
 			errorMsg.type = MessageType::ErrorMessage;
 			errorMsg.payload = "Failed to load mesh at: " + path;
-			//LevelEditorManager::Get().inbox.Push(errorMsg);
+			LevelEditorManager::Get().inbox.Push(errorMsg);
+
+			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load mesh at: {}", path);
 		}
 	}
 }

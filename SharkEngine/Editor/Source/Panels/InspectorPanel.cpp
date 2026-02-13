@@ -118,7 +118,7 @@ namespace Shark::Editor {
 
 						if (newMesh) {
 							renderer->SetMesh(newMesh);
-							SHARK_LOG(Editor, "InspectorPanel - Mesh path swapped to: {}", pathBuffer);
+							SE_LOG(Editor, "InspectorPanel - Mesh path swapped to: {}", pathBuffer);
 						}
 						memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
 					}

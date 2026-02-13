@@ -1,20 +1,20 @@
 #include "HierarchyPanel.h"
 #include "InspectorPanel.h"
 
-#include <Core/Engine/EngineContext.h>
 #include <Entities/GameObject.h>
 #include <Core/Utilities/Debug.h>
 #include <Scene/Scene.h>
+#include <Managers/SceneManager.h>
 
 namespace Shark::Editor {
 
     using Shark::Editor::InspectorPanel;
-    using Shark::Core::EngineContext;
 	using Shark::Entities::GameObject;
+    using Shark::Managers::SceneManager;
 
     HierarchyPanel::HierarchyPanel()
     {
-        SHARK_LOG(Editor, "HierarchyPanel::HierarchyPanel() - Creating Hierarchy panel.");
+        SE_LOG(Editor, "HierarchyPanel::HierarchyPanel() - Creating Hierarchy panel.");
     }
 
     HierarchyPanel::~HierarchyPanel()
@@ -40,7 +40,7 @@ namespace Shark::Editor {
         ImGui::InputTextWithHint("##Search", "Search...", searchBuffer, IM_ARRAYSIZE(searchBuffer));
 
         // Iterate over root-level objects
-        Scene& scene = *EngineContext::Get().m_Scene;
+        Scene& scene = *SceneManager::Get().GetActiveScene();
         for (auto& obj : scene.GetGameObjects()) {
             DrawObjectNode(obj, searchBuffer);
         }
