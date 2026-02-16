@@ -7,7 +7,7 @@
 namespace Shark::Graphics {
 
 	using Shark::Scene;
-	using Shark::Entities::Camera;
+	using Shark::Components::CameraComponent;
 
 	ForwardRenderer::ForwardRenderer()
 	{
@@ -40,7 +40,7 @@ namespace Shark::Graphics {
 		}
 	}
 
-	void ForwardRenderer::RenderScene(float deltaTime, Scene* scene, Camera* cam)
+	void ForwardRenderer::RenderScene(float deltaTime, Scene* scene, CameraComponent* cam)
 	{
 		for (auto& pass : renderPasses) {
 			pass->Execute(deltaTime, scene, cam);

@@ -4,8 +4,8 @@
 #include <Source/Interfaces/IViewport.h>
 #include <memory>
 
-namespace Shark::Entities	{ class Camera; }
-namespace Shark::Graphics	{ class Framebuffer; }
+namespace Shark::Components		{ class CameraComponent; }
+namespace Shark::Graphics		{ class Framebuffer; }
 
 namespace Shark::Editor {
 	class SceneViewport : public Shark::Interfaces::IViewport
@@ -22,14 +22,14 @@ namespace Shark::Editor {
 
 #pragma region Editor Specific
 		void SetSize(int width, int height);
-		void SetActiveCamera(Shark::Entities::Camera* cam);
-		Shark::Entities::Camera* GetActiveCamera() const;
+		void SetActiveCamera(Shark::Components::CameraComponent* cam);
+		Shark::Components::CameraComponent* GetActiveCamera() const;
 #pragma endregion
 
 	private:
 		std::string m_Name;
 		std::shared_ptr<Shark::Graphics::Framebuffer> m_Framebuffer;
-		Shark::Entities::Camera* m_ActiveCamera{ nullptr };
+		Shark::Components::CameraComponent* m_ActiveCamera{ nullptr };
 
 		int m_Width = 1280;
 		int m_Height = 720;

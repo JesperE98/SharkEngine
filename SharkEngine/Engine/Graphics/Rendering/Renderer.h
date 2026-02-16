@@ -11,7 +11,7 @@
 
 namespace Shark				{ class Scene; }
 namespace Shark::Core		{ class EngineContext; }
-namespace Shark::Entities	{ class Camera; }
+namespace Shark::Components	{ class CameraComponent; }
 
 namespace Shark::Graphics {
 	class RenderPass;
@@ -27,7 +27,7 @@ namespace Shark::Graphics {
 		virtual ~Renderer() = default;
 		virtual void Init() = 0;
 		virtual void BeginFrame() = 0;
-		virtual void RenderScene(float deltaTime, Shark::Scene* scene, Shark::Entities::Camera* cam) = 0;
+		virtual void RenderScene(float deltaTime, Shark::Scene* scene, Shark::Components::CameraComponent* cam) = 0;
 		virtual void EndFrame() = 0;
 
 	protected:

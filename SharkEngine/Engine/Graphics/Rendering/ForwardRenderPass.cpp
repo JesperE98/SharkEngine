@@ -1,14 +1,15 @@
 #include "ForwardRenderPass.h"
 #include "Scene/Scene.h"
-#include "Entities/GameObject.h"
-#include "Components/MeshRendererComponent.h"
+#include "Core/GameObject.h"
+#include "Components/Rendering/MeshRendererComponent.h"
+#include "Components/Logic/CameraComponent.h"
 #include "Graphics/Framebuffer/Framebuffer.h"
 #include "Graphics/Resources/Shader.h"
 
 namespace Shark::Graphics {
 
     using Shark::Scene;
-    using Shark::Entities::Camera;
+    using Shark::Components::CameraComponent;
     using Shark::Components::MeshRendererComponent;
 
     ForwardRenderPass::ForwardRenderPass(Framebuffer* target)
@@ -33,9 +34,12 @@ namespace Shark::Graphics {
         }
     }
 
-    void ForwardRenderPass::Execute(float deltaTime, Scene* scene, Camera* cam) {
+    void ForwardRenderPass::Execute(float deltaTime, Scene* scene, CameraComponent* cam) {
 
         if (!cam) return;
+
+		glm::mat4 viewMatrix = cam->GetViewMatrix();
+		glm::mat4 projectionMatrix = cam->GetProjectionMatrix();
 
         // Loop trough all rendereables in scene
         for (auto* obj : scene->GetGameObjects()) {
@@ -49,8 +53,8 @@ namespace Shark::Graphics {
             if (!shader) continue;
 
             shader->Use();
-            shader->SetMatrix4("view", cam->GetViewMatrix());
-            shader->SetMatrix4("projection", cam->GetProjectionMatrix());
+            shader->SetMatrix4("view", viewMatrix);
+            shader->SetMatrix4("projection", projectionMatrix);
 
             // Per-object
             shader->SetMatrix4("model", obj->GetTransform().GetModelMatrix());

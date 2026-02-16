@@ -3,8 +3,6 @@
 
 #include "Source/Interfaces/IPanel.h"
 
-namespace Shark::Entities { class GameObject; }
-
 namespace Shark::Editor {
 	class InspectorPanel : public Shark::Interfaces::IPanel
 	{
@@ -21,12 +19,12 @@ namespace Shark::Editor {
 		void SetVisible(bool value) override;
 #pragma endregion
 
-		void SetSelectedObject(Shark::Entities::GameObject* obj) { m_SelectedObject = obj; }
+		void SetSelectedObject(Shark::Core::GameObject* obj) { m_SelectedObject = obj; }
 
 	private:
 		std::string m_Name;
 		bool m_IsVisible;
-		Shark::Entities::GameObject* m_SelectedObject;
+		Shark::Core::GameObject* m_SelectedObject;
 	};
 }
 

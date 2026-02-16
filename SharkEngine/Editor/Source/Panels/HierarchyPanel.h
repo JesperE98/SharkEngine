@@ -3,13 +3,11 @@
 
 #include "Source/Interfaces/IPanel.h"
 
-namespace Shark::Entities { class GameObject; }
-
 namespace Shark::Editor {
 
 	class InspectorPanel;
 
-	class HierarchyPanel : public Shark::Interfaces::IPanel
+	class HierarchyPanel : virtual public Shark::Interfaces::IPanel
 	{
 	public:
 		HierarchyPanel();
@@ -31,10 +29,10 @@ namespace Shark::Editor {
 		std::string m_Name = "Hierarchy";
 		bool m_Visible = true;
 
-		Shark::Entities::GameObject* m_SelectedObject{ nullptr };
+		Shark::Core::GameObject* m_SelectedObject{ nullptr };
 		InspectorPanel* m_Inspector{ nullptr };
 
-		void DrawObjectNode(Shark::Entities::GameObject* obj, const char* filter);
+		void DrawObjectNode(Shark::Core::GameObject* obj, const char* filter);
 		bool NameMatchesFilter(const std::string& name, const char* filter);
 	};
 }

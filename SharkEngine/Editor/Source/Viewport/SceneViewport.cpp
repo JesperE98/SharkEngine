@@ -1,18 +1,21 @@
 #include "SceneViewport.h"
+
+#pragma region Engine Includes
 #include <Scene/Scene.h>
-#include <Entities/Camera.h>
 #include <Core/Utilities/Debug.h>
 #include <Graphics/Rendering/Renderer.h>
 #include <Graphics/Framebuffer/Framebuffer.h>
 #include <Graphics/Rendering/ForwardRenderer.h>
+#include <Components/Logic/CameraComponent.h>
+#pragma endregion
 
 namespace Shark::Editor {
 
+    using Shark::Components::CameraComponent;
     using Shark::Graphics::Renderer;
     using Shark::Graphics::ForwardRenderer;
     using Shark::Graphics::Framebuffer;
-    using Shark::Entities::GameObject;
-    using Shark::Entities::Camera;
+    using Shark::Core::GameObject;
     using Shark::Core::Time;
     using Shark::Scene;
 
@@ -31,7 +34,7 @@ namespace Shark::Editor {
             fr->SetTarget(m_Framebuffer.get());
         }
 
-        Camera* cam = m_ActiveCamera ? m_ActiveCamera : scene.GetCamera();
+        CameraComponent* cam = m_ActiveCamera ? m_ActiveCamera : scene.GetCamera();
         if (cam) {
             m_ActiveCamera = cam;
 
@@ -66,12 +69,12 @@ namespace Shark::Editor {
         }
     }
 
-    void SceneViewport::SetActiveCamera(Camera* cam)
+    void SceneViewport::SetActiveCamera(CameraComponent* cam)
     {
         m_ActiveCamera = cam;
     }
 
-    Camera* SceneViewport::GetActiveCamera() const
+    CameraComponent* SceneViewport::GetActiveCamera() const
     {
         return m_ActiveCamera;
     }

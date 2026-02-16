@@ -145,17 +145,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Behaviour.h" />
+    <ClInclude Include="Components\Logic\CameraComponent.h" />
     <ClInclude Include="Components\Component.h" />
-    <ClInclude Include="Components\MeshRendererComponent.h" />
+    <ClInclude Include="Components\Rendering\MeshRendererComponent.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Core\Engine\Engine.h" />
     <ClInclude Include="Core\Engine\EngineContext.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Managers\SceneManager.h" />
-    <ClInclude Include="Entities\Camera.h" />
-    <ClInclude Include="Entities\GameObject.h" />
+    <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\Object.h" />
-    <ClInclude Include="Entities\CameraController.h" />
+    <ClInclude Include="Components\Logic\CameraController.h" />
     <ClInclude Include="Managers\InputManager.h" />
     <ClInclude Include="Math\MathUtils.h" />
     <ClInclude Include="Math\Quaternion.h" />
@@ -183,17 +184,19 @@
     <ClInclude Include="Graphics\Resources\Shader.h" />
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Interfaces\IRenderable.h" />
+    <ClInclude Include="Components\SharkBehaviour.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Behaviour.cpp" />
+    <ClCompile Include="Components\Logic\CameraComponent.cpp" />
     <ClCompile Include="Components\Component.cpp" />
-    <ClCompile Include="Components\MeshRendererComponent.cpp" />
+    <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp" />
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Managers\SceneManager.cpp" />
-    <ClCompile Include="Entities\Camera.cpp" />
-    <ClCompile Include="Entities\GameObject.cpp" />
+    <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\Object.cpp" />
-    <ClCompile Include="Entities\CameraController.cpp" />
+    <ClCompile Include="Components\Logic\CameraController.cpp" />
     <ClCompile Include="Managers\InputManager.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="Graphics\Resources\PrimitiveMesh.cpp" />
     <ClCompile Include="Graphics\Resources\Shader.cpp" />
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
+    <ClCompile Include="Components\SharkBehaviour.cpp" />
     <ClCompile Include="ThirdParty\src\glad.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

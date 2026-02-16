@@ -3,8 +3,8 @@
 #pragma region Engine Includes
 #include <Core/Messaging/MessageQueue.h>
 #include <Core/Utilities/Debug.h>
-#include <Components/MeshRendererComponent.h>
-#include <Entities/GameObject.h>
+#include <Components/Rendering/MeshRendererComponent.h>
+#include <Core/GameObject.h>
 #include <Graphics/Resources/Texture.h>
 #include <Managers/MeshManager.h>
 #include <Managers/SceneManager.h>
@@ -22,7 +22,7 @@ namespace Shark::Editor {
 	using Shark::Managers::SceneManager;
 	using Shark::Core::EngineMessage;
 	using Shark::Core::MessageType;
-	using Shark::Entities::GameObject;
+	using Shark::Core::GameObject;
 	using Shark::Components::MeshRendererComponent;
 	using Shark::Math::Vector3;
 
@@ -68,7 +68,7 @@ namespace Shark::Editor {
 			// Manual Texture for now. Goona remove this when I have Texture Manager that sets teh texture via the editor later on
 			mat->m_Texture = new Texture("Textures/Viking_House.png");
 
-			obj->AddComponent(new MeshRendererComponent(obj, loadedMesh, mat));
+			obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
 
 			// Add to scene
 			Scene* scene = SceneManager::Get().GetActiveScene();

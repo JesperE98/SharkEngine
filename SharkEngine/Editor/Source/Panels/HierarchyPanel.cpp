@@ -1,15 +1,17 @@
 #include "HierarchyPanel.h"
 #include "InspectorPanel.h"
 
-#include <Entities/GameObject.h>
+#pragma region Engine Includes
+#include <Core/GameObject.h>
 #include <Core/Utilities/Debug.h>
 #include <Scene/Scene.h>
 #include <Managers/SceneManager.h>
+#pragma endregion
 
 namespace Shark::Editor {
 
     using Shark::Editor::InspectorPanel;
-	using Shark::Entities::GameObject;
+	using Shark::Core::GameObject;
     using Shark::Managers::SceneManager;
 
     HierarchyPanel::HierarchyPanel()

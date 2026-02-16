@@ -1,7 +1,7 @@
 ﻿#include "PrimitiveMesh.h"
-#include "Components/MeshRendererComponent.h"
+#include "Components/Rendering/MeshRendererComponent.h"
 #include "Core/Utilities/Debug.h"
-#include "Entities/GameObject.h"
+#include "Core/GameObject.h"
 #include "Managers/MeshManager.h"
 #include "Material.h"
 #include "Math/MathUtils.h"
@@ -17,7 +17,7 @@ namespace Shark::Graphics {
 
 	using Shark::Math::Vector2;
 	using Shark::Math::Vector3;
-	using Shark::Entities::GameObject;
+	using Shark::Core::GameObject;
 	using Shark::Components::MeshRendererComponent;
 	using Shark::Managers::MeshManager;
 
@@ -133,7 +133,7 @@ namespace Shark::Graphics {
 
 		if (mesh) {
 			Material* matetrial = mat ? mat : new Material(); // if none mat wasn't provided, create default material
-			obj->AddComponent(new MeshRendererComponent(obj, mesh, matetrial));
+			obj->AddComponent<MeshRendererComponent>(mesh, matetrial);
 
 			std::string typeName = (type == PrimitiveType::Cube) ? "Cube" :
 				(type == PrimitiveType::Sphere) ? "Sphere" :

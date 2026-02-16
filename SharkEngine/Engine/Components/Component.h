@@ -1,30 +1,33 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <string>
+#include "Core/Object.h"
 
-namespace Shark::Entities {
+namespace Shark::Core {
 	class GameObject;
 }
 
 namespace Shark::Components {
 
-	class Component
+	class Component : virtual public Shark::Object
 	{
 	public:
-		explicit Component(Shark::Entities::GameObject* owner, const std::string& name = "Component")
-			: owner(owner), name(name) {
-		}
+
+		bool bEnabled = true;
+
+		Component() : m_Owner(nullptr) {}
+
+		explicit Component(Shark::Core::GameObject* owner)	: m_Owner(owner) {}
 		virtual ~Component() = default;
 
-		virtual void Update(float deltaTime) = 0;
+		virtual void Update(float deltaTime) {};
 
-		const std::string& GetName() const { return name; }
-		Shark::Entities::GameObject* GetOwner() const { return owner; }
+		void SetOwner(Shark::Core::GameObject* owner) { m_Owner = owner; }
+		Shark::Core::GameObject* GetOwner() const { return m_Owner; }
 
 	protected:
-		std::string name;
-		Shark::Entities::GameObject* owner;
+
+		Shark::Core::GameObject* m_Owner;
 	};
 }
 

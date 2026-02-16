@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <string>
 
-namespace Shark::Entities {
+namespace Shark::Core {
 	class GameObject;
 }
 
@@ -34,7 +34,7 @@ namespace Shark::Managers {
 		Shark::Graphics::Mesh* LoadMesh(const std::string& filePath);
 
 		void Shutdown();
-		static void CreateFromObj(Shark::Entities::GameObject* obj, const std::string& filePath, Shark::Graphics::Material* mat = nullptr);
+		static void CreateFromObj(Shark::Core::GameObject* obj, const std::string& filePath, Shark::Graphics::Material* mat = nullptr);
 
 	private:
 

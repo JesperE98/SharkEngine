@@ -4,6 +4,8 @@
 #include <string>
 #include <ImGui/imgui.h>
 
+namespace Shark::Core { class GameObject; }
+
 namespace Shark::Interfaces {
 
 	class IPanel {

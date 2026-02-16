@@ -2,7 +2,7 @@
 #define RENDERPASS_H
 
 namespace Shark { class Scene; }
-namespace Shark::Entities { class Camera; }
+namespace Shark::Components { class CameraComponent; }
 
 namespace Shark::Graphics {
 	class Shader;
@@ -18,7 +18,7 @@ namespace Shark::Graphics {
 		virtual void Begin() = 0;
 
 		// Called to render scene
-		virtual void Execute(float deltaTime, Shark::Scene* scene, Shark::Entities::Camera* cam) = 0;
+		virtual void Execute(float deltaTime, Shark::Scene* scene, Shark::Components::CameraComponent* cam) = 0;
 
 		// Called after drawing (unbind FBO, reset state)
 		virtual void End() = 0;

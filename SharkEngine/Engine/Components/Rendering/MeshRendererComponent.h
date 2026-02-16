@@ -1,18 +1,17 @@
 #ifndef ENGINE_COMPONENTS_MESHRENDERERCOMPONENT_H
 #define ENGINE_COMPONENTS_MESHRENDERERCOMPONENT_H
 
-#include "Component.h"
+#include "Components/Component.h"
 #include "Graphics/Resources/Material.h"
 #include "Graphics/Resources/Mesh.h"
 
 namespace Shark::Components {
 
-	class MeshRendererComponent : public Shark::Components::Component
+	class MeshRendererComponent : virtual public Component
 	{
 	public:
-		MeshRendererComponent(Shark::Entities::GameObject* owner, Shark::Graphics::Mesh* mesh, Shark::Graphics::Material* mat)
-			: Component(owner, "MeshRenderer"), m_GameObject(owner), m_Mesh(mesh), m_Material(mat) {
-		}
+		explicit MeshRendererComponent(Shark::Graphics::Mesh* mesh, Shark::Graphics::Material* mat)
+			: m_Mesh(mesh), m_Material(mat) { }
 
 		~MeshRendererComponent() override = default;
 
@@ -31,7 +30,6 @@ namespace Shark::Components {
 	private:
 		Shark::Graphics::Mesh* m_Mesh{ nullptr };
 		Shark::Graphics::Material* m_Material{ nullptr };
-		Shark::Entities::GameObject* m_GameObject{ nullptr };
 	};
 }
 

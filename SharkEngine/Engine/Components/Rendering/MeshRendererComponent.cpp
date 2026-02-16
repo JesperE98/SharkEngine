@@ -1,11 +1,11 @@
 #include "MeshRendererComponent.h"
-#include "Entities/GameObject.h"
+#include "Core/GameObject.h"
 
 #include <GLFW/glfw3.h>
 
 namespace Shark::Components {
 
-	using Shark::Entities::GameObject;
+	using Shark::Core::GameObject;
 	using Shark::Graphics::Mesh;
 	using Shark::Graphics::Material;
 
@@ -13,7 +13,7 @@ namespace Shark::Components {
 		if (!m_Material || !m_Mesh) return;
 
 		// Compute if the transform flips winding
-		glm::mat4 model = m_GameObject->GetTransform().GetModelMatrix();
+		glm::mat4 model = GetOwner()->GetTransform().GetModelMatrix();
 		float determinant = glm::determinant(glm::mat3(model));
 
 		if (determinant < 0.0f) {

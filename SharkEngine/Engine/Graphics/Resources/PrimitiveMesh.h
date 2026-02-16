@@ -7,7 +7,7 @@ namespace Shark::Math {
     struct Vector3;
 }
 
-namespace Shark::Entities {
+namespace Shark::Core {
     class GameObject;
 }
 
@@ -29,7 +29,7 @@ namespace Shark::Graphics {
     class PrimitiveMesh
     {
     public:
-        static Shark::Entities::GameObject* CreatePrimitive(Shark::Entities::GameObject* obj, Shark::Graphics::PrimitiveType type, Shark::Graphics::Material* mat = nullptr);
+        static Shark::Core::GameObject* CreatePrimitive(Shark::Core::GameObject* obj, Shark::Graphics::PrimitiveType type, Shark::Graphics::Material* mat = nullptr);
         static Shark::Graphics::Mesh* CreateCube();
     private:
         // Debug a face by printing its winding

@@ -53,6 +53,11 @@ namespace Shark::Core {
 		}
 
 		template<typename... Args>
+		static void LogProcess(LogCategory category, std::string_view message, Args&&... args) {
+			Print(category, "PROCESS", FColor::Cyan, message, std::forward<Args>(args)...);
+		}
+
+		template<typename... Args>
 		static void LogFatal(LogCategory category, std::string_view message, Args&&... args) {
 
             // With the following two lines:
@@ -74,7 +79,7 @@ namespace Shark::Core {
 			// Set color based on log level and print prefix [Time][Level][Category]
 			std::cout << FColor::DarkGrey.Code <<'[' << Time::CreateTimeStamp() << "]: ";
 
-			std::cout << color.Code << '[' << CategoryToString(category) << "]	[" << level << "] " << formattedMessage << std::endl;
+			std::cout << color.Code << '[' << CategoryToString(category) << "]	[" << level << "] " << formattedMessage << FColor::White.Code << std::endl;
 		}
 
 
@@ -132,6 +137,10 @@ namespace Shark::Core {
 // Request (Cyan) - Pointing to LogRequest
 #define SE_REQ(Category, Message, ...) \
 	Shark::Core::Debug::LogRequest(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+
+// Process (Cyan) - Pointing to LogProcess
+#define SE_PROC(Category, Message, ...) \
+	Shark::Core::Debug::LogProcess(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
 
 // Fatal Error (DarkRed) - Pointing to LogFatal
 #define SE_FAT(Category, Message, ...) \

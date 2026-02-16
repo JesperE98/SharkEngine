@@ -1,22 +1,20 @@
 #include "MeshManager.h"
-#include "Components/MeshRendererComponent.h"
-#include "Core/Utilities/Time.h"
-#include "Entities/GameObject.h"
+#include "Components/Rendering/MeshRendererComponent.h"
+#include "Core/GameObject.h"
 #include "Graphics/Resources/Material.h"
 #include "Graphics/Resources/Mesh.h"
 #include "Graphics/Resources/PrimitiveMesh.h"
 
+#pragma region Editor Includes
 #include <Source/Managers/LevelEditorManager.h>
-
-#include <iostream>
-#include <ostream>
+#pragma endregion
 
 namespace Shark::Managers {
 
 	using Shark::Core::EngineMessage;
 	using Shark::Core::MessageType;
 	using Shark::Components::MeshRendererComponent;
-	using Shark::Entities::GameObject;
+	using Shark::Core::GameObject;
 	using Shark::Graphics::Mesh;
 	using Shark::Graphics::Material;
 	using Shark::Graphics::PrimitiveType;
@@ -145,7 +143,7 @@ namespace Shark::Managers {
 		Mesh* newMesh = MeshManager::Get().LoadMesh(filePath);
 		if (newMesh) {
 			Material* material = mat ? mat : new Material(); // if none mat wasn't provided, create default material
-			obj->AddComponent(new MeshRendererComponent(obj, newMesh, material));
+			obj->AddComponent<MeshRendererComponent>(newMesh, material);
 			SE_LOG(Rendering, "MeshManager::CreateFromObj() - Loaded mesh from {} and attached to GameObject: {}", filePath, obj->GetName());
 		}
 		else {
@@ -155,7 +153,7 @@ namespace Shark::Managers {
 
 	void MeshManager::ProcessLoadRequest(const std::string& path)
 	{
-		SE_REQ(Rendering, "MeshManager::ProcessLoadRequest() - Handshake sent to {}", path);
+		SE_PROC(Rendering, "MeshManager::ProcessLoadRequest() - Handshake sent to {}", path);
 		Mesh* loadedMesh = LoadMesh(path);
 
 		if (loadedMesh) {

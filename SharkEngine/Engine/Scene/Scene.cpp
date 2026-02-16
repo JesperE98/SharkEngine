@@ -1,9 +1,12 @@
 #include "Scene.h"
-#include "Entities/CameraController.h"
+#include "Components/Logic/CameraController.h"
+#include "Components/Logic/CameraComponent.h"
 
 namespace Shark {
 
-    using namespace Shark::Entities;
+    using Shark::Core::GameObject;
+	using Shark::Components::CameraController;
+	using Shark::Components::CameraComponent;
 
     Scene::~Scene()
     {
@@ -12,44 +15,44 @@ namespace Shark {
             m_CameraController = nullptr;
         }
 
-        for (auto& obj : gameObjects) {
+        for (auto& obj : m_GameObjects) {
             delete obj;
             obj = nullptr;
         }
 
-        gameObjects.clear();
-    }
-
-    void Scene::AddGameObject(GameObject* obj)
-    {
-        gameObjects.push_back(obj);
-    }
-
-    std::vector<GameObject*>& Scene::GetGameObjects()
-    {
-        return gameObjects;
+        m_GameObjects.clear();
     }
 
     void Scene::Update(float deltaTime) {
 
-        for (GameObject* obj : gameObjects) {
-            obj->Update(deltaTime);
+        for (GameObject* obj : m_GameObjects) {
+            obj->Tick(deltaTime);
         }
 
-        if (m_CameraController) {
-            m_CameraController->Update(deltaTime);
-        }
         // Or alternatively, render all IRenderables
         //for (auto& renderable : m_Renderables) {
         //    renderable->Draw();
         //}
     }
 
+    void Scene::AddGameObject(GameObject* obj)
+    {
+        m_GameObjects.push_back(obj);
+    }
+
+    std::vector<GameObject*>& Scene::GetGameObjects()
+    {
+        return m_GameObjects;
+    }
+
     void Scene::CreateCamera(const float aspectRatio)
     {
-        Camera* cam = new Camera("MainCamera", 90.0f, aspectRatio, 0.1f, 100.0f);
-        m_Camera = cam;
-        m_CameraController = new CameraController(cam, 5.0f, 0.1f);
+        GameObject* cam = new GameObject("Main Camera");
+        cam->AddComponent<CameraComponent>(45.0f, aspectRatio, 0.1f, 1000.0f);
+		cam->AddComponent<CameraController>(5.0f, 0.1f);
+		cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
+
+        m_MainCamera = cam->GetComponent<CameraComponent>();
         AddGameObject(cam);
     }
 
