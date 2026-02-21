@@ -1,24 +1,24 @@
 #include "Material.h"
 #include "Core/Utilities/Debug.h"
+#include "Managers/ShaderManager.h"
+#include "Managers/TextureManager.h"
 #include <glad/glad.h>
 
 namespace Shark::Graphics {
 
+	using Shark::Managers::ShaderManager;
+	using Shark::Managers::TextureManager;
+
 	Material::Material(Shader* shaderProgram, Texture* texture)
 		: m_Shader(shaderProgram), m_Texture(texture)
 	{
-		SE_LOG(Material, "Material::Material() - Creating Material.");
+		SE_LOG(Resources, "Material::Material() - Creating Material.");
 
-		if (shaderProgram) {
-		}
-		else {
+		if (!m_Shader) {
 			CreateDefaultShader();
 		}
 
-		if (texture) {
-			m_Texture = texture;
-		}
-		else {
+		if (!m_Texture) {
 			CreateDefaultTexture();
 		}
 
@@ -26,10 +26,10 @@ namespace Shark::Graphics {
 
 	Material::~Material()
 	{
-		if (m_Shader) {
-			delete m_Shader;
-			m_Shader = nullptr;
-		}
+		m_Shader = nullptr; // ShaderManager handles cleanup
+		m_Texture = nullptr; // TextureManager handles cleanup
+		m_ShaderPath = "";
+		m_TexturePath = "";
 	}
 
 	void Material::Bind() const {
@@ -41,18 +41,32 @@ namespace Shark::Graphics {
 		}
 	}
 
-	void Material::CreateDefaultShader() {
+	void Material::SetShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)
+	{
+		Shader* newShader = Managers::ShaderManager::Get().LoadShader(name, vertPath, fragPath);
 
-		const char* vertexPath = "Shaders/SE_BasicLit.vert.glsl";
-		const char* fragmentPath = "Shaders/SE_BasicLit.frag.glsl";
-
-		m_Shader = new Shader(vertexPath, fragmentPath);
+		if (newShader) {
+			m_Shader = newShader;
+			m_ShaderPath = name;
+			SE_SUCC(Resources, "Material::SetShader() - Shader set to: {}", name);
+		}
 	}
 
-	void Material::CreateDefaultTexture()
+	void Material::SetTexture(const std::string& path)
 	{
-		const char* path = "Textures/box-texture-pbr-01.jpg";
+		Texture* newTex = TextureManager::Get().LoadTexture(path);
 
-		m_Texture = new Texture(path);
+		if (newTex) {
+			m_Texture = newTex;
+			m_TexturePath = path;
+		}
+	}
+
+	void Material::CreateDefaultShader() {
+		SetShader("SE_BasicLit", "Shaders/SE_BasicLit.vert.glsl", "Shaders/SE_BasicLit.frag.glsl");
+	}
+
+	void Material::CreateDefaultTexture() {
+		SetTexture("Textures/box_wood.jpg");
 	}
 }

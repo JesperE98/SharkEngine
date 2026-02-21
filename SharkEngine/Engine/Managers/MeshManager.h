@@ -38,10 +38,23 @@ namespace Shark::Managers {
 
 	private:
 
-		MeshManager() = default;
 		std::unordered_map<std::string, Shark::Graphics::Mesh*> m_MeshCache;
 
-		void ProcessLoadRequest(const std::string& path);
+		MeshManager() = default;
+		~MeshManager() = default;
+
+		// Delete copy constructor and assignment operator
+		MeshManager(const MeshManager&) = delete;
+		MeshManager& operator=(const MeshManager&) = delete;
+
+		template<typename T>
+		void ProcessLoadRequest(const T& value);
+
+		template<>
+		void ProcessLoadRequest<std::string>(const std::string& path);
+		template<>
+		void ProcessLoadRequest<Shark::Graphics::PrimitiveType>(const Shark::Graphics::PrimitiveType& type);
+
 	};
 }
 

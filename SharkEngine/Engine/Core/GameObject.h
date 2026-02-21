@@ -11,11 +11,15 @@ namespace Shark::Core {
 	class GameObject : virtual public Shark::Object
 	{
 	public:
+
+		bool bMarkedForDeletion = false;
+
 		explicit GameObject(const std::string& name = "GameObject");
 		virtual ~GameObject();
 
 #pragma region Engine Logic
 		void Tick(float deltaTime);
+		void OnDelete();
 #pragma endregion
 
 
@@ -33,6 +37,17 @@ namespace Shark::Core {
 			m_Components.push_back(comp);
 
 			return comp;
+		}
+
+		template<typename T>
+		void RemoveComponent() {
+			for (auto it = m_Components.begin(); it != m_Components.end(); ++it) {
+				if (dynamic_cast<T*>(*it)) {
+					delete* it; // Free memory
+					m_Components.erase(it); // Remove from list
+					return;
+				}
+			}
 		}
 
 		template<typename T>

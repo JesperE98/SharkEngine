@@ -17,8 +17,8 @@ namespace Shark::Managers {
 	using Shark::Core::GameObject;
 	using Shark::Graphics::Mesh;
 	using Shark::Graphics::Material;
-	using Shark::Graphics::PrimitiveType;
 	using Shark::Graphics::PrimitiveMesh;
+	using Shark::Graphics::PrimitiveType;
 	using Shark::Editor::LevelEditorManager;
 
 	void MeshManager::Update(float DeltaTime)
@@ -27,6 +27,9 @@ namespace Shark::Managers {
 		while (inbox.Pop(msg)) {
 			if (msg.type == MessageType::LoadModel) {
 				ProcessLoadRequest(msg.payload);
+			}
+			else if (msg.type == MessageType::LoadPrimitiveType) {
+				ProcessLoadRequest(static_cast<PrimitiveType>(std::stoi(msg.payload)));
 			}
 		}
 	}
@@ -83,6 +86,7 @@ namespace Shark::Managers {
 
 		case PrimitiveType::Cube:
 			newMesh = PrimitiveMesh::CreateCube();
+
 			break;
 
 		case PrimitiveType::Sphere:
@@ -151,7 +155,8 @@ namespace Shark::Managers {
 		}
 	}
 
-	void MeshManager::ProcessLoadRequest(const std::string& path)
+	template<>
+	void MeshManager::ProcessLoadRequest<std::string>(const std::string& path)
 	{
 		SE_PROC(Rendering, "MeshManager::ProcessLoadRequest() - Handshake sent to {}", path);
 		Mesh* loadedMesh = LoadMesh(path);
@@ -172,6 +177,29 @@ namespace Shark::Managers {
 			LevelEditorManager::Get().inbox.Push(errorMsg);
 
 			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load mesh at: {}", path);
+		}
+	}
+
+	template<>
+	void MeshManager::ProcessLoadRequest<PrimitiveType>(const PrimitiveType& type)
+	{
+		SE_PROC(Rendering, "MeshManager::ProcessLoadRequest() - Received request to load primitive type: {}", static_cast<int>(type));
+		Mesh* loadedMesh = LoadMesh(type);
+
+		if (loadedMesh) {
+			EngineMessage reply;
+			reply.type = MessageType::PrimitiveTypeLoaded;
+			reply.payload = std::to_string(static_cast<int>(type));
+			reply.data = static_cast<void*>(loadedMesh);
+
+			LevelEditorManager::Get().ReceiveMessage(reply);
+		}
+		else {
+			EngineMessage errorMsg;
+			errorMsg.type = MessageType::ErrorMessage;
+			errorMsg.payload = "Failed to load primitive type: " + std::to_string(static_cast<int>(type));
+			LevelEditorManager::Get().inbox.Push(errorMsg);
+			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load primitive type: {}", static_cast<int>(type));
 		}
 	}
 }

@@ -8,6 +8,11 @@ namespace Shark {
 	using Shark::Components::CameraController;
 	using Shark::Components::CameraComponent;
 
+    Scene::Scene()
+    {
+		CreateCamera();
+    }
+
     Scene::~Scene()
     {
         if (m_CameraController) {
@@ -29,10 +34,13 @@ namespace Shark {
             obj->Tick(deltaTime);
         }
 
-        // Or alternatively, render all IRenderables
-        //for (auto& renderable : m_Renderables) {
-        //    renderable->Draw();
-        //}
+        for (GameObject* obj : m_ObjectsToDestroy) {
+			auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), obj);
+			if (it != m_GameObjects.end()) {
+                delete *it;
+                m_GameObjects.erase(it);
+            }
+        }
     }
 
     void Scene::AddGameObject(GameObject* obj)
@@ -45,15 +53,30 @@ namespace Shark {
         return m_GameObjects;
     }
 
-    void Scene::CreateCamera(const float aspectRatio)
+    void Scene::DestroyGameObject(Shark::Core::GameObject* obj)
+    {
+        m_ObjectsToDestroy.push_back(obj);
+    }
+
+    void Scene::CreateCamera()
     {
         GameObject* cam = new GameObject("Main Camera");
-        cam->AddComponent<CameraComponent>(45.0f, aspectRatio, 0.1f, 1000.0f);
+        cam->AddComponent<CameraComponent>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
 		cam->AddComponent<CameraController>(5.0f, 0.1f);
 		cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
 
-        m_MainCamera = cam->GetComponent<CameraComponent>();
         AddGameObject(cam);
+    }
+
+    Shark::Components::CameraComponent* Scene::GetCamera() const
+    {
+        for(GameObject* obj : m_GameObjects) {
+            auto* cam = obj->GetComponent<CameraComponent>();
+            if (cam) {
+                return cam;
+            }
+		}
+        return nullptr;
     }
 
 }

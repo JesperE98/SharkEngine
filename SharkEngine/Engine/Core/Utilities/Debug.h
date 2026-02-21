@@ -18,7 +18,7 @@ namespace Shark::Core {
 		OpenGL,		// Low-level: Buffers, Gl-Errors
 		IO,			// File loading (PathManager)
 		Temp,		// For temporarily debugging
-		Material,	// Shaders, Texture, Uniforms
+		Resources,	// Shaders, Texture, Uniforms
 		Messaging,	// Message Queue related logs
 	};
 

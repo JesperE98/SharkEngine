@@ -1,18 +1,22 @@
 #include "HierarchyPanel.h"
 #include "InspectorPanel.h"
+#include "Source/Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
 #include <Core/GameObject.h>
 #include <Core/Utilities/Debug.h>
 #include <Scene/Scene.h>
 #include <Managers/SceneManager.h>
+#include <Graphics/Resources/PrimitiveMesh.h>
 #pragma endregion
 
 namespace Shark::Editor {
 
     using Shark::Editor::InspectorPanel;
-	using Shark::Core::GameObject;
+    using Shark::Editor::LevelEditorManager;
+    using Shark::Core::GameObject;
     using Shark::Managers::SceneManager;
+    using Shark::Graphics::PrimitiveType;
 
     HierarchyPanel::HierarchyPanel()
     {
@@ -22,7 +26,6 @@ namespace Shark::Editor {
     HierarchyPanel::~HierarchyPanel()
     {
         if (m_SelectedObject) {
-            delete m_SelectedObject;
             m_SelectedObject = nullptr;
         }
     }
@@ -47,7 +50,43 @@ namespace Shark::Editor {
             DrawObjectNode(obj, searchBuffer);
         }
 
+        // Clear Selection if clicked on empty space
+        if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
+            m_SelectedObject = nullptr;
+            if (m_Inspector) {
+                m_Inspector->SetSelectedObject(nullptr);
+            }
+        }
 
+        // GLOBAL CONTEXT MENU (Right Cick Empty Space)
+        // Will ONLY trigger if not right-clicking on a actual item node
+        if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)){
+            if (ImGui::MenuItem("Create Empty")) {
+                GameObject* obj = new GameObject("Empty GameObject");
+                scene.AddGameObject(obj);
+            }
+
+            if (ImGui::BeginMenu("3D Object")) {
+                if (ImGui::MenuItem("Cube")) {
+                    LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
+                }
+                if (ImGui::MenuItem("Sphere")) {
+                    //LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Sphere);
+                }
+                if (ImGui::MenuItem("Plane")) {
+                    //LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Plane);
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Camera")) {
+                if (ImGui::MenuItem("Create Camera")) {
+                    scene.CreateCamera();
+                }
+                ImGui::EndMenu();
+            }
+            ImGui::EndPopup();
+        }
         ImGui::End();
     }
 
@@ -72,6 +111,7 @@ namespace Shark::Editor {
 
     void HierarchyPanel::DrawObjectNode(GameObject* obj, const char* filter)
     {
+        Scene* scene = SceneManager::Get().GetActiveScene();
         if (!obj || (filter[0] != '\n' && !NameMatchesFilter(obj->GetName(), filter))) {
             return;
         }
@@ -98,7 +138,11 @@ namespace Shark::Editor {
                 // TODO - Trigger rename logic
             }
             if (ImGui::MenuItem("Delete")) {
-                // TODO - Mark for deletion
+                scene->DestroyGameObject(obj);
+                if (m_SelectedObject) {
+                    m_SelectedObject = nullptr;
+                    m_Inspector->SetSelectedObject(nullptr);
+                }
             }
             ImGui::EndPopup();
         }

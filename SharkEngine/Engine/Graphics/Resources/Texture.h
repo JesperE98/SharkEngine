@@ -10,6 +10,7 @@ namespace Shark::Graphics {
 		* @param filePath - The file path to the m_Texture
 		*/
 		explicit Texture(const char* filePath);
+		~Texture();
 		unsigned int GetID() const {
 			return m_ID;
 		}

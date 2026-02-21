@@ -1,0 +1,89 @@
+#include "ShaderManager.h"
+#include "Core/Utilities/Debug.h"
+#include "Graphics/Resources/Shader.h"
+
+#include <Source/Managers/LevelEditorManager.h>
+
+namespace Shark::Managers {
+
+    using Shark::Graphics::Shader;
+    using Shark::Core::EngineMessage;
+	using Shark::Core::MessageType;
+	using Shark::Editor::LevelEditorManager;
+
+    ShaderManager& ShaderManager::ShaderManager::Get()
+    {
+		static ShaderManager instance;
+        return instance;
+    }
+
+    void ShaderManager::Update(float DeltaTime)
+    {
+        EngineMessage msg;
+        while (inbox.Pop(msg)) {
+            if (msg.type == MessageType::LoadShader) {
+                ProcessLoadRequest(msg.payload);
+            }
+        }
+    }
+
+    void ShaderManager::Shutdown()
+    {
+        for (auto& pair : m_ShaderCache) {
+            if (pair.second) {
+                delete pair.second;
+            }
+        }
+
+        m_ShaderCache.clear();
+    }
+
+    void ShaderManager::ProcessLoadRequest(const std::string& path)
+    {
+		SE_PROC(Resources, "ShaderManager::ProcessLoadRequest() - Handshake sent for shader: {}", path);
+
+		Shader* loadedShader = LoadShader(path, path + ".vert.glsl", path + ".frag.glsl");
+
+        if (loadedShader) {
+            EngineMessage reply;
+            reply.type = MessageType::ShaderLoaded;
+            reply.payload = path;
+            reply.data = static_cast<Shader*>(loadedShader);
+
+            // Send back to the Editor Manager
+            LevelEditorManager::Get().ReceiveMessage(reply);
+        }
+        else {
+            EngineMessage errorMsg;
+            errorMsg.type = MessageType::ErrorMessage;
+            errorMsg.payload = "Failed to load shader at: " + path;
+            LevelEditorManager::Get().inbox.Push(errorMsg);
+
+            SE_ERR(Resources, "ShaderManager::ProcessLoadRequest() - Failed to load shader at: {}", path);
+        }
+    }
+
+    Shader* ShaderManager::LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)
+    {
+		if (m_ShaderCache.find(name) != m_ShaderCache.end()) {
+            return m_ShaderCache[name];
+        }
+
+		Shader* newShader = new Shader(vertPath.c_str(), fragPath.c_str());
+		m_ShaderCache[name] = newShader;
+
+		SE_LOG(Resources, "ShaderManager::LoadShader() - Compiled and Cached shader: {} (vert: {}, frag: {})", name, vertPath, fragPath);
+        return newShader;
+    }
+
+    const Shader* ShaderManager::GetShader(const std::string& name) const
+    {
+        if(m_ShaderCache.find(name) != m_ShaderCache.end()) {
+			SE_SUCC(Resources, "ShaderManager::GetShader() - Cache hit for shader: {}", name);
+            return m_ShaderCache.at(name);
+		}
+
+		SE_WARN(Resources, "ShaderManager::GetShader() - Cache miss for shader: {}", name);
+        return nullptr;
+    }
+}

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace Shark::Graphics { class Mesh; }
+namespace Shark::Graphics { class Mesh; enum class PrimitiveType; }
 
 namespace Shark::Editor {
 	class LevelEditorManager
@@ -25,16 +25,20 @@ namespace Shark::Editor {
 
 		// The UI call that triggers the request
 		void RequestModelLoad(const std::string& path);
+		void RequestPrimitiveLoad(Shark::Graphics::PrimitiveType type);
+		void RequestTextureLoad(const std::string& path);
 
 		void ReceiveMessage(const Shark::Core::EngineMessage& msg);
 
 	private:
-
-		std::vector<Shark::Graphics::Mesh*> m_ActiveMeshes;
-
 		LevelEditorManager() = default;
 
-		void ProcessEngineReply(const Shark::Core::EngineMessage& msg);
+		// Delete copy constructor and assignment operator
+		LevelEditorManager(const LevelEditorManager&) = delete;
+		LevelEditorManager& operator=(const LevelEditorManager&) = delete;
+
+		void LoadModel(const Shark::Core::EngineMessage& msg);
+		void LoadPrimitive(const Shark::Core::EngineMessage& msg);
 	};
 }
 #endif

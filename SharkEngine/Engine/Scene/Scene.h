@@ -11,21 +11,21 @@ namespace Shark {
 	class Scene
 	{
 	public:
-		Scene() = default;
+		Scene();
 		~Scene();
 
 		void AddGameObject(Shark::Core::GameObject* obj);
 		std::vector<Shark::Core::GameObject*>& GetGameObjects();
+		void DestroyGameObject(Shark::Core::GameObject* obj);
 
 		void Update(float deltaTime);
 
-		void CreateCamera(const float aspectRatio);
-		Shark::Components::CameraComponent* GetCamera() const { return m_MainCamera; }
+		void CreateCamera();
+		Shark::Components::CameraComponent* GetCamera() const;
 
 	private:
 		std::vector<Shark::Core::GameObject*> m_GameObjects;
-
-		Shark::Components::CameraComponent* m_MainCamera{ nullptr };
+		std::vector<Shark::Core::GameObject*> m_ObjectsToDestroy;
 		Shark::Components::CameraController* m_CameraController{ nullptr };
 	};
 }

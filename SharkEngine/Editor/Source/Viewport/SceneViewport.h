@@ -22,6 +22,7 @@ namespace Shark::Editor {
 
 #pragma region Editor Specific
 		void SetSize(int width, int height);
+		void UpdateViewportSize();
 		void SetActiveCamera(Shark::Components::CameraComponent* cam);
 		Shark::Components::CameraComponent* GetActiveCamera() const;
 #pragma endregion

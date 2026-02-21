@@ -13,19 +13,19 @@ namespace Shark::Components {
 		explicit MeshRendererComponent(Shark::Graphics::Mesh* mesh, Shark::Graphics::Material* mat)
 			: m_Mesh(mesh), m_Material(mat) { }
 
-		~MeshRendererComponent() override = default;
+		~MeshRendererComponent() override;
 
 		void Update(float deltaTime) override {}
 
 		void Render();
 
-		// --- Asset Getters ---
-		Shark::Graphics::Mesh* GetMesh() const;
-		Shark::Graphics::Material* GetMaterial() const;
-
 		// --- Asset Setters ---
 		void SetMesh(Shark::Graphics::Mesh* mesh);
 		void SetMaterial(Shark::Graphics::Material* mat);
+
+		// --- Asset Getters ---
+		Shark::Graphics::Mesh* GetMesh() const;
+		Shark::Graphics::Material* GetMaterial() const;
 
 	private:
 		Shark::Graphics::Mesh* m_Mesh{ nullptr };

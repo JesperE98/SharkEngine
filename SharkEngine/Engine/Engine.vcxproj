@@ -185,6 +185,8 @@
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Interfaces\IRenderable.h" />
     <ClInclude Include="Components\SharkBehaviour.h" />
+    <ClInclude Include="Managers\TextureManager.h" />
+    <ClInclude Include="Managers\ShaderManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Behaviour.cpp" />
@@ -224,6 +226,8 @@
     <ClCompile Include="Graphics\Resources\Shader.cpp" />
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
     <ClCompile Include="Components\SharkBehaviour.cpp" />
+    <ClCompile Include="Managers\TextureManager.cpp" />
+    <ClCompile Include="Managers\ShaderManager.cpp" />
     <ClCompile Include="ThirdParty\src\glad.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

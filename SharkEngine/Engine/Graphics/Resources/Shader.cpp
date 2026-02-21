@@ -13,12 +13,12 @@ namespace Shark::Graphics {
 
 	Shader::Shader(const char* vertexPath, const char* fragmentPath) {
 
-		SE_LOG(Material, "Shader::Shader() - Creating Shader Program.");
+		SE_LOG(Resources, "Shader::Shader() - Creating Shader Program.");
 
 		std::string vPath = PathManager::Get().GetContentPath(vertexPath);
 		std::string fPath = PathManager::Get().GetContentPath(fragmentPath);
 
-		SE_LOG(Material, "Shader::Shader() - Vertex Shader Path: {}", vPath);
+		SE_LOG(Resources, "Shader::Shader() - Vertex Shader Path: {}", vPath);
 
 		// 1. Retrieve the vertex/fragment source code from filePath
 		std::string vertexCode;
@@ -49,9 +49,9 @@ namespace Shark::Graphics {
 			fragmentCode = fShaderStream.str();
 		}
 		catch (std::ifstream::failure e) {
-			SE_ERR(Material, "Shader::Shader() - Failed to read shader files at paths: {} and {}", vPath, fPath);
-			SE_ERR(Material, "Shader::Shader() - ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
-			SE_ERR(Material, "Exception: {}", e.what());
+			SE_ERR(Resources, "Shader::Shader() - Failed to read shader files at paths: {} and {}", vPath, fPath);
+			SE_ERR(Resources, "Shader::Shader() - ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
+			SE_ERR(Resources, "Exception: {}", e.what());
 		}
 
 		const char* vShaderCode = vertexCode.c_str(); // Convert to c-string
@@ -157,14 +157,14 @@ namespace Shark::Graphics {
 			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
-				SE_ERR(Material, "Shader::CheckCompileErrors() - ERROR::SHADER_COMPILATION_ERROR of type:{}\n{}\n", type, infoLog);
+				SE_ERR(Resources, "Shader::CheckCompileErrors() - ERROR::SHADER_COMPILATION_ERROR of type:{}\n{}\n", type, infoLog);
 			}
 		}
 		else {
 			glGetProgramiv(shader, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
-				SE_ERR(Material, "Shader::CheckCompileErrors() - ERROR::PROGRAM_LINKING_ERROR of type:{}\n{}\n", type, infoLog);
+				SE_ERR(Resources, "Shader::CheckCompileErrors() - ERROR::PROGRAM_LINKING_ERROR of type:{}\n{}\n", type, infoLog);
 			}
 		}
 	}

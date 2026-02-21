@@ -11,7 +11,7 @@ namespace Shark::Core {
 		case LogCategory::OpenGL:		return "OpenGL";
 		case LogCategory::IO:			return "IO";
 		case LogCategory::Temp:			return "Temp";
-		case LogCategory::Material:		return "Material";
+		case LogCategory::Resources:		return "Resources";
 		case LogCategory::Messaging:	return "Messaging";
 		default:						return "General";
 		}

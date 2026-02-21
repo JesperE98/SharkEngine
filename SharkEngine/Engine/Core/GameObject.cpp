@@ -10,10 +10,7 @@ namespace Shark::Core {
 	}
 
 	GameObject::~GameObject() {
-		for (Component* comp : m_Components) {
-			delete comp;
-		}
-		m_Components.clear();
+		OnDelete();
 	}
 
 	void GameObject::Tick(float deltaTime) {
@@ -25,6 +22,22 @@ namespace Shark::Core {
 
 		for (auto* child : m_Children) {
 			child->Tick(deltaTime);
+		}
+
+		if (bMarkedForDeletion == true) {
+			OnDelete();
+		}
+	}
+
+	void GameObject::OnDelete()
+	{
+		for (Component* comp : m_Components) {
+			delete comp;
+		}
+		m_Components.clear();
+
+		for (auto* child : m_Children) {
+			child->OnDelete();
 		}
 	}
 

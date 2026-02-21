@@ -6,7 +6,10 @@
 #include "Managers/MeshManager.h"
 #include "Managers/Pathmanager.h"
 #include "Managers/SceneManager.h"
+#include "Managers/TextureManager.h"
+#include "Managers/ShaderManager.h"
 #include "Scene/Scene.h"
+#include "Graphics/Resources/PrimitiveMesh.h"
 
 #include <Source/Managers/LevelEditorManager.h>
 #include <GLFW/glfw3.h>
@@ -17,9 +20,12 @@ namespace Shark::Core
 	using Shark::Managers::InputManager;
 	using Shark::Managers::MemoryManager;
 	using Shark::Managers::MeshManager;
+	using Shark::Managers::ShaderManager;
+	using Shark::Managers::TextureManager;
 	using Shark::Managers::SceneManager;
 	using Shark::Graphics::ForwardRenderer;
 	using Shark::Editor::LevelEditorManager;
+	using Shark::Graphics::PrimitiveType;
 	using Shark::Scene;
 
 	void EngineContext::OnInit() {
@@ -41,25 +47,25 @@ namespace Shark::Core
 		InputManager::Get().Initialize(m_Window);
 		PathManager::Get().Initialize();
 
-		/* ----------------- Scene + Camera ----------------- */
-		float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
-		Scene* startingScene = new Scene();
-		startingScene->CreateCamera(aspectRatio);
+		/* ----------------- Scene ----------------- */
+		Scene* initialScene = new Scene();
 
-		SceneManager::Get().SetActiveScene(startingScene);
+		SceneManager::Get().SetActiveScene(initialScene);
 
 		/* ----------------- Example Objects ----------------- */
 		MemoryManager::Get().CheckMemoryStatus();
 		LevelEditorManager::Get().RequestModelLoad("Models/Viking_House.obj");
+		LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
 	}
 
 	void EngineContext::OnUpdate(float deltaTime) {
 
+		m_Engine->Run();
 		InputManager::Get().Update(deltaTime);
 		SceneManager::Get().Update(deltaTime);
 		MeshManager::Get().Update(deltaTime);
-
-		m_Engine->Run();
+		ShaderManager::Get().Update(deltaTime);
+		TextureManager::Get().Update(deltaTime);
 
 		glGetError(); // Clear OpenGL errors each frame
 	}

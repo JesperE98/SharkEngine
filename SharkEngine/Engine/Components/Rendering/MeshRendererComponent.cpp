@@ -9,6 +9,13 @@ namespace Shark::Components {
 	using Shark::Graphics::Mesh;
 	using Shark::Graphics::Material;
 
+	MeshRendererComponent::~MeshRendererComponent()
+	{
+		if (m_Material) {
+			delete m_Material;
+		}
+	}
+
 	void MeshRendererComponent::Render() {
 		if (!m_Material || !m_Mesh) return;
 
@@ -30,6 +37,16 @@ namespace Shark::Components {
 		}
 	}
 
+	void MeshRendererComponent::SetMesh(Mesh* mesh)
+	{
+		m_Mesh = mesh ? mesh : nullptr;
+	}
+
+	void MeshRendererComponent::SetMaterial(Material* mat)
+	{
+		m_Material = mat ? mat : nullptr;
+	}
+
 	Mesh* MeshRendererComponent::GetMesh() const
 	{
 		return m_Mesh;
@@ -40,13 +57,4 @@ namespace Shark::Components {
 		return m_Material;
 	}
 
-	void MeshRendererComponent::SetMesh(Mesh* mesh)
-	{
-		m_Mesh = mesh ? mesh : nullptr;
-	}
-
-	void MeshRendererComponent::SetMaterial(Material* mat)
-	{
-		m_Material = mat ? mat : nullptr;
-	}
 }

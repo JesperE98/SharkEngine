@@ -18,10 +18,6 @@ namespace Shark::Graphics {
 
     ForwardRenderPass::~ForwardRenderPass()
     {
-        if (shader) {
-            delete shader;
-            shader = nullptr;
-        }
     }
 
     void ForwardRenderPass::SetTarget(Framebuffer* fb) { m_Target = fb; }
@@ -35,8 +31,6 @@ namespace Shark::Graphics {
     }
 
     void ForwardRenderPass::Execute(float deltaTime, Scene* scene, CameraComponent* cam) {
-
-        if (!cam) return;
 
 		glm::mat4 viewMatrix = cam->GetViewMatrix();
 		glm::mat4 projectionMatrix = cam->GetProjectionMatrix();

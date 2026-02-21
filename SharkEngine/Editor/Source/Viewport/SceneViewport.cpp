@@ -9,6 +9,8 @@
 #include <Components/Logic/CameraComponent.h>
 #pragma endregion
 
+#include <ImGui/imgui.h>
+
 namespace Shark::Editor {
 
     using Shark::Components::CameraComponent;
@@ -34,14 +36,22 @@ namespace Shark::Editor {
             fr->SetTarget(m_Framebuffer.get());
         }
 
-        CameraComponent* cam = m_ActiveCamera ? m_ActiveCamera : scene.GetCamera();
-        if (cam) {
-            m_ActiveCamera = cam;
+        CameraComponent* cam = scene.GetCamera();
 
+        if (!cam) {
             rend.BeginFrame();
-            rend.RenderScene(static_cast<float>(Time::GetDeltaTime()), &scene, cam);
-            rend.EndFrame();
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			rend.EndFrame();
+
+            m_ActiveCamera = nullptr;
+            return;
         }
+
+        m_ActiveCamera = cam;
+
+        rend.BeginFrame();
+        rend.RenderScene(static_cast<float>(Time::GetDeltaTime()), &scene, m_ActiveCamera);
+        rend.EndFrame();
     }
 
     unsigned int SceneViewport::GetColorAttachment() const
@@ -67,6 +77,17 @@ namespace Shark::Editor {
             m_ActiveCamera->SetAspectRatio(aspect);
             m_ActiveCamera->UpdateProjectionMatrix();
         }
+    }
+
+    void SceneViewport::UpdateViewportSize()
+    {
+        ImGui::Begin(m_Name.c_str());
+
+        ImVec2 avail = ImGui::GetContentRegionAvail();
+		
+		SetSize(static_cast<int>(avail.x), static_cast<int>(avail.y));
+
+        ImGui::End();
     }
 
     void SceneViewport::SetActiveCamera(CameraComponent* cam)

@@ -63,25 +63,26 @@ namespace Shark {
 			deltaTime = static_cast<float>(Time::GetDeltaTime());
 
 			LevelEditorManager::Get().Update(deltaTime);
-
-			BeginFrame();
-
 			// Update Engine + scene logic
 			EngineContext::Get().OnUpdate(deltaTime);
 
-			// Render the stats window
-			RenderStatsWindow();
+			BeginFrame();
+
+			// Panels + viewport UI
+			RenderPanels(deltaTime);
+
+			m_SceneViewport->UpdateViewportSize();
 
 			// Render into SceneViewport framebuffer
 			m_SceneViewport->OnRender(*SceneManager::Get().GetActiveScene(), *EngineContext::Get().m_Renderer);
 
-			// Panels + viewport UI
-			RenderPanels(deltaTime);
+			// Render the stats window
+			RenderStatsWindow();
+
 			RenderSceneViewport();
 
 			// ImGui final render
 			Render();
-
 			glfwSwapBuffers(window);
 		}
 
@@ -133,7 +134,7 @@ namespace Shark {
 	{
 		// Creating Panels
 		m_HierarchyPanel = new HierarchyPanel();
-		m_InspectorPanel = new InspectorPanel();
+		m_InspectorPanel = &InspectorPanel::Get();
 
 		m_Panels.emplace_back(m_HierarchyPanel);
 		m_Panels.emplace_back(m_InspectorPanel);
@@ -200,9 +201,8 @@ namespace Shark {
 		ImGui::Begin(m_SceneViewport->GetName().c_str());
 
 		ImVec2 avail = ImGui::GetContentRegionAvail();
-		m_SceneViewport->SetSize(static_cast<int>(avail.x), static_cast<int>(avail.y));
-
 		ImTextureID tex = (ImTextureID)(intptr_t)m_SceneViewport->GetColorAttachment();
+
 		ImGui::Image(tex, avail, ImVec2(0, 1), ImVec2(1, 0));
 
 		ImGui::End();
