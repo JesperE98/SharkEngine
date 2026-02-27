@@ -8,11 +8,34 @@
 
 namespace Shark::Core {
 
-	class MessageQueue {
+	enum class EventType {
+		None = 0,
+		WindowClose,		WindowResize,
+		KeyPressed,			KeyReleased,
+		MouseButtonPressed,	MouseButtonReleased,
+		MouseMoved,			MouseScrolled,
+		GameObjectCreated,	GameObjectDestroyed,
+		SceneLoaded,		SceneUnloaded,
+		LoadModel,			ModelLoaded,
+		LoadShader,			ShaderLoaded,
+		LoadTexture,		TextureLoaded,
+		LoadPrimitiveType,	PrimitiveTypeLoaded,
+		ReloadMesh,			UnloadMesh,
+		LogAdded,
+		ErrorMessage
+	};
+
+	struct Message {
+		EventType type = EventType::None;
+		std::string payload = "";
+		void* data{ nullptr };
+	};
+
+	class MessageSystem {
 	public:
 
 		// Add a message to the back of the line
-		void Push(const EngineMessage& msg) {
+		void Push(const Message& msg) {
 			std::lock_guard<std::mutex> lock(queueMutex);
 			messages.push(msg);
 		}
@@ -23,7 +46,7 @@ namespace Shark::Core {
 		}
 
 		// Get the next message and remove it from the queue
-		bool Pop(EngineMessage& outMsg) {
+		bool Pop(Message& outMsg) {
 			std::lock_guard<std::mutex> lock(queueMutex);
 			if (messages.empty()) return false;
 
@@ -33,7 +56,7 @@ namespace Shark::Core {
 		}
 
 	private:
-		std::queue<EngineMessage> messages;
+		std::queue<Message> messages;
 		std::mutex queueMutex;
 	};
 }

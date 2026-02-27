@@ -10,7 +10,7 @@ namespace Shark::Managers {
 	class TextureManager
 	{
 	public:
-		Shark::Core::MessageQueue inbox;
+		Shark::Core::MessageSystem inbox;
 
 		static TextureManager& Get() {
 			static TextureManager instance;

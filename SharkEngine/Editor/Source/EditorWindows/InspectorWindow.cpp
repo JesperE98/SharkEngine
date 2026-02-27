@@ -1,11 +1,10 @@
-#include "InspectorPanel.h"
+#include "InspectorWindow.h"
 #include "Source/Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
 #include <Components/Rendering/MeshRendererComponent.h>
 #include <Components/Logic/CameraComponent.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
-#include <ImGui/imgui.h>
 #include <Managers/MeshManager.h>
 #include <Math/MathUtils.h>
 #pragma endregion
@@ -22,19 +21,20 @@ namespace Shark::Editor {
 	using Shark::Managers::MeshManager;
 	using Shark::Editor::LevelEditorManager;
 
-	InspectorPanel::~InspectorPanel()
+	InspectorWindow::~InspectorWindow()
 	{
+		OnShutdown();
 	}
 
-	void InspectorPanel::OnInit() {
+	void InspectorWindow::OnInitialize() {
 
 	}
 
-	void InspectorPanel::OnRenderPanel(float deltaTime)
+	void InspectorWindow::OnRenderPanel(float deltaTime)
 	{
-		if (!m_IsVisible) return;
+		if (!m_bIsVisible) return;
 
-		ImGui::Begin(m_Name.c_str(), &m_IsVisible);
+		ImGui::Begin(m_Name.c_str(), &m_bIsVisible);
 
 		if (!m_SelectedObject) {
 			ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Select an object.");
@@ -61,17 +61,13 @@ namespace Shark::Editor {
 		ImGui::End();
 	}
 
-	void InspectorPanel::OnShutdown()
+	void InspectorWindow::OnShutdown()
 	{
-		m_SelectedObject = nullptr;
+		if(m_SelectedObject) m_SelectedObject = nullptr;
 	}
 
-	void InspectorPanel::SetVisible(bool value)
-	{
-		m_IsVisible = value;
-	}
 #pragma region Helper Logic
-	void InspectorPanel::DrawObjectName(GameObject* obj)
+	void InspectorWindow::DrawObjectName(GameObject* obj)
 	{
 		if (obj) {
 			static char nameBuffer[128];
@@ -82,12 +78,12 @@ namespace Shark::Editor {
 
 			if (ImGui::InputText("##Name", nameBuffer, sizeof(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
 				obj->SetName(std::string(nameBuffer));
-				SE_LOG(Editor, "InspectorPanel::OnRenderPanel() - Object renamed to {}", nameBuffer);
+				SE_LOG(Editor, "InspectorWindow::OnRenderPanel() - Object renamed to {}", nameBuffer);
 			}
 		}
 	}
 
-	void InspectorPanel::DrawTransform(Transform& transform)
+	void InspectorWindow::DrawTransform(Transform& transform)
 	{
 		if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
 			if (ImGui::BeginTable("TransformTable", 2, ImGuiTableFlags_SizingStretchProp)) {
@@ -130,7 +126,7 @@ namespace Shark::Editor {
 		}
 	}
 
-	void InspectorPanel::DrawAddComponentButton(GameObject* obj)
+	void InspectorWindow::DrawAddComponentButton(GameObject* obj)
 	{
 		ImGui::Spacing();
 		ImGui::Separator();
@@ -158,7 +154,7 @@ namespace Shark::Editor {
 	}
 
 	template<>
-	void InspectorPanel::OnComponentUI<MeshRendererComponent>(MeshRendererComponent* renderer) {
+	void InspectorWindow::OnComponentUI<MeshRendererComponent>(MeshRendererComponent* renderer) {
 		// Primitive Enum dropdown
 		const char* primitiveNames[] = { "Select Primitive", "Cube", "Sphere", "Plane", "Cylinder", "Cone" };
 		static int selectedPrim = 0;
@@ -180,7 +176,7 @@ namespace Shark::Editor {
 			
 			// MeshManager handles the cache lookup automatically
 			LevelEditorManager::Get().RequestModelLoad(std::string(pathBuffer));
-			SE_LOG(Editor, "InspectorPanel - Mesh path swapped to: {}", pathBuffer);
+			SE_LOG(Editor, "InspectorWindow - Mesh path swapped to: {}", pathBuffer);
 
 			memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
 		}
@@ -198,12 +194,12 @@ namespace Shark::Editor {
 		if (ImGui::InputText("##TexPath", texPathBuffer, sizeof(texPathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
 			// We send a request to LevelEditorManager
 			LevelEditorManager::Get().RequestTextureLoad(std::string(texPathBuffer));
-			SE_LOG(Editor, "InspectorPanel - Requesting texture swap: {}", texPathBuffer);
+			SE_LOG(Editor, "InspectorWindow - Requesting texture swap: {}", texPathBuffer);
 		}
 	}
 
 	template<>
-	void InspectorPanel::OnComponentUI<CameraComponent>(CameraComponent* cam) {
+	void InspectorWindow::OnComponentUI<CameraComponent>(CameraComponent* cam) {
 		bool changed = false;
 
 		if (ImGui::BeginTable("CameraTable", 2, ImGuiTableFlags_SizingStretchProp)) {

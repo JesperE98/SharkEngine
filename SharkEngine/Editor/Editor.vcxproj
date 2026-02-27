@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -141,11 +141,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\EditorWindows\ConsoleWindow.cpp" />
     <ClCompile Include="Source\EditorApp.cpp" />
+    <ClCompile Include="Source\EditorWindows\WindowBase.cpp" />
     <ClCompile Include="Source\Managers\LevelEditorManager.cpp" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Panels\HierarchyPanel.cpp" />
-    <ClCompile Include="Source\Panels\InspectorPanel.cpp" />
+    <ClCompile Include="Source\EditorWindows\HierarchyWindow.cpp" />
+    <ClCompile Include="Source\EditorWindows\InspectorWindow.cpp" />
     <ClCompile Include="Source\Viewport\SceneViewport.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_demo.cpp" />
@@ -156,12 +158,13 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\EditorWindows\ConsoleWindow.h" />
     <ClInclude Include="Source\EditorApp.h" />
     <ClInclude Include="Source\Interfaces\IViewport.h" />
     <ClInclude Include="Source\Managers\LevelEditorManager.h" />
-    <ClInclude Include="Source\Interfaces\IPanel.h" />
-    <ClInclude Include="Source\Panels\HierarchyPanel.h" />
-    <ClInclude Include="Source\Panels\InspectorPanel.h" />
+    <ClInclude Include="Source\EditorWindows\WindowBase.h" />
+    <ClInclude Include="Source\EditorWindows\HierarchyWindow.h" />
+    <ClInclude Include="Source\EditorWindows\InspectorWindow.h" />
     <ClInclude Include="Source\Viewport\SceneViewport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

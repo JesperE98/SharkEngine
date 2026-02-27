@@ -1,8 +1,9 @@
 #pragma region EditorApp Libraries
 #include "EditorApp.h"
-#include "Interfaces/IPanel.h"
-#include "Panels/HierarchyPanel.h"
-#include "Panels/InspectorPanel.h"
+#include "EditorWindows/WindowBase.h"
+#include "EditorWindows/HierarchyWindow.h"
+#include "EditorWindows/InspectorWindow.h"
+#include "EditorWindows/ConsoleWindow.h"
 #include "Viewport/SceneViewport.h"
 #include "Managers/LevelEditorManager.h"
 #pragma endregion
@@ -27,18 +28,47 @@ namespace Shark {
 	using Shark::Managers::MemoryManager;
 	using Shark::Managers::SceneManager;
 	using Shark::Editor::SceneViewport;
-	using Shark::Editor::HierarchyPanel;
-	using Shark::Editor::InspectorPanel;
+	using Shark::Editor::HierarchyWindow;
+	using Shark::Editor::InspectorWindow;
+	using Shark::Editor::ConsoleWindow;
 	using Shark::Editor::LevelEditorManager;
 
 	EditorApp::EditorApp()
 	{
+		std::unique_ptr<ConsoleWindow> consoleWindow = std::make_unique<ConsoleWindow>();
+		std::unique_ptr<HierarchyWindow> hierarchyWindow = std::make_unique<HierarchyWindow>();
+		std::unique_ptr<InspectorWindow> inspectorWindow = std::make_unique<InspectorWindow>();
+
+		// Creating Windows and setting up pointers for inter-window communication
+		m_ConsoleWindow = consoleWindow.get();
+		m_HierarchyWindow = hierarchyWindow.get();
+		m_InspectorWindow = inspectorWindow.get();
+
+		LevelEditorManager::Get().SetInspectorWindow(*m_InspectorWindow);
+
+		m_Windows.push_back(std::move(consoleWindow));
+		m_Windows.push_back(std::move(hierarchyWindow));
+		m_Windows.push_back(std::move(inspectorWindow));
+
+		m_HierarchyWindow->SetInspector(m_InspectorWindow);
+
+		for (auto& panels : m_Windows) {
+			panels->OnInitialize();
+		}
+
 		SE_LOG(Editor, "EditorApp::Edtior() - Created EditorApp.");
-		EngineContext::Get().OnInit();
+		EngineContext::Get().OnInitialize();
 	}
 
 	EditorApp::~EditorApp()
 	{
+		for(auto& window : m_Windows){
+			window->OnShutdown();
+		}
+
+		m_Windows.clear();
+		m_SceneViewport.reset();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -127,24 +157,11 @@ namespace Shark {
 		ImGui_ImplOpenGL3_Init("#version 330");
 		CheckGLErrors("Error after ImGui_ImplOpenGL3_Init: ");
 
-		InitPanels();
+		InitializeViewport();
 	}
 
-	void EditorApp::InitPanels()
+	void EditorApp::InitializeViewport()
 	{
-		// Creating Panels
-		m_HierarchyPanel = new HierarchyPanel();
-		m_InspectorPanel = &InspectorPanel::Get();
-
-		m_Panels.emplace_back(m_HierarchyPanel);
-		m_Panels.emplace_back(m_InspectorPanel);
-
-		m_HierarchyPanel->SetInspector(m_InspectorPanel);
-
-		for (auto& panels : m_Panels) {
-			panels->OnInit();
-		}
-
 		// Create SceneViewport
 		m_SceneViewport = std::make_unique<SceneViewport>("Scene");
 	}
@@ -185,7 +202,8 @@ namespace Shark {
 		while ((err = glGetError()) != GL_NO_ERROR) {
 			SE_ERR(OpenGL, "EditorApp::RenderPanels() - OpenGL error before rendering panels: {}", err);
 		}
-		for (auto& panel : m_Panels) {
+
+		for (auto& panel : m_Windows) {
 			if (panel->IsVisible()) {
 				panel->OnRenderPanel(deltaTime);
 			}

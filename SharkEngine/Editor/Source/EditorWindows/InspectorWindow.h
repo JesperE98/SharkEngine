@@ -1,41 +1,31 @@
 #ifndef INSPECTORPANEL_H
 #define INSPECTORPANEL_H
 
-#include "Source/Interfaces/IPanel.h"
+#include "WindowBase.h"
 
 #include <Core/GameObject.h>
 
+namespace Shark::Math { struct Transform; }
+
 namespace Shark::Editor {
-	class InspectorPanel : public Shark::Interfaces::IPanel
+	class InspectorWindow : virtual public WindowBase
 	{
 	public:
-		static InspectorPanel& Get() {
-			static InspectorPanel instance;
-			return instance;
-		}
 
-		InspectorPanel() : m_Name("Inspector"), m_IsVisible(true), m_SelectedObject(nullptr) {}
-		~InspectorPanel() override;
+		InspectorWindow() : WindowBase("Inspector", true), m_SelectedObject(nullptr) {}
+		~InspectorWindow() override;
 
-#pragma region IPanel functions
-		void OnInit() override;
+#pragma region WindowBase functions
+		void OnInitialize() override;
 		void OnRenderPanel(float deltaTime) override;
 		void OnShutdown() override;
-		const std::string& GetName() const override { return m_Name; }
-		bool IsVisible() const override { return m_IsVisible; }
-		void SetVisible(bool value) override;
 #pragma endregion
 
-		void SetSelectedObject(Shark::Core::GameObject* obj) { m_SelectedObject = obj; }
+		void SetSelectedObject(Core::GameObject* obj) { m_SelectedObject = obj; }
 		Shark::Core::GameObject* GetSelectedObject() { return m_SelectedObject; }
 	private:
-		std::string m_Name;
-		bool m_IsVisible;
 		Shark::Core::GameObject* m_SelectedObject;
 
-		// Delete Copy Constructor and Assignment Operator
-		InspectorPanel(const InspectorPanel&) = delete;
-		InspectorPanel& operator=(const InspectorPanel&) = delete;
 
 		void DrawObjectName(Shark::Core::GameObject* obj);
 		void DrawTransform(Shark::Math::Transform& transform);
@@ -45,7 +35,7 @@ namespace Shark::Editor {
 		void OnComponentUI(T* component);
 
 		template<typename T>
-		void DrawComponentUI(const std::string& name, Shark::Core::GameObject* obj) {
+		void DrawComponentUI(const std::string& name, Core::GameObject* obj) {
 			auto* component = obj->GetComponent<T>();
 			if (component) {
 				// Set a consistent ID for ImGui to avoid conflicts
@@ -68,6 +58,7 @@ namespace Shark::Editor {
 				ImGui::Spacing();
 			}
 		}
+
 	};
 }
 

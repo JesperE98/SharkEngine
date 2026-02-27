@@ -28,12 +28,12 @@ namespace Shark::Core
 	using Shark::Graphics::PrimitiveType;
 	using Shark::Scene;
 
-	void EngineContext::OnInit() {
-		SE_LOG(Engine, "EngineContext::OnInit() - Initializing EngineContext!");
+	void EngineContext::OnInitialize() {
+		SE_LOG(Engine, "EngineContext::OnInitialize() - Initializing EngineContext!");
 
-		/* ----------------- Initialize Engine ----------------- */
+		/* ----------------- OnInitialize Engine ----------------- */
 		m_Engine = new Engine();
-		m_Engine->Initialize();
+		m_Engine->OnInitialize();
 
 		/* ----------------- Create Renderer ----------------- */
 		m_Renderer = new ForwardRenderer();
@@ -43,9 +43,9 @@ namespace Shark::Core
 		int width, height;
 		glfwGetFramebufferSize(m_Window, &width, &height);
 
-		/* ----------------- Initialize Managers ----------------- */
-		InputManager::Get().Initialize(m_Window);
-		PathManager::Get().Initialize();
+		/* ----------------- OnInitialize Managers ----------------- */
+		InputManager::Get().OnInitialize(m_Window);
+		PathManager::Get().OnInitialize();
 
 		/* ----------------- Scene ----------------- */
 		Scene* initialScene = new Scene();

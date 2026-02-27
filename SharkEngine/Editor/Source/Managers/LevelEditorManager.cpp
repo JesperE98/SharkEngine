@@ -1,5 +1,5 @@
 #include "LevelEditorManager.h"
-#include "Source/Panels/InspectorPanel.h"
+#include "Source/EditorWindows/InspectorWindow.h"
 
 #pragma region Engine Includes
 #include <Core/Messaging/MessageQueue.h>
@@ -18,20 +18,20 @@
 
 namespace Shark::Editor {
 
-	using Shark::Components::MeshRendererComponent;
-	using Shark::Core::EngineMessage;
-	using Shark::Core::MessageType;
-	using Shark::Core::GameObject;
-	using Shark::Editor::InspectorPanel;
-	using Shark::Graphics::Material;
-	using Shark::Graphics::Mesh;
-	using Shark::Graphics::Texture;
-	using Shark::Graphics::PrimitiveType;
-	using Shark::Managers::MeshManager;
-	using Shark::Managers::SceneManager;
-	using Shark::Managers::TextureManager;
-	using Shark::Managers::ShaderManager;
-	using Shark::Math::Vector3;
+	using Components::MeshRendererComponent;
+	using Core::Message;
+	using Core::EventType;
+	using Core::GameObject;
+	using Editor::InspectorWindow;
+	using Graphics::Material;
+	using Graphics::Mesh;
+	using Graphics::Texture;
+	using Graphics::PrimitiveType;
+	using Managers::MeshManager;
+	using Managers::SceneManager;
+	using Managers::TextureManager;
+	using Managers::ShaderManager;
+	using Math::Vector3;
 	using Shark::Scene;
 
 	void LevelEditorManager::Init()
@@ -40,7 +40,7 @@ namespace Shark::Editor {
 
 	void LevelEditorManager::Update(float DeltaTime)
 	{
-		EngineMessage msg;
+		Message msg;
 
 		while (inbox.Pop(msg)) {
 			ReceiveMessage(msg);
@@ -49,12 +49,13 @@ namespace Shark::Editor {
 
 	void LevelEditorManager::Shutdown()
 	{
+		if (m_InspectorWindow) m_InspectorWindow = nullptr;
 	}
 
 	void LevelEditorManager::RequestModelLoad(const std::string& path)
 	{
-		EngineMessage msg;
-		msg.type = MessageType::LoadModel;
+		Message msg;
+		msg.type = EventType::LoadModel;
 		msg.payload = path;
 
 		MeshManager::Get().inbox.Push(msg);
@@ -64,8 +65,8 @@ namespace Shark::Editor {
 
 	void LevelEditorManager::RequestPrimitiveLoad(PrimitiveType type)
 	{
-		EngineMessage msg;
-		msg.type = MessageType::LoadPrimitiveType;
+		Message msg;
+		msg.type = EventType::LoadPrimitiveType;
 		msg.payload = std::to_string(static_cast<int>(type));
 
 		MeshManager::Get().inbox.Push(msg);
@@ -73,30 +74,30 @@ namespace Shark::Editor {
 
 	void LevelEditorManager::RequestTextureLoad(const std::string& path)
 	{
-		EngineMessage msg;
-		msg.type = MessageType::LoadTexture;
+		Message msg;
+		msg.type = EventType::LoadTexture;
 		msg.payload = path;
 		TextureManager::Get().inbox.Push(msg);
 	}
 
-	void LevelEditorManager::ReceiveMessage(const EngineMessage& msg) {
-		GameObject* selected = InspectorPanel::Get().GetSelectedObject();
+	void LevelEditorManager::ReceiveMessage(const Message& msg) {
+		GameObject* selected = m_InspectorWindow->GetSelectedObject();
 
 		switch (msg.type) {
-			case MessageType::ModelLoaded:
-			case MessageType::PrimitiveTypeLoaded: {
+			case EventType::ModelLoaded:
+			case EventType::PrimitiveTypeLoaded: {
 				Mesh* loadedMesh = static_cast<Mesh*>(msg.data);
 				if (selected && selected->GetComponent<MeshRendererComponent>()) {
 					selected->GetComponent<MeshRendererComponent>()->SetMesh(loadedMesh);
 					SE_LOG(Editor, "LevelEditorManager::ReceiveMessage() - Updated existing object primitive mesh: {}", msg.payload);
 				}
 				else {
-					msg.type == MessageType::ModelLoaded ? LoadModel(msg) : LoadPrimitive(msg);
+					msg.type == EventType::ModelLoaded ? LoadModel(msg) : LoadPrimitive(msg);
 				}
 				break;
 			}
 
-			case MessageType::TextureLoaded: {
+			case EventType::TextureLoaded: {
 				if (selected) {
 					auto* renderer = selected->GetComponent<MeshRendererComponent>();
 					if (renderer && renderer->GetMaterial()) {
@@ -107,7 +108,7 @@ namespace Shark::Editor {
 				break;
 			}
 				
-			case MessageType::ShaderLoaded: {
+			case EventType::ShaderLoaded: {
 				if (selected) {
 					auto* renderer = selected->GetComponent<MeshRendererComponent>();
 					if (renderer && renderer->GetMaterial()) {
@@ -124,7 +125,7 @@ namespace Shark::Editor {
 			}
 				
 
-			case MessageType::ErrorMessage: {
+			case EventType::ErrorMessage: {
 				SE_ERR(Editor, "LevelEditorManager::ReceiveMessage() - Error: {}", msg.payload);
 				break;
 			}
@@ -132,7 +133,7 @@ namespace Shark::Editor {
 		}
 	}
 
-	void LevelEditorManager::LoadModel(const EngineMessage& msg) {
+	void LevelEditorManager::LoadModel(const Message& msg) {
 		GameObject* obj = new GameObject(msg.payload);
 		Mesh* loadedMesh = static_cast<Mesh*>(msg.data);
 
@@ -164,7 +165,7 @@ namespace Shark::Editor {
 		}
 	}
 
-	void LevelEditorManager::LoadPrimitive(const EngineMessage& msg) {
+	void LevelEditorManager::LoadPrimitive(const Message& msg) {
 		Mesh* loadedMesh = static_cast<Mesh*>(msg.data);
 		if(!loadedMesh) {
 			SE_ERR(Editor, "LevelEditorManager::LoadPrimitive() - Received null mesh for primitive type: {}", msg.payload);

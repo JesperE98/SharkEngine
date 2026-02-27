@@ -7,12 +7,12 @@
 #include <memory>
 
 namespace Shark::Editor {
-	class HierarchyPanel;
-	class InspectorPanel;
+	class HierarchyWindow;
+	class InspectorWindow;
 	class SceneViewport;
+	class ConsoleWindow;
+	class WindowBase;
 }
-
-namespace Shark::Interfaces { class IPanel; }
 
 namespace Shark {
 	class EditorApp
@@ -24,16 +24,17 @@ namespace Shark {
 		void Run();
 
 	private:
-		std::vector<Shark::Interfaces::IPanel*> m_Panels;
-		Shark::Editor::HierarchyPanel* m_HierarchyPanel{ nullptr };
-		Shark::Editor::InspectorPanel* m_InspectorPanel{ nullptr };
+		std::vector<std::unique_ptr<Shark::Editor::WindowBase>> m_Windows;
 		std::unique_ptr<Shark::Editor::SceneViewport> m_SceneViewport;
+		Shark::Editor::HierarchyWindow* m_HierarchyWindow{ nullptr };
+		Shark::Editor::InspectorWindow* m_InspectorWindow{ nullptr };
+		Shark::Editor::ConsoleWindow* m_ConsoleWindow{ nullptr };
 
 		// Helper function to check for errors
 		static void CheckGLErrors(const std::string& context);
 
 		void CreateEditorWindow();
-		void InitPanels();
+		void InitializeViewport();
 		void BeginFrame();
 		void RenderPanels(float deltaTime);
 		void RenderSceneViewport();

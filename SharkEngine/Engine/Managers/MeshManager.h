@@ -20,7 +20,7 @@ namespace Shark::Managers {
 
 	class MeshManager {
 	public:
-		Shark::Core::MessageQueue inbox;
+		Shark::Core::MessageSystem inbox;
 
 		static MeshManager& Get() {
 			static MeshManager instance;

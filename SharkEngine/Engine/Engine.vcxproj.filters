@@ -141,6 +141,12 @@
     <ClInclude Include="Managers\ShaderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Utilities\Delegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\SharkEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Engine\Engine.cpp">
@@ -246,6 +252,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Managers\ShaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Events\SharkEvents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

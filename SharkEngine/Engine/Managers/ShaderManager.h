@@ -11,7 +11,7 @@ namespace Shark::Managers {
 	class ShaderManager
 	{
 	public:
-		Shark::Core::MessageQueue inbox;
+		Shark::Core::MessageSystem inbox;
 		
 		static ShaderManager& Get();
 

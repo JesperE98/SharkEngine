@@ -6,16 +6,16 @@
 
 namespace Shark::Managers {
 
-    using Shark::Core::EngineMessage;
-	using Shark::Core::MessageType;
+    using Shark::Core::Message;
+	using Shark::Core::EventType;
     using Shark::Graphics::Texture;
 	using Shark::Editor::LevelEditorManager;
 
     void TextureManager::Update(float DeltaTime)
     {
-        EngineMessage msg;
+        Message msg;
         while (inbox.Pop(msg)) {
-            if (msg.type == MessageType::LoadTexture) {
+            if (msg.type == EventType::LoadTexture) {
 				ProcessLoadRequest(msg.payload);
             }
         }
@@ -62,8 +62,8 @@ namespace Shark::Managers {
         Texture* loadedTexture = LoadTexture(path);
 
         if (loadedTexture) {
-            EngineMessage reply;
-            reply.type = MessageType::TextureLoaded;
+            Message reply;
+            reply.type = EventType::TextureLoaded;
             reply.payload = path;
             reply.data = static_cast<void*>(loadedTexture);
 
@@ -71,8 +71,8 @@ namespace Shark::Managers {
             LevelEditorManager::Get().ReceiveMessage(reply);
         }
         else {
-            EngineMessage errorMsg;
-            errorMsg.type = MessageType::ErrorMessage;
+            Message errorMsg;
+            errorMsg.type = EventType::ErrorMessage;
             errorMsg.payload = "Failed to load texture at: " + path;
             LevelEditorManager::Get().inbox.Push(errorMsg);
 

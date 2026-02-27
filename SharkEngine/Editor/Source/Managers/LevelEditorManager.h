@@ -3,16 +3,18 @@
 
 #include <Core/Messaging/MessageQueue.h>
 #include <string>
-#include <vector>
 
 namespace Shark::Graphics { class Mesh; enum class PrimitiveType; }
 
 namespace Shark::Editor {
+
+	class InspectorWindow;
+
 	class LevelEditorManager
 	{
 	public:
 		// The mailbox for other systems to talk to the EditorApp
-		Shark::Core::MessageQueue inbox;
+		Shark::Core::MessageSystem inbox;
 
 		static LevelEditorManager& Get() {
 			static LevelEditorManager instance;
@@ -28,17 +30,23 @@ namespace Shark::Editor {
 		void RequestPrimitiveLoad(Shark::Graphics::PrimitiveType type);
 		void RequestTextureLoad(const std::string& path);
 
-		void ReceiveMessage(const Shark::Core::EngineMessage& msg);
+		void ReceiveMessage(const Shark::Core::Message& msg);
+		void SetInspectorWindow(InspectorWindow& inspector) { m_InspectorWindow = &inspector; }
 
 	private:
+		InspectorWindow* m_InspectorWindow{ nullptr };
+
 		LevelEditorManager() = default;
+		~LevelEditorManager() {
+			Shutdown();
+		}
 
 		// Delete copy constructor and assignment operator
 		LevelEditorManager(const LevelEditorManager&) = delete;
 		LevelEditorManager& operator=(const LevelEditorManager&) = delete;
 
-		void LoadModel(const Shark::Core::EngineMessage& msg);
-		void LoadPrimitive(const Shark::Core::EngineMessage& msg);
+		void LoadModel(const Shark::Core::Message& msg);
+		void LoadPrimitive(const Shark::Core::Message& msg);
 	};
 }
 #endif

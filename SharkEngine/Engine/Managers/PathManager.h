@@ -15,8 +15,8 @@ namespace Shark::Managers {
 		// Global access point
 		static PathManager& Get();
 
-		// Call this once during Engine::Initialize()
-		void Initialize();
+		// Call this once during Engine::OnInitialize()
+		void OnInitialize();
 
 		// Helper to get full paths
 		std::string GetContentPath(const std::string& relativePath) const;

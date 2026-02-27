@@ -27,7 +27,7 @@ namespace Shark::Core {
 
 
 		// Initilizes engine, renderer, scene
-		void OnInit();
+		void OnInitialize();
 		// Update engine + scene logic
 		void OnUpdate(float deltaTime);
 		// Shutdown and cleanup

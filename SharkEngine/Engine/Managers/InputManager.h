@@ -9,7 +9,7 @@ namespace Shark::Managers {
 	public:
 		static InputManager& Get();
 
-		void Initialize(GLFWwindow* window);
+		void OnInitialize(GLFWwindow* window);
 		void Update(float deltaTime);
 
 		bool IsKeyPressed(int key);

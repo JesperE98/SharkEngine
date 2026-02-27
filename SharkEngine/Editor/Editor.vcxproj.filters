@@ -39,10 +39,10 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Panels\HierarchyPanel.cpp">
+    <ClCompile Include="Source\EditorWindows\HierarchyWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Panels\InspectorPanel.cpp">
+    <ClCompile Include="Source\EditorWindows\InspectorWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Viewport\SceneViewport.cpp">
@@ -54,15 +54,21 @@
     <ClCompile Include="Source\Managers\LevelEditorManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EditorWindows\ConsoleWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorWindows\WindowBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Interfaces\IPanel.h">
+    <ClInclude Include="Source\EditorWindows\WindowBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Panels\HierarchyPanel.h">
+    <ClInclude Include="Source\EditorWindows\HierarchyWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Panels\InspectorPanel.h">
+    <ClInclude Include="Source\EditorWindows\InspectorWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Viewport\SceneViewport.h">
@@ -75,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Interfaces\IViewport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorWindows\ConsoleWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

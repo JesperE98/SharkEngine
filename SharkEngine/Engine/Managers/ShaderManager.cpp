@@ -7,8 +7,8 @@
 namespace Shark::Managers {
 
     using Shark::Graphics::Shader;
-    using Shark::Core::EngineMessage;
-	using Shark::Core::MessageType;
+    using Shark::Core::Message;
+	using Shark::Core::EventType;
 	using Shark::Editor::LevelEditorManager;
 
     ShaderManager& ShaderManager::ShaderManager::Get()
@@ -19,9 +19,9 @@ namespace Shark::Managers {
 
     void ShaderManager::Update(float DeltaTime)
     {
-        EngineMessage msg;
+        Message msg;
         while (inbox.Pop(msg)) {
-            if (msg.type == MessageType::LoadShader) {
+            if (msg.type == EventType::LoadShader) {
                 ProcessLoadRequest(msg.payload);
             }
         }
@@ -45,8 +45,8 @@ namespace Shark::Managers {
 		Shader* loadedShader = LoadShader(path, path + ".vert.glsl", path + ".frag.glsl");
 
         if (loadedShader) {
-            EngineMessage reply;
-            reply.type = MessageType::ShaderLoaded;
+            Message reply;
+            reply.type = EventType::ShaderLoaded;
             reply.payload = path;
             reply.data = static_cast<Shader*>(loadedShader);
 
@@ -54,8 +54,8 @@ namespace Shark::Managers {
             LevelEditorManager::Get().ReceiveMessage(reply);
         }
         else {
-            EngineMessage errorMsg;
-            errorMsg.type = MessageType::ErrorMessage;
+            Message errorMsg;
+            errorMsg.type = EventType::ErrorMessage;
             errorMsg.payload = "Failed to load shader at: " + path;
             LevelEditorManager::Get().inbox.Push(errorMsg);
 

@@ -25,13 +25,13 @@ namespace Shark::Core {
 		SE_LOG(Engine, "Engine::~Engine() - Engine destroyed.");
 	}
 
-	void Engine::Initialize()
+	void Engine::OnInitialize()
 	{
-		SE_LOG(Engine, "Engine::Initialize() - Initializing Engine.");
+		SE_LOG(Engine, "Engine::OnInitialize() - Initializing Engine.");
 
 		if (!glfwInit())
 		{
-			SE_ERR(Engine, "Engine::Initialize() - Failed to initialize GLFW.");
+			SE_ERR(Engine, "Engine::OnInitialize() - Failed to initialize GLFW.");
 			return;
 		}
 
@@ -48,7 +48,7 @@ namespace Shark::Core {
 
 		if (!EngineContext::Get().m_Window)
 		{
-			SE_ERR(Engine, "Engine::Initialize() - Failed to create GLFW window.");
+			SE_ERR(Engine, "Engine::OnInitialize() - Failed to create GLFW window.");
 			glfwTerminate();
 			return;
 		}
@@ -57,14 +57,13 @@ namespace Shark::Core {
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			std::cout << Time::CreateTimeStamp() << ": [Engine] Failed to initialize GLAD" << std::endl;
-			SE_ERR(Engine, "Engine::Initialize() - Failed to initialize GLAD.");
+			SE_ERR(Engine, "Engine::OnInitialize() - Failed to initialize GLAD.");
 			return;
 		}
 
 		glfwSetFramebufferSizeCallback(EngineContext::Get().m_Window, Renderer::FramebufferSizeCallback);
 
-		SE_LOG(Engine, "Engine::Initialize() - Engine setup complete. Entering main loop.");
+		SE_LOG(Engine, "Engine::OnInitialize() - Engine setup complete. Entering main loop.");
 	}
 
 	void Engine::Run()

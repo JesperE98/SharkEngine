@@ -1,5 +1,5 @@
-#include "HierarchyPanel.h"
-#include "InspectorPanel.h"
+#include "HierarchyWindow.h"
+#include "InspectorWindow.h"
 #include "Source/Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
@@ -12,33 +12,28 @@
 
 namespace Shark::Editor {
 
-    using Shark::Editor::InspectorPanel;
+    using Shark::Editor::InspectorWindow;
     using Shark::Editor::LevelEditorManager;
     using Shark::Core::GameObject;
     using Shark::Managers::SceneManager;
     using Shark::Graphics::PrimitiveType;
 
-    HierarchyPanel::HierarchyPanel()
-    {
-        SE_LOG(Editor, "HierarchyPanel::HierarchyPanel() - Creating Hierarchy panel.");
-    }
-
-    HierarchyPanel::~HierarchyPanel()
+    HierarchyWindow::~HierarchyWindow()
     {
         if (m_SelectedObject) {
             m_SelectedObject = nullptr;
         }
     }
 
-    void HierarchyPanel::OnInit()
+    void HierarchyWindow::OnInitialize()
     {
     }
 
-    void HierarchyPanel::OnRenderPanel(float deltaTime)
+    void HierarchyWindow::OnRenderPanel(float deltaTime)
     {
-        if (!m_Visible) return;
+        if (!m_bIsVisible) return;
 
-        ImGui::Begin(m_Name.c_str(), &m_Visible);
+        ImGui::Begin(m_Name.c_str(), &m_bIsVisible);
 
         // Search Bar
         static char searchBuffer[128] = "";
@@ -90,26 +85,11 @@ namespace Shark::Editor {
         ImGui::End();
     }
 
-    void HierarchyPanel::OnShutdown()
+    void HierarchyWindow::OnShutdown()
     {
     }
 
-    const std::string& HierarchyPanel::GetName() const
-    {
-        return m_Name;
-    }
-
-    bool HierarchyPanel::IsVisible() const
-    {
-        return m_Visible;
-    }
-
-    void HierarchyPanel::SetVisible(bool visible)
-    {
-        m_Visible = visible;
-    }
-
-    void HierarchyPanel::DrawObjectNode(GameObject* obj, const char* filter)
+    void HierarchyWindow::DrawObjectNode(GameObject* obj, const char* filter)
     {
         Scene* scene = SceneManager::Get().GetActiveScene();
         if (!obj || (filter[0] != '\n' && !NameMatchesFilter(obj->GetName(), filter))) {
@@ -172,7 +152,7 @@ namespace Shark::Editor {
         }
     }
 
-    bool HierarchyPanel::NameMatchesFilter(const std::string& name, const char* filter)
+    bool HierarchyWindow::NameMatchesFilter(const std::string& name, const char* filter)
     {
         return std::string(name).find(filter) != std::string::npos;
     }

@@ -18,7 +18,7 @@ namespace Shark::Core{
 		Engine();
 		~Engine();
 
-		void Initialize();
+		void OnInitialize();
 		void Run();
 		void Shutdown();
 

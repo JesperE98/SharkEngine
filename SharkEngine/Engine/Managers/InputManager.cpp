@@ -7,7 +7,7 @@ namespace Shark::Managers {
 		static InputManager instance;
 		return instance;
 	}
-	void InputManager::Initialize(GLFWwindow* window)
+	void InputManager::OnInitialize(GLFWwindow* window)
 	{
 		m_Window = window;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
