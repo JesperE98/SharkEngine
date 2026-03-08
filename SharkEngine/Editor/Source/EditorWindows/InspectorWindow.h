@@ -1,23 +1,23 @@
 #ifndef INSPECTORPANEL_H
 #define INSPECTORPANEL_H
 
-#include "WindowBase.h"
+#include "EditorWindow.h"
 
 #include <Core/GameObject.h>
 
 namespace Shark::Math { struct Transform; }
 
 namespace Shark::Editor {
-	class InspectorWindow : virtual public WindowBase
+	class InspectorWindow : virtual public EditorWindow
 	{
 	public:
 
-		InspectorWindow() : WindowBase("Inspector", true), m_SelectedObject(nullptr) {}
+		InspectorWindow() : EditorWindow("Inspector", true), m_SelectedObject(nullptr) {}
 		~InspectorWindow() override;
 
-#pragma region WindowBase functions
+#pragma region EditorWindow functions
 		void OnInitialize() override;
-		void OnRenderPanel(float deltaTime) override;
+		void OnUpdateWindow(float deltaTime) override;
 		void OnShutdown() override;
 #pragma endregion
 

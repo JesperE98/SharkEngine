@@ -29,12 +29,8 @@ namespace Shark::Editor {
     {
     }
 
-    void HierarchyWindow::OnRenderPanel(float deltaTime)
+    void HierarchyWindow::OnUpdateWindow(float deltaTime)
     {
-        if (!m_bIsVisible) return;
-
-        ImGui::Begin(m_Name.c_str(), &m_bIsVisible);
-
         // Search Bar
         static char searchBuffer[128] = "";
         ImGui::InputTextWithHint("##Search", "Search...", searchBuffer, IM_ARRAYSIZE(searchBuffer));
@@ -82,7 +78,6 @@ namespace Shark::Editor {
             }
             ImGui::EndPopup();
         }
-        ImGui::End();
     }
 
     void HierarchyWindow::OnShutdown()

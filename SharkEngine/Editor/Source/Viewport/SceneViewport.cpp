@@ -24,10 +24,12 @@ namespace Shark::Editor {
     SceneViewport::SceneViewport(std::string name)
         : m_Name(std::move(name))
     {
-        m_Framebuffer = std::make_shared<Framebuffer>(m_Width, m_Height);
     }
 
-    SceneViewport::~SceneViewport() = default;
+    void SceneViewport::OnInitialize()
+    {
+        m_Framebuffer = std::make_shared<Framebuffer>(m_Width, m_Height);
+    }
 
     void SceneViewport::OnRender(Scene& scene, Renderer& rend)
     {
@@ -50,7 +52,7 @@ namespace Shark::Editor {
         m_ActiveCamera = cam;
 
         rend.BeginFrame();
-        rend.RenderScene(static_cast<float>(Time::GetDeltaTime()), &scene, m_ActiveCamera);
+        rend.RenderScene(Time::GetDeltaTime(), &scene, m_ActiveCamera);
         rend.EndFrame();
     }
 
@@ -82,6 +84,9 @@ namespace Shark::Editor {
     void SceneViewport::UpdateViewportSize()
     {
         ImGui::Begin(m_Name.c_str());
+
+        m_IsFocused = ImGui::IsWindowFocused();
+        m_IsHovered = ImGui::IsWindowHovered();
 
         ImVec2 avail = ImGui::GetContentRegionAvail();
 		

@@ -1,7 +1,7 @@
 #ifndef LEVEL_EDITOR_MANAGER_H
 #define LEVEL_EDITOR_MANAGER_H
 
-#include <Core/Messaging/MessageQueue.h>
+#include <Core/Messaging/MessageSystem.h>
 #include <string>
 
 namespace Shark::Graphics { class Mesh; enum class PrimitiveType; }
@@ -21,14 +21,15 @@ namespace Shark::Editor {
 			return instance;
 		}
 
-		void Init();
+		void Initialize();
 		void Update(float DeltaTime);
 		void Shutdown();
 
 		// The UI call that triggers the request
 		void RequestModelLoad(const std::string& path);
 		void RequestPrimitiveLoad(Shark::Graphics::PrimitiveType type);
-		void RequestTextureLoad(const std::string& path);
+		void RequestDiffTextureLoad(const std::string& path);
+		void RequestSpecTextureLoad(const std::string& path);
 
 		void ReceiveMessage(const Shark::Core::Message& msg);
 		void SetInspectorWindow(InspectorWindow& inspector) { m_InspectorWindow = &inspector; }

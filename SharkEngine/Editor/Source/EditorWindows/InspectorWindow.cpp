@@ -27,18 +27,14 @@ namespace Shark::Editor {
 	}
 
 	void InspectorWindow::OnInitialize() {
-
+		m_Name = "Inspector";
+		m_bIsVisible = true;
 	}
 
-	void InspectorWindow::OnRenderPanel(float deltaTime)
+	void InspectorWindow::OnUpdateWindow(float deltaTime)
 	{
-		if (!m_bIsVisible) return;
-
-		ImGui::Begin(m_Name.c_str(), &m_bIsVisible);
-
 		if (!m_SelectedObject) {
 			ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Select an object.");
-			ImGui::End();
 			return;
 		}
 
@@ -52,13 +48,11 @@ namespace Shark::Editor {
 
 		// --- 3. Draw Components via Delegation
 		// Here is where to add Components in the future to the UI.
-		DrawComponentUI<MeshRendererComponent>("Mesh Renderer", m_SelectedObject);
+		DrawComponentUI<MeshRendererComponent>("MeshRenderer", m_SelectedObject);
 		DrawComponentUI<CameraComponent>("Camera", m_SelectedObject);
 
 		// --- 4. Footer
 		DrawAddComponentButton(m_SelectedObject);
-
-		ImGui::End();
 	}
 
 	void InspectorWindow::OnShutdown()
@@ -142,7 +136,7 @@ namespace Shark::Editor {
 					obj->AddComponent<CameraComponent>(45.0f, 1.77f, 0.1f, 1000.0f);
 				}
 			}
-			if (ImGui::MenuItem("Mesh Renderer")) {
+			if (ImGui::MenuItem("MeshRenderer")) {
 				if (!obj->GetComponent<MeshRendererComponent>()) {
 
 					auto* mesh = MeshManager::Get().LoadMesh(PrimitiveType::Cube);
@@ -155,46 +149,62 @@ namespace Shark::Editor {
 
 	template<>
 	void InspectorWindow::OnComponentUI<MeshRendererComponent>(MeshRendererComponent* renderer) {
-		// Primitive Enum dropdown
-		const char* primitiveNames[] = { "Select Primitive", "Cube", "Sphere", "Plane", "Cylinder", "Cone" };
-		static int selectedPrim = 0;
-
-		if (ImGui::Combo("Primitive", &selectedPrim, primitiveNames, IM_ARRAYSIZE(primitiveNames))) {
-			if (selectedPrim > 0) {
-				PrimitiveType type = static_cast<PrimitiveType>(selectedPrim);
-				
-				LevelEditorManager::Get().RequestPrimitiveLoad(type);
-			}
-		}
-
-		ImGui::Spacing();
-
-		// String Path Input
+		// Mesh Path Input
 		static char pathBuffer[256] = "";
 		ImGui::Text("Mesh Path (.obj)");
 		if (ImGui::InputText("##MeshPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
-			
 			// MeshManager handles the cache lookup automatically
 			LevelEditorManager::Get().RequestModelLoad(std::string(pathBuffer));
 			SE_LOG(Editor, "InspectorWindow - Mesh path swapped to: {}", pathBuffer);
 
 			memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
 		}
+
 		ImGui::SameLine();
 		ImGui::TextDisabled("(?)");
 		if (ImGui::IsItemHovered()) {
 			ImGui::SetTooltip("Enter path and press ENTER to load.");
 		}
 
-		// Texture path
 		ImGui::Spacing();
-		static char texPathBuffer[256] = "";
-		ImGui::Text("Texture Path (.png/.jpg)");
 
-		if (ImGui::InputText("##TexPath", texPathBuffer, sizeof(texPathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
-			// We send a request to LevelEditorManager
-			LevelEditorManager::Get().RequestTextureLoad(std::string(texPathBuffer));
-			SE_LOG(Editor, "InspectorWindow - Requesting texture swap: {}", texPathBuffer);
+		const auto& material = renderer->GetMaterial();
+		if (material) {
+			ImGui::Text("Material Properties");
+
+			// 1. Diffuse Map (Albedo)
+			static char diffuseBuffer[256] = "";
+			ImGui::Text("Diffuse Map");
+			if (ImGui::InputText("##DiffusePath", diffuseBuffer, sizeof(diffuseBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+				LevelEditorManager::Get().RequestDiffTextureLoad(static_cast<std::string>(diffuseBuffer));
+				SE_LOG(Editor, "InspectorWindow - Requesting texture swap: {}", diffuseBuffer);
+				memset(diffuseBuffer, 0, sizeof(diffuseBuffer)); // Clear on success
+			}
+			ImGui::TextDisabled("Current: %s", material->GetTexturePath().c_str());
+
+			ImGui::Spacing();
+
+			// 2. Specular Map
+			static char specularBuffer[256] = "";
+			ImGui::Text("Specular Map");
+			if (ImGui::InputText("##SpecularPath", specularBuffer, sizeof(specularBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+				material->SetSpecularTexture(static_cast<std::string>(specularBuffer));
+				SE_LOG(Editor, "Specular texture updated to: {}", specularBuffer);
+				memset(specularBuffer, 0, sizeof(specularBuffer)); // Clear on success
+			}
+			ImGui::TextDisabled("Current: %s", material->GetSpecularTexturePath().c_str());
+
+			ImGui::Spacing();
+
+			// 3. Shininess factor
+			float shininess = material->GetShininess();
+			ImGui::Text("Shininess Strength");
+			if (ImGui::SliderFloat("", &shininess, 1.0f, 128.0f)) {
+				material->SetShininess(shininess);
+			}
+		}
+		else {
+			ImGui::Text("No material assigned.");
 		}
 	}
 

@@ -4,9 +4,9 @@
 #include <GLFW/glfw3.h>
 
 namespace Shark::Core {
-	double Time::m_LastFrame;
-	double Time::m_CurrentFrame;
-	double Time::m_DeltaTime;
+	double Time::m_LastFrame = 0.0f;
+	double Time::m_CurrentFrame = 0.0f;
+	double Time::m_DeltaTime = 0.0f;
 
 	std::string Time::CreateTimeStamp()
 	{
@@ -35,21 +35,9 @@ namespace Shark::Core {
 		return lastTime;
 	}
 
-	double Time::GetLastFrame()
-	{
-		return m_LastFrame = glfwGetTime();
-	}
-
-	double Time::GetCurrentFrame()
-	{
-		return m_CurrentFrame = glfwGetTime();
-	}
-
-	double Time::GetDeltaTime()
-	{
+	void Time::Update() {
+		m_CurrentFrame = glfwGetTime();
 		m_DeltaTime = m_CurrentFrame - m_LastFrame;
 		m_LastFrame = m_CurrentFrame;
-		return m_DeltaTime;
 	}
-
 }

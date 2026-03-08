@@ -165,8 +165,7 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
-    <ClInclude Include="Core\Messaging\EngineMessage.h" />
-    <ClInclude Include="Core\Messaging\MessageQueue.h" />
+    <ClInclude Include="Core\Messaging\MessageSystem.h" />
     <ClInclude Include="Core\Utilities\FColor.h" />
     <ClInclude Include="Managers\MemoryManager.h" />
     <ClInclude Include="Core\Utilities\Time.h" />

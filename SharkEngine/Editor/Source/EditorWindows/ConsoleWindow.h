@@ -2,7 +2,7 @@
 #define CONSOLE_PANEL_H
 
 
-#include "WindowBase.h"
+#include "EditorWindow.h"
 
 #include <mutex>
 #include <vector>
@@ -15,15 +15,15 @@ namespace Shark::Editor {
 		ImVec4 Color;
 	};
 
-	class ConsoleWindow : virtual public WindowBase
+	class ConsoleWindow : virtual public EditorWindow
 	{
 	public:
-		ConsoleWindow() : WindowBase("Console", true) {}
+		ConsoleWindow() : EditorWindow("Console", true) {}
 		~ConsoleWindow() override = default;
 
-#pragma region WindowBase override functions
+#pragma region EditorWindow override functions
 		void OnInitialize() override;
-		void OnRenderPanel(float deltaTime) override;
+		void OnUpdateWindow(float deltaTime) override;
 		void OnShutdown() override;
 #pragma endregion
 

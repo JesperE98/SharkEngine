@@ -10,6 +10,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcx
 		{16DF53DE-1130-4412-BDC5-6210451948E6} = {16DF53DE-1130-4412-BDC5-6210451948E6}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC782252-1EE0-4AFC-9491-BF7160136DEE}"
+	ProjectSection(SolutionItems) = preProject
+		Runtime\Content\Shaders\SE_BasicLit.frag.glsl = Runtime\Content\Shaders\SE_BasicLit.frag.glsl
+		Runtime\Content\Shaders\SE_BasicLit.vert.glsl = Runtime\Content\Shaders\SE_BasicLit.vert.glsl
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

@@ -141,9 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\EditorMenuBar.cpp" />
     <ClCompile Include="Source\EditorWindows\ConsoleWindow.cpp" />
     <ClCompile Include="Source\EditorApp.cpp" />
-    <ClCompile Include="Source\EditorWindows\WindowBase.cpp" />
+    <ClCompile Include="Source\EditorWindows\EditorWindow.cpp" />
     <ClCompile Include="Source\Managers\LevelEditorManager.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\EditorWindows\HierarchyWindow.cpp" />
@@ -156,16 +157,19 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_tables.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Source\Managers\WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\EditorMenuBar.h" />
     <ClInclude Include="Source\EditorWindows\ConsoleWindow.h" />
     <ClInclude Include="Source\EditorApp.h" />
     <ClInclude Include="Source\Interfaces\IViewport.h" />
     <ClInclude Include="Source\Managers\LevelEditorManager.h" />
-    <ClInclude Include="Source\EditorWindows\WindowBase.h" />
+    <ClInclude Include="Source\EditorWindows\EditorWindow.h" />
     <ClInclude Include="Source\EditorWindows\HierarchyWindow.h" />
     <ClInclude Include="Source\EditorWindows\InspectorWindow.h" />
     <ClInclude Include="Source\Viewport\SceneViewport.h" />
+    <ClInclude Include="Source\Managers\WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

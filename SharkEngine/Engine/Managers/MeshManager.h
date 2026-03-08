@@ -1,7 +1,7 @@
 #ifndef MESHMANAGER_H
 #define MESHMANAGER_H
 
-#include "Core/Messaging/MessageQueue.h"
+#include "Core/Messaging/MessageSystem.h"
 
 #include <unordered_map>
 #include <string>
@@ -26,6 +26,7 @@ namespace Shark::Managers {
 			static MeshManager instance;
 			return instance;
 		}
+		
 		void Update(float DeltaTime);
 		void AddMeshToCache(const std::string& key, Shark::Graphics::Mesh* mesh);
 

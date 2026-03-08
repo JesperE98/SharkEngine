@@ -10,10 +10,9 @@ namespace Shark::Core {
 		/* Returns the current time formatted as "YYYY-MM-DD HH:MM:SS" */
 		static std::string CreateTimeStamp();
 
-		static double GetLastFrame();
-		// Returns the current time
-		static double GetCurrentFrame();
-		static double GetDeltaTime();
+		static void Update();
+		static float GetDeltaTime() { return static_cast<float>(m_DeltaTime); }
+		static double GetCurrentFrame() { return m_CurrentFrame; }
 
 	private:
 #pragma region Member Variables

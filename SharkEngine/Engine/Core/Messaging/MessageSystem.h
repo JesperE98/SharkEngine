@@ -1,26 +1,24 @@
 #ifndef ENGINE_CORE_MESSAGING_MESSAGEQUEUE_H
 #define ENGINE_CORE_MESSAGING_MESSAGEQUEUE_H
 
-#include "EngineMessage.h"
-
 #include <queue>
 #include <mutex>
 
 namespace Shark::Core {
 
 	enum class EventType {
-		None = 0,
-		WindowClose,		WindowResize,
-		KeyPressed,			KeyReleased,
-		MouseButtonPressed,	MouseButtonReleased,
-		MouseMoved,			MouseScrolled,
-		GameObjectCreated,	GameObjectDestroyed,
-		SceneLoaded,		SceneUnloaded,
-		LoadModel,			ModelLoaded,
-		LoadShader,			ShaderLoaded,
-		LoadTexture,		TextureLoaded,
-		LoadPrimitiveType,	PrimitiveTypeLoaded,
-		ReloadMesh,			UnloadMesh,
+		None = 0,				EditorWindowOpen,
+		EditorWindowClose,		EditorWindowResize,
+		KeyPressed,				KeyReleased,
+		MouseButtonPressed,		MouseButtonReleased,
+		MouseMoved,				MouseScrolled,
+		GameObjectCreated,		GameObjectDestroyed,
+		SceneLoaded,			SceneUnloaded,
+		LoadModel,				ModelLoaded,
+		LoadShader,				ShaderLoaded,
+		LoadTexture,			TextureLoaded,
+		LoadPrimitiveType,		PrimitiveTypeLoaded,
+		ReloadMesh,				UnloadMesh,
 		LogAdded,
 		ErrorMessage
 	};

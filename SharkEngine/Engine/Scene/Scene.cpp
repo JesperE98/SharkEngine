@@ -68,7 +68,7 @@ namespace Shark {
         AddGameObject(cam);
     }
 
-    Shark::Components::CameraComponent* Scene::GetCamera() const
+    CameraComponent* Scene::GetCamera() const
     {
         for(GameObject* obj : m_GameObjects) {
             auto* cam = obj->GetComponent<CameraComponent>();

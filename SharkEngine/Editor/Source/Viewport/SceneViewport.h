@@ -12,9 +12,10 @@ namespace Shark::Editor {
 	{
 	public:
 		explicit SceneViewport(std::string name);
-		~SceneViewport() override;
+		~SceneViewport() override = default;
 
 #pragma region IViewport Contract
+		void OnInitialize() override;
 		void OnRender(Shark::Scene& scene, Shark::Graphics::Renderer& rend) override;
 		unsigned int GetColorAttachment() const override;
 		const std::string& GetName() const override;
@@ -24,10 +25,14 @@ namespace Shark::Editor {
 		void SetSize(int width, int height);
 		void UpdateViewportSize();
 		void SetActiveCamera(Shark::Components::CameraComponent* cam);
+		bool IsHovered() const { return m_IsHovered; }
+		bool IsFocused() const { return m_IsFocused; }
 		Shark::Components::CameraComponent* GetActiveCamera() const;
 #pragma endregion
 
 	private:
+		bool m_IsHovered{ false };
+		bool m_IsFocused{ false };
 		std::string m_Name;
 		std::shared_ptr<Shark::Graphics::Framebuffer> m_Framebuffer;
 		Shark::Components::CameraComponent* m_ActiveCamera{ nullptr };

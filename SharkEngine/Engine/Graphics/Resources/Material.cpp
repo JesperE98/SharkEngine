@@ -8,6 +8,7 @@ namespace Shark::Graphics {
 
 	using Shark::Managers::ShaderManager;
 	using Shark::Managers::TextureManager;
+	using Shark::Math::Vector3;
 
 	Material::Material(Shader* shaderProgram, Texture* texture)
 		: m_Shader(shaderProgram), m_Texture(texture)
@@ -19,7 +20,11 @@ namespace Shark::Graphics {
 		}
 
 		if (!m_Texture) {
-			CreateDefaultTexture();
+			m_bUseTexture = false;
+			m_BaseColor = Vector3(1.0f, 1.0f, 1.0f);
+		}
+		else {
+			m_bUseTexture = true;
 		}
 
 	}
@@ -28,17 +33,30 @@ namespace Shark::Graphics {
 	{
 		m_Shader = nullptr; // ShaderManager handles cleanup
 		m_Texture = nullptr; // TextureManager handles cleanup
+		m_SpecularTexture = nullptr; // TextureManager handles cleanup
 		m_ShaderPath = "";
 		m_TexturePath = "";
+		m_SpecularTexturePath = "";
 	}
 
 	void Material::Bind() const {
 
+		m_Shader->SetInt("u_UseTexture", static_cast<int>(m_bUseTexture));
+		m_Shader->SetVector3("u_BaseColor", m_BaseColor);
+
 		if (m_Texture) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_Texture->GetID());
-			m_Shader->SetInt("u_Texture", 0);
+			m_Shader->SetInt("u_DiffuseMap", 0);
 		}
+
+		if(m_SpecularTexture) {
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, m_SpecularTexture->GetID());
+			m_Shader->SetInt("u_SpecularMap", 1);
+		}
+
+		m_Shader->SetFloat("u_Shininess", m_Shininess);
 	}
 
 	void Material::SetShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)
@@ -59,14 +77,23 @@ namespace Shark::Graphics {
 		if (newTex) {
 			m_Texture = newTex;
 			m_TexturePath = path;
+			m_bUseTexture = true;
+		}
+		else {
+			m_bUseTexture = false;
+		}
+	}
+
+	void Material::SetSpecularTexture(const std::string& path)
+	{
+		Texture* newSpecTex = TextureManager::Get().LoadTexture(path);
+		if (newSpecTex) {
+			m_SpecularTexture = newSpecTex;
+			m_SpecularTexturePath = path;
 		}
 	}
 
 	void Material::CreateDefaultShader() {
 		SetShader("SE_BasicLit", "Shaders/SE_BasicLit.vert.glsl", "Shaders/SE_BasicLit.frag.glsl");
-	}
-
-	void Material::CreateDefaultTexture() {
-		SetTexture("Textures/box_wood.jpg");
 	}
 }

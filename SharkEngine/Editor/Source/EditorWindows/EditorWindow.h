@@ -6,14 +6,24 @@
 
 namespace Shark::Editor {
 
-	class WindowBase {
+	class EditorWindow {
 	public:
 
-		virtual ~WindowBase() = default;
+		virtual ~EditorWindow() = default;
 
 		virtual void OnInitialize() = 0;
-		virtual void OnRenderPanel(float deltaTime) = 0;
 		virtual void OnShutdown() = 0;
+
+		void Render(float deltaTime) {
+			if (!m_bIsVisible) return;
+
+			if (ImGui::Begin(m_Name.c_str(), &m_bIsVisible, m_WindowFlags)) {
+				m_bIsFocused = ImGui::IsWindowFocused();
+				OnUpdateWindow(deltaTime);
+			}
+
+			ImGui::End();
+		};
 
 		const std::string SetWindowName(const std::string& name) { 
 			m_Name = name; 
@@ -26,10 +36,15 @@ namespace Shark::Editor {
 		const bool IsVisible() const { return m_bIsVisible; }
 
 	protected:
-		explicit WindowBase(const std::string& name = "", bool value = true) : m_Name(name), m_bIsVisible(value){};
 
 		std::string m_Name = std::string();
-		bool m_bIsVisible{true};
+		bool m_bIsVisible{ true };
+		bool m_bIsFocused{ false };
+		ImGuiWindowFlags m_WindowFlags{ 0 };
+
+		explicit EditorWindow(const std::string& name = "", bool value = true) : m_Name(name), m_bIsVisible(value){};
+
+		virtual void OnUpdateWindow(float deltaTime) = 0;
 	};
 }
 

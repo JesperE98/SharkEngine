@@ -2,6 +2,8 @@
 
 #include "Components/SharkBehaviour.h"
 
+namespace Shark::Editor { class WindowManager; }
+
 namespace Shark::Components {
 
 	class CameraController : virtual public SharkBehaviour
@@ -13,6 +15,7 @@ namespace Shark::Components {
 
 	private:
 
+		Shark::Editor::WindowManager* m_WindowManager { nullptr };
 		float m_Yaw = 0.f;
 		float m_Pitch = 0.f;
 		float m_Speed;

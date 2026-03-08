@@ -2,12 +2,15 @@
 #include "Managers/InputManager.h"
 #include "Core/GameObject.h"
 
+#include <Source/Managers/WindowManager.h>
+
 namespace Shark::Components {
 
 	using Shark::Managers::InputManager;
 	using Shark::Core::GameObject;
 	using Shark::Math::Transform;
 	using Shark::Math::Vector3;
+	using Shark::Editor::WindowManager;
 
 	CameraController::CameraController(float moveSpeed, float sensitivity) 
 		: m_Speed(moveSpeed), m_MouseSensitivity(sensitivity)
@@ -16,6 +19,8 @@ namespace Shark::Components {
 	}
 
 	void CameraController::Update(float deltaTime) {
+
+		if (!m_WindowManager->IsSceneViewportFocused() || !m_WindowManager->IsSceneViewportFocused()) return;
 
 		InputManager& inputManager = InputManager::Get();
 		Transform& transform = GetOwner()->GetTransform();
@@ -37,6 +42,7 @@ namespace Shark::Components {
 			if (inputManager.IsKeyPressed(GLFW_KEY_D)) {
 				transform.Translate(transform.GetRight() * velocity);
 			}
+
 
 			// --- Rotation (FPS Style) ---
 			float xOffset, yOffset;

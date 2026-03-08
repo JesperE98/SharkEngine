@@ -2,7 +2,6 @@
 #include "Source/EditorWindows/InspectorWindow.h"
 
 #pragma region Engine Includes
-#include <Core/Messaging/MessageQueue.h>
 #include <Core/Utilities/Debug.h>
 #include <Components/Rendering/MeshRendererComponent.h>
 #include <Core/GameObject.h>
@@ -34,7 +33,7 @@ namespace Shark::Editor {
 	using Math::Vector3;
 	using Shark::Scene;
 
-	void LevelEditorManager::Init()
+	void LevelEditorManager::Initialize()
 	{
 	}
 
@@ -72,12 +71,24 @@ namespace Shark::Editor {
 		MeshManager::Get().inbox.Push(msg);
 	}
 
-	void LevelEditorManager::RequestTextureLoad(const std::string& path)
+	void LevelEditorManager::RequestDiffTextureLoad(const std::string& path)
 	{
 		Message msg;
 		msg.type = EventType::LoadTexture;
 		msg.payload = path;
 		TextureManager::Get().inbox.Push(msg);
+
+		SE_REQ(Editor, "LevelEditorManager::RequestDiffTextureLoad() - Sent load request for: {}", path);
+	}
+
+	void LevelEditorManager::RequestSpecTextureLoad(const std::string& path)
+	{
+		Message msg;
+		msg.type = EventType::LoadTexture;
+		msg.payload = path;
+		TextureManager::Get().inbox.Push(msg);
+
+		SE_REQ(Editor, "LevelEditorManager::RequestSpecTextureLoad() - Sent load request for: {}", path);
 	}
 
 	void LevelEditorManager::ReceiveMessage(const Message& msg) {
@@ -88,12 +99,20 @@ namespace Shark::Editor {
 			case EventType::PrimitiveTypeLoaded: {
 				Mesh* loadedMesh = static_cast<Mesh*>(msg.data);
 				if (selected && selected->GetComponent<MeshRendererComponent>()) {
-					selected->GetComponent<MeshRendererComponent>()->SetMesh(loadedMesh);
+					MeshRendererComponent* renderer = selected->GetComponent<MeshRendererComponent>();
+					renderer->SetMesh(loadedMesh);
+
+					if(!renderer->GetMaterial()) {
+						renderer->SetMaterial(new Material());
+					}
+
 					SE_LOG(Editor, "LevelEditorManager::ReceiveMessage() - Updated existing object primitive mesh: {}", msg.payload);
 				}
 				else {
 					msg.type == EventType::ModelLoaded ? LoadModel(msg) : LoadPrimitive(msg);
 				}
+
+				SE_LOG(Editor, "Swapping mesh. New Vertex count: {}", loadedMesh->indices.size());
 				break;
 			}
 
@@ -156,7 +175,7 @@ namespace Shark::Editor {
 			scene->AddGameObject(obj);
 
 			obj->GetTransform().position = Vector3(-0.5f, 0.0f, 0.0f);
-			obj->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
+			obj->GetTransform().scale = Vector3(1.f, 1.f, 1.f);
 			SE_SUCC(Editor, "LevelEditorManager::ReceiveMessage() - Successfully created GameObject: {}", msg.payload);
 		}
 		else {
@@ -182,8 +201,6 @@ namespace Shark::Editor {
 		if (scene) {
 			scene->AddGameObject(obj);
 
-			obj->GetTransform().position = Vector3(0.5f, 0.0f, 0.0f);
-			obj->GetTransform().scale = Vector3(1.f, 1.f, 1.f);
 			SE_SUCC(Editor, "LevelEditorManager::LoadPrimitive() - Successfully created primitive GameObject: {}", obj->GetName());
 		}
 		else {

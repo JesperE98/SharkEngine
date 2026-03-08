@@ -120,10 +120,7 @@
     <ClInclude Include="Core\Utilities\FColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Messaging\EngineMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Messaging\MessageQueue.h">
+    <ClInclude Include="Core\Messaging\MessageSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\Logic\CameraComponent.h">

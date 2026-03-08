@@ -1,7 +1,7 @@
 #ifndef SHADERMANAGER_H
 #define SHADERMANAGER_H
 
-#include "Core/Messaging/MessageQueue.h"
+#include "Core/Messaging/MessageSystem.h"
 
 #include <unordered_map>
 

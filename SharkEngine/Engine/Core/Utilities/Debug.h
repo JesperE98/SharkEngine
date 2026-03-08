@@ -74,7 +74,14 @@ namespace Shark::Core {
 		// List of all the logs
 		static const std::vector<LogEntry> GetLogHistory() { return m_LogHistory; }
 		static void ClearLogHistory() { m_LogHistory.clear(); }
-		static std::string_view CategoryToString(LogCategory category);
+		static std::string_view CategoryToString(LogCategory category);		
+		
+		/*
+		@brief Utility function to check for OpenGL errors after rendering operations. This function queries the OpenGL error state and logs any errors that are found,
+		along with a provided context string to help identify where the error occurred in the code.
+		@param context A string describing the context in which the OpenGL error check is being performed (e.g., "After ImGui Initialization").
+		*/
+		static void CheckGLErrors(const std::string& context);
 
 	private:
 

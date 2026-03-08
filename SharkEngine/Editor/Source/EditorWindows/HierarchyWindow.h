@@ -1,23 +1,23 @@
 #ifndef HIERARCHYPANEL_H
 #define HIERARCHYPANEL_H
 
-#include "WindowBase.h"
+#include "EditorWindow.h"
 
-namespace Shark::Core { class GameObject; }
+namespace Shark::Core { class GameObject; class MessageSystem; }
 
 namespace Shark::Editor {
 
 	class InspectorWindow;
 
-	class HierarchyWindow : virtual public WindowBase
+	class HierarchyWindow : virtual public EditorWindow
 	{
 	public:
-		HierarchyWindow() : WindowBase("Hierarchy", true) {}
+		HierarchyWindow() : EditorWindow("Hierarchy", true) {}
 		~HierarchyWindow() override;
 
-#pragma region WindowBase override functions
+#pragma region EditorWindow override functions
 		void OnInitialize() override;
-		void OnRenderPanel(float deltaTime) override;
+		void OnUpdateWindow(float deltaTime) override;
 		void OnShutdown() override;
 		
 #pragma endregion

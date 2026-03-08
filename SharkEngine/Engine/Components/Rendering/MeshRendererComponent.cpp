@@ -21,20 +21,15 @@ namespace Shark::Components {
 
 		// Compute if the transform flips winding
 		glm::mat4 model = GetOwner()->GetTransform().GetModelMatrix();
+		m_Material->GetShader()->SetMatrix4("u_Model", GetOwner()->GetTransform().GetModelMatrix());
+
 		float determinant = glm::determinant(glm::mat3(model));
+		if (determinant < 0.0f) glFrontFace(GL_CW); // Flips the winding if negative value
 
-		if (determinant < 0.0f) {
-			glFrontFace(GL_CW); // Flips the winding if negative value
-		}
+		m_Material->Bind();
+		m_Mesh->Draw();
 
-		if (m_Mesh && m_Material) {
-			m_Material->Bind();
-			m_Mesh->Draw();
-		}
-
-		if (determinant < 0.0f) {
-			glFrontFace(GL_CCW);
-		}
+		if (determinant < 0.0f) glFrontFace(GL_CCW);
 	}
 
 	void MeshRendererComponent::SetMesh(Mesh* mesh)

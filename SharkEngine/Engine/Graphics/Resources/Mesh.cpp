@@ -64,6 +64,7 @@ namespace Shark::Graphics {
 
 		// Temporary storage for the seperate data pools
 		std::vector<Vector3> temp_positions;
+		std::vector<Vector3> temp_colors; // Optional, in case vertex colors are included in the file
 		std::vector<Vector2> temp_uvs;
 		std::vector<Vector3> temp_normals;
 
@@ -83,6 +84,13 @@ namespace Shark::Graphics {
 				Vector3 pos;
 				iss >> pos.x >> pos.y >> pos.z;
 				temp_positions.push_back(pos);
+
+				// Try to read vertex color (optional) if it exists in the file
+				Vector3 col; // Default white color
+				if (iss >> col.x >> col.y >> col.z) {
+					// If color data exists, we can store it in the vertex color attribute later when we construct the final vertices
+					temp_colors.push_back(col);
+				}
 			}
 			else if (prefix == "vt") // Extra objective : UVs
 			{
@@ -116,16 +124,28 @@ namespace Shark::Graphics {
 					vss >> vIdx;
 
 					Vertex v{};
-					v.position = temp_positions[vIdx - 1];
+
+					// Position
+					if (vIdx > 0 && vIdx <= temp_positions.size()) {
+						v.position = temp_positions[vIdx - 1];
+					}
+
+					// Color (optional)
+					if (!temp_colors.empty() && vIdx > 0 && vIdx <= temp_colors.size()) {
+						v.color = temp_colors[vIdx - 1];
+					}
+					else {
+						v.color = Vector3(1.0f, 1.0f, 1.0f); // Default to white if no color data
+					}
 
 					// if UVs exists in this token
 					if (vss >> vtIdx) {
-						v.uV = temp_uvs[vtIdx - 1];
+						if(vtIdx > 0) v.uV = temp_uvs[vtIdx - 1];
 					}
 
 					// If Normals exists in this token
 					if (vss >> vnIdx) {
-						v.normal = temp_normals[vnIdx - 1];
+						if(vnIdx > 0) v.normal = temp_normals[vnIdx - 1];
 					}
 
 					// For now, adds every vertex as unique
@@ -167,9 +187,9 @@ namespace Shark::Graphics {
 
 	void Mesh::UploadToGPU()
 	{
-		SE_LOG(Rendering, "Mesh::UploadToGPU() - Uploading Mesh to GPU.");
+		SE_LOG(Rendering, "Uploading Mesh to GPU.");
 
-		SE_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP BUFFERS.");
+		SE_LOG(OpenGL, "SETTING UP BUFFERS.");
 		// Generate and bind VAO
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
@@ -179,24 +199,29 @@ namespace Shark::Graphics {
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 
+		SE_LOG(OpenGL, "SETTING UP VERTEX ATTRIBUTES.");
+
+		// Vertex Attributes
+		glEnableVertexAttribArray(0); // Position - Location 0
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+		glEnableVertexAttribArray(1); // Color - Location 1
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+
+		glEnableVertexAttribArray(2); // UV - Location 2
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
+
+		glEnableVertexAttribArray(3); // Normal - Location 3
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
+
 		// Optional EBO
 		if (!indices.empty()) {
-			SE_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP INDICES.");
+			SE_LOG(OpenGL, "SETTING UP INDICES.");
 			glGenBuffers(1, &EBO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 		}
 
-		SE_LOG(OpenGL, "Mesh::UploadToGPU() - SETTING UP VERTEX ATTRIBUTES.");
-		// Vertex Attributes
-		glEnableVertexAttribArray(0); // Position
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-
-		glEnableVertexAttribArray(1); // Color/Normal
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
-
-		glEnableVertexAttribArray(2); // UV
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
 		glBindVertexArray(0);
 	}
 }

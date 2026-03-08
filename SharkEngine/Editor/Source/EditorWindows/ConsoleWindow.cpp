@@ -16,10 +16,8 @@ namespace Shark::Editor {
 		SharkEvents::OnLogAdded().AddListener(this, &ConsoleWindow::OnLogReceived);
 	}
 
-	void ConsoleWindow::OnRenderPanel(float deltaTime)
+	void ConsoleWindow::OnUpdateWindow(float deltaTime)
 	{
-		ImGui::Begin("Console");
-
 		if (ImGui::Button("Clear")) {
 			Debug::ClearLogHistory();
 		}
@@ -56,7 +54,6 @@ namespace Shark::Editor {
 		}
 
 		ImGui::EndChild();
-		ImGui::End();
 	}
 
 	void ConsoleWindow::OnShutdown()
