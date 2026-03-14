@@ -41,22 +41,25 @@ namespace Shark::Graphics {
 
 	void Material::Bind() const {
 
-		m_Shader->SetInt("u_UseTexture", static_cast<int>(m_bUseTexture));
-		m_Shader->SetVector3("u_BaseColor", m_BaseColor);
+		m_Shader->SetInt("uUseTexture", static_cast<int>(m_bUseTexture));
+		m_Shader->SetVector3("uBaseColor", m_BaseColor);
 
 		if (m_Texture) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_Texture->GetID());
-			m_Shader->SetInt("u_DiffuseMap", 0);
+			m_Shader->SetInt("uDiffuseMap", 0);
 		}
 
-		if(m_SpecularTexture) {
+		bool bUseSpecMap = (m_SpecularTexture != nullptr);
+		m_Shader->SetInt("uUseSpecularMap", static_cast<int>(bUseSpecMap));
+
+		if(bUseSpecMap) {
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, m_SpecularTexture->GetID());
-			m_Shader->SetInt("u_SpecularMap", 1);
+			m_Shader->SetInt("uSpecularMap", 1);
 		}
 
-		m_Shader->SetFloat("u_Shininess", m_Shininess);
+		m_Shader->SetFloat("uShininess", m_Shininess);
 	}
 
 	void Material::SetShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)
@@ -86,6 +89,12 @@ namespace Shark::Graphics {
 
 	void Material::SetSpecularTexture(const std::string& path)
 	{
+		if (path.empty()) {
+			m_SpecularTexture = nullptr;
+			m_SpecularTexturePath = "";
+			return;
+		}
+
 		Texture* newSpecTex = TextureManager::Get().LoadTexture(path);
 		if (newSpecTex) {
 			m_SpecularTexture = newSpecTex;

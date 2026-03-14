@@ -4,8 +4,6 @@
 #include <Core/Events/SharkEvents.h>
 #pragma endregion
 
-#include <ImGui/imgui.h>
-
 namespace Shark::Editor {
 	using Core::Debug;
 	using Core::LogEntry;

@@ -45,13 +45,13 @@ namespace Shark::Graphics {
 
             shader->Use();
 
-            shader->SetMatrix4("u_View", viewMatrix);
-            shader->SetMatrix4("u_Projection", projectionMatrix);
-			shader->SetVector3("u_ViewPos", cam->GetOwner()->GetTransform().position); // Passes Camera Position (for specular highlights)
+            shader->SetMatrix4("uView", viewMatrix);
+            shader->SetMatrix4("uProjection", projectionMatrix);
+			shader->SetVector3("uViewPos", cam->GetOwner()->GetTransform().position); // Passes Camera Position (for specular highlights)
 
 			// Pass Light Data (Ideally these would be passed from a LightComponent, but for now we'll hardcode a single directional light)
-			shader->SetVector3("u_LightDir", glm::vec3(-0.2f, -1.0f, -0.3f)); // Directional light direction);
-			shader->SetVector3("u_LightColor", glm::vec3(1.0f)); // White light
+			shader->SetVector3("uLightDir", glm::vec3(-0.2f, -1.0f, -0.3f)); // Directional light direction);
+			shader->SetVector3("uLightColor", glm::vec3(1.0f)); // White light
              
             meshRenderer->Render(); // Draws Mesh
         }

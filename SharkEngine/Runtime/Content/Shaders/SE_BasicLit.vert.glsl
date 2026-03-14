@@ -5,21 +5,21 @@ layout(location = 1) in vec3 aColor;
 layout(location = 2) in vec2 aTexCoord;
 layout(location = 3) in vec3 aNormal;
 
-uniform mat4 u_Model;
-uniform mat4 u_View;
-uniform mat4 u_Projection;
+uniform mat4 uModel;
+uniform mat4 uView;
+uniform mat4 uProjection;
 
-out vec3 FragPos;
-out vec3 Normal;
-out vec2 TexCoord;
+out vec3 vFragPos;
+out vec3 vNormal;
+out vec2 vTexCoord;
 
 void main(){
-	vec4 worldPos = u_Model * vec4(aPos, 1.0);
-	FragPos = worldPos.xyz;
+	vec4 worldPos = uModel * vec4(aPos, 1.0);
+	vFragPos = worldPos.xyz;
 
-	Normal = mat3(transpose(inverse(u_Model))) * aNormal;
+	vNormal = mat3(transpose(inverse(uModel))) * aNormal;
 
-	TexCoord = aTexCoord;
+	vTexCoord = aTexCoord;
 
-	gl_Position = u_Projection * u_View * worldPos;
+	gl_Position = uProjection * uView * worldPos;
 }
