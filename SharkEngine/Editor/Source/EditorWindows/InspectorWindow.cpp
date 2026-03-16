@@ -3,6 +3,7 @@
 
 #pragma region Engine Includes
 #include <Components/Rendering/MeshRendererComponent.h>
+#include <Components/Rendering/LightComponent.h>
 #include <Components/Logic/CameraComponent.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
 #include <Managers/MeshManager.h>
@@ -16,6 +17,8 @@ namespace Shark::Editor {
 	using Shark::Math::Vector3;
 	using Shark::Components::MeshRendererComponent;
 	using Shark::Components::CameraComponent;
+	using Shark::Components::LightComponent;
+	using Shark::Components::LightType;
 	using Shark::Graphics::Mesh;
 	using Shark::Graphics::PrimitiveType;
 	using Shark::Managers::MeshManager;
@@ -50,6 +53,7 @@ namespace Shark::Editor {
 		// Here is where to add Components in the future to the UI.
 		DrawComponentUI<MeshRendererComponent>("MeshRenderer", m_SelectedObject);
 		DrawComponentUI<CameraComponent>("Camera", m_SelectedObject);
+		DrawComponentUI<LightComponent>("Light", m_SelectedObject);
 
 		// --- 4. Footer
 		DrawAddComponentButton(m_SelectedObject);
@@ -143,9 +147,18 @@ namespace Shark::Editor {
 					obj->AddComponent<MeshRendererComponent>(mesh, nullptr);
 				}
 			}
+			if (ImGui::MenuItem("LightComponent")) {
+				if (!obj->GetComponent<LightComponent>()) {
+					obj->AddComponent<LightComponent>();
+				}
+			}
 			ImGui::EndPopup();
 		}
 	}
+
+#pragma endregion
+
+#pragma region Template Functions
 
 	template<>
 	void InspectorWindow::OnComponentUI<MeshRendererComponent>(MeshRendererComponent* renderer) {
@@ -202,6 +215,11 @@ namespace Shark::Editor {
 			if (ImGui::SliderFloat("", &shininess, 1.0f, 128.0f)) {
 				material->SetShininess(shininess);
 			}
+
+			bool bUseMipMaps = material->GetUseMipMaps();
+			if (ImGui::Checkbox("Use Mip Maps", &bUseMipMaps)) {
+				material->SetUseMipMaps(bUseMipMaps);
+			}
 		}
 		else {
 			ImGui::Text("No material assigned.");
@@ -253,6 +271,23 @@ namespace Shark::Editor {
 		}
 		if (changed) {
 			cam->UpdateProjectionMatrix();
+		}
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<LightComponent>(LightComponent* light) {
+		const char* types[] = { "Directional Light", "Point Light" };
+		int currentType = static_cast<int>(light->Type);
+
+		if (ImGui::Combo("Light Type", &currentType, types, IM_ARRAYSIZE(types))) {
+			light->Type = static_cast<LightType>(currentType);
+		}
+
+		ImGui::ColorEdit3("Color", &light->Color.x);
+		ImGui::DragFloat("Intensity", &light->Intensity, 0.1f, 0.1f, 100.0f);
+
+		if (light->Type == LightType::Point) {
+			ImGui::DragFloat("Range", &light->Range, 0.1f, 0.1f, 500.0f);
 		}
 	}
 #pragma endregion

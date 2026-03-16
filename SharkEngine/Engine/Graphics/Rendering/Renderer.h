@@ -11,7 +11,7 @@
 
 namespace Shark				{ class Scene; }
 namespace Shark::Core		{ class EngineContext; }
-namespace Shark::Components	{ class CameraComponent; }
+namespace Shark::Components { class CameraComponent; }
 
 namespace Shark::Graphics {
 	class RenderPass;

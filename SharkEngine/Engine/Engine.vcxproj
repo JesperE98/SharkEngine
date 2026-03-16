@@ -148,6 +148,7 @@
     <ClInclude Include="Components\Behaviour.h" />
     <ClInclude Include="Components\Logic\CameraComponent.h" />
     <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="Components\Rendering\LightComponent.h" />
     <ClInclude Include="Components\Rendering\MeshRendererComponent.h" />
     <ClInclude Include="Core\Events\SharkEvents.h" />
     <ClInclude Include="Core\Utilities\Delegate.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Components\Behaviour.cpp" />
     <ClCompile Include="Components\Logic\CameraComponent.cpp" />
     <ClCompile Include="Components\Component.cpp" />
+    <ClCompile Include="Components\Rendering\LightComponent.cpp" />
     <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp" />
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />

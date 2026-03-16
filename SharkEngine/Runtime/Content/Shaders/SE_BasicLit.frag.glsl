@@ -27,7 +27,7 @@ uniform bool uUseSpecularMap;
 
 // -- Light & Camera Properties --
 #define MAX_LIGHTS 8
-uniform LightData uLightdata[MAX_LIGHTS];
+uniform LightData uLights[MAX_LIGHTS];
 uniform int uLightCount;
 uniform vec3 uLightDir;				// Directional light
 uniform vec3 uLightColor;
@@ -35,42 +35,46 @@ uniform vec3 uViewPos;				// For Specular highlights
 
 
 void main(){
+	// Get Base Color wether we use a texture or not, same for the specular
 	vec3 baseColor	= uUseTexture ? texture(uDiffuseMap, vTexCoord).rgb : uBaseColor;
 	vec3 specFactor = uUseSpecularMap ? texture(uSpecularMap, vTexCoord).rgb : vec3(1.0);
 
-//	vec3 base;
-//	if(uUseTexture){
-//		base = texture(uDiffuseMap, vTexCoord).rgb;
-//	}
-//	else {
-//		base = uBaseColor;
-//	}
-//
-//	// Ambient Lighting 
-//	float ambientStrength = 0.15;
-//	vec3 ambient = ambientStrength * uLightColor * base;
-//
-//	// Diffuse Lighting
-//	vec3 norm = normalize(vNormal);
-//	vec3 lightDirNormalized = normalize(-uLightDir); // Light direction is opposite of the light's direction vector
-//	float diff = max(dot(norm, lightDirNormalized), 0.0); // Diffuse component is modulated by the diffuse texture
-//	vec3 diffuse = diff * uLightColor * base; // Specular
-//
-//	// Specular (Blinn-Phong)
-//	vec3 viewDir = normalize(uViewPos - vFragPos); // Reflect the light direction around the normal
-////	vec3 reflectDir = reflect(-lightDirNormalized, norm); // Calculate the specular component using the specular texture
-//	vec3 halfwayDir = normalize(lightDirNormalized + viewDir); // Using Halfway Vector for Blinn-Phong since its more stable than reflect
-//	float specAmount = pow(max(dot(norm, halfwayDir), 0.0), uShininess); // Shininess factor
-//	
-//	// Sample Specular Map or fallback to full white (1.0)
-//	vec3 specFactor;
-//	if(uUseSpecularMap){
-//		specFactor = texture(uSpecularMap, vTexCoord).rgb;
-//	} else {
-//		specFactor = vec3(1.0);
-//	}
-//
-//	vec3 specular = uLightColor * (specAmount * specFactor);
-//
-//	FragColor = vec4(ambient + diffuse + specular, 1.0); // Combine all components and set the output color
+	vec3 norm = normalize(vNormal);
+	vec3 viewDir = normalize(uViewPos - vFragPos);
+
+	vec3 totalLighting = vec3(0.0);
+
+	// Loop through all active lights
+	for(int i = 0; i < uLightCount; i++) {
+		vec3 lightDir;
+		float attenuation = 1.0;
+
+		if(uLights[i].type == 0) { // Directional Light
+			lightDir = normalize(-uLights[i].direction);
+		}
+		else { // Point Light
+			vec3 lightVec = uLights[i].position - vFragPos;
+			float distance = length(lightVec);
+			lightDir = normalize(lightVec);
+
+			// This is a simple linear attenuation based on range value
+			attenuation = clamp(1.0 - distance / uLights[i].range, 0.0, 1.0);
+		}
+
+		// Diffuse
+		float diff = max(dot(norm, lightDir), 0.0);
+		vec3 diffuse = diff * uLights[i].color * uLights[i].intensity;
+
+		// Specular (using Blinn-Phong method)
+		vec3 halfwayDir = normalize(lightDir + viewDir);
+		float specAmount = pow(max(dot(norm, halfwayDir), 0.0), uShininess);
+		vec3 specular = specAmount * uLights[i].color * uLights[i].intensity * specFactor;
+
+		totalLighting += (diffuse + specular) * attenuation;
+	}
+
+	// Adding a small constant ambient so the scene isn't pitch black
+	vec3 ambient = 0.1 * baseColor;
+
+	FragColor = vec4(ambient + (totalLighting * baseColor), 1.0);
 }

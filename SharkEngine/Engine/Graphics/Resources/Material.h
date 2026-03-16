@@ -11,7 +11,7 @@ namespace Shark::Graphics {
 	public:
 
 
-		Material(Shader* shaderProgram = nullptr, Texture* m_Texture = nullptr);
+		Material(Shader* shaderProgram = nullptr, Texture* m_diffuseTexture = nullptr);
 		~Material();
 
 		void Bind() const;
@@ -22,7 +22,7 @@ namespace Shark::Graphics {
 		
 		void SetTexture(const std::string& path);
 		const std::string& GetTexturePath() const { return m_TexturePath; }
-		Texture* GetTexture() { return m_Texture; }
+		Texture* GetTexture() { return m_diffuseTexture; }
 
 		void SetSpecularTexture(const std::string& path);
 		Texture* GetSpecularTexture() { return m_SpecularTexture; }
@@ -31,12 +31,21 @@ namespace Shark::Graphics {
 		void SetShininess(float value) { m_Shininess = value; }
 		float GetShininess() const { return m_Shininess; }
 
+		bool GetUseMipMaps() const { return bUseMipMaps; }
+		void SetUseMipMaps(bool value) { 
+			bUseMipMaps = value;
+
+			if (m_diffuseTexture) {
+				m_diffuseTexture->UpdateFiltering(value);
+			}
+		};
+
 	private:
 		bool m_bUseTexture = false;
-		Shark::Math::Vector3 m_BaseColor{ 1.0f, 1.0f, 1.0f }; // Default white color if no m_Texture is used
+		Shark::Math::Vector3 m_BaseColor{ 1.0f, 1.0f, 1.0f }; // Default white color if no m_diffuseTexture is used
 
-		Texture* m_Texture{ nullptr }; // Diffuse m_Texture
-		Texture* m_SpecularTexture{ nullptr }; // Specular m_Texture (optional, can be nullptr)
+		Texture* m_diffuseTexture{ nullptr }; // Diffuse m_diffuseTexture
+		Texture* m_SpecularTexture{ nullptr }; // Specular m_diffuseTexture (optional, can be nullptr)
 		Shader* m_Shader{ nullptr };
 
 		float m_Shininess = 32.0f; // Default Phong m_Shininess value
@@ -44,6 +53,8 @@ namespace Shark::Graphics {
 		std::string m_TexturePath;
 		std::string m_SpecularTexturePath;
 		std::string m_ShaderPath;
+
+		bool bUseMipMaps = true;
 
 
 		void CreateDefaultShader();

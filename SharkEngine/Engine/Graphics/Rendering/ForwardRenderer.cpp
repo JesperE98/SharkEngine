@@ -2,12 +2,15 @@
 #include "ForwardRenderPass.h"
 #include "Core/Engine/EngineContext.h"
 #include "Graphics/Framebuffer/Framebuffer.h"
+#include "Components/Rendering/LightComponent.h"
 #include "Scene/Scene.h"
 
 namespace Shark::Graphics {
 
 	using Shark::Scene;
 	using Shark::Components::CameraComponent;
+	using Shark::Components::LightComponent;
+	using Shark::Components::LightData;
 
 	ForwardRenderer::ForwardRenderer()
 	{
@@ -42,8 +45,16 @@ namespace Shark::Graphics {
 
 	void ForwardRenderer::RenderScene(float deltaTime, Scene* scene, CameraComponent* cam)
 	{
+		// Gather all lights in the scene
+		std::vector<LightData> sceneLights;
+		for (auto* obj : scene->GetGameObjects()) {
+			if (auto* light = obj->GetComponent<LightComponent>()) {
+				sceneLights.push_back(light->GetLightData());
+			}
+		}
+
 		for (auto& pass : renderPasses) {
-			pass->Execute(deltaTime, scene, cam);
+			pass->Execute(deltaTime, scene, cam, sceneLights);
 		}
 	}
 

@@ -9,7 +9,7 @@ namespace Shark::Graphics {
 
 	using Shark::Managers::PathManager;
 
-	Texture::Texture(const char* filePath) {
+	Texture::Texture(const char* filePath, bool bUseMipMaps) {
 
 		int width, height, nrChannels;
 		std::string texturePath = PathManager::Get().GetContentPath(filePath);
@@ -26,21 +26,25 @@ namespace Shark::Graphics {
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		GLenum format;
-		switch (nrChannels) {
-		case 1: format = GL_RED; break;
-		case 3: format = GL_RGB; break;
-		case 4: // Meaning it's a m_Texture file with an alpha value
-			format = GL_RGBA;
-			break;
-		default: format = GL_RGB; break;
+		if (bUseMipMaps) {
+			// Use Trilinear filtering if MipMaps are enabled
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		}
+		else { // Use standard Bilinear filtering if MipMaps are disabled
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		}
 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		GLenum format = CheckColorChannelFormat(nrChannels);
+
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
+
+		if (bUseMipMaps) {
+			glGenerateMipmap(GL_TEXTURE_2D);
+			SE_LOG(Resources, "MipMaps generated for: {}", filePath);
+		}
 
 		stbi_image_free(data);
 	}
@@ -51,6 +55,35 @@ namespace Shark::Graphics {
 			glDeleteTextures(1, &m_ID);
 			SE_LOG(Resources, "Texture::~Texture() - Deleted texture with ID: {}", m_ID);
 		}
+	}
+
+	void Texture::UpdateFiltering(bool bUseMipMaps)
+	{
+		glBindTexture(GL_TEXTURE_2D, m_ID);
+
+		if (bUseMipMaps) {
+			// Use Trilinear filtering if MipMaps are enabled
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else { // Use standard Bilinear filtering if MipMaps are disabled
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		}
+	}
+
+	int Texture::CheckColorChannelFormat(int channels)
+	{
+		GLenum format;
+		switch (channels) {
+		case 1: format = GL_RED; break;
+		case 3: format = GL_RGB; break;
+		case 4: // Meaning it's a m_diffuseTexture file with an alpha value
+			format = GL_RGBA;
+			break;
+		default: format = GL_RGB; break;
+		}
+
+		return format;
 	}
 
 }

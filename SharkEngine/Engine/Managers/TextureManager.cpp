@@ -45,7 +45,7 @@ namespace Shark::Managers {
 		SE_WARN(Resources, "TextureManager::LoadTexture() - Cache miss! Loading {} from disk...", filePath);
 
 		// 2. Load from disk
-		Texture* newTexture = new Texture(filePath.c_str());
+		Texture* newTexture = new Texture(filePath.c_str(), true);
 
         if (newTexture) {
 			m_TextureCache[filePath] = newTexture;

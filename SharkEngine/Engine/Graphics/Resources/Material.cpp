@@ -11,7 +11,7 @@ namespace Shark::Graphics {
 	using Shark::Math::Vector3;
 
 	Material::Material(Shader* shaderProgram, Texture* texture)
-		: m_Shader(shaderProgram), m_Texture(texture)
+		: m_Shader(shaderProgram), m_diffuseTexture(texture)
 	{
 		SE_LOG(Resources, "Material::Material() - Creating Material.");
 
@@ -19,7 +19,7 @@ namespace Shark::Graphics {
 			CreateDefaultShader();
 		}
 
-		if (!m_Texture) {
+		if (!m_diffuseTexture) {
 			m_bUseTexture = false;
 			m_BaseColor = Vector3(1.0f, 1.0f, 1.0f);
 		}
@@ -32,7 +32,7 @@ namespace Shark::Graphics {
 	Material::~Material()
 	{
 		m_Shader = nullptr; // ShaderManager handles cleanup
-		m_Texture = nullptr; // TextureManager handles cleanup
+		m_diffuseTexture = nullptr; // TextureManager handles cleanup
 		m_SpecularTexture = nullptr; // TextureManager handles cleanup
 		m_ShaderPath = "";
 		m_TexturePath = "";
@@ -44,9 +44,9 @@ namespace Shark::Graphics {
 		m_Shader->SetInt("uUseTexture", static_cast<int>(m_bUseTexture));
 		m_Shader->SetVector3("uBaseColor", m_BaseColor);
 
-		if (m_Texture) {
+		if (m_diffuseTexture) {
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m_Texture->GetID());
+			glBindTexture(GL_TEXTURE_2D, m_diffuseTexture->GetID());
 			m_Shader->SetInt("uDiffuseMap", 0);
 		}
 
@@ -78,7 +78,7 @@ namespace Shark::Graphics {
 		Texture* newTex = TextureManager::Get().LoadTexture(path);
 
 		if (newTex) {
-			m_Texture = newTex;
+			m_diffuseTexture = newTex;
 			m_TexturePath = path;
 			m_bUseTexture = true;
 		}
