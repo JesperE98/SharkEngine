@@ -21,6 +21,7 @@ namespace Shark {
 		void Update(float deltaTime);
 
 		void CreateCamera();
+		void CreateDirectionalLight();
 		Shark::Components::CameraComponent* GetCamera() const;
 
 	private:

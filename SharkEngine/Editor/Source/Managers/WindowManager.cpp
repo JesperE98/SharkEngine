@@ -7,8 +7,11 @@
 
 #pragma	region Engine Includes
 #include <Core/Engine/EngineContext.h>
+#include <Graphics/Rendering/ForwardRenderer.h>
+#include <Graphics/Rendering/ShadowMapPass.h>
 #include <Managers/SceneManager.h>
 #include <Managers/MemoryManager.h>
+#include <Components/Rendering/LightComponent.h>
 #pragma endregion
 
 #include <vector>
@@ -22,6 +25,8 @@ namespace Shark::Editor {
 	using Shark::Editor::LevelEditorManager;
 	using Shark::Managers::SceneManager;
 	using Shark::Managers::MemoryManager;
+	using Shark::Graphics::ForwardRenderer;
+	using Shark::Graphics::ShadowMapPass;
 
 
 	void WindowManager::Initialize()
@@ -62,12 +67,14 @@ namespace Shark::Editor {
 		for (auto& window : m_Windows) {
 			if (window->IsVisible()) {
 				window->Render(deltaTime);
+				Debug::CheckGLErrors("After Window: " + window->GetWindowName());
 			}
 		}
 
 		// Render the SceneViewport last, as it typically contains the main 3D view of the editor
 		if (m_SceneViewport) {
 			RenderSceneViewport();
+			Debug::CheckGLErrors("WindowManager::RenderWindows() - After Render Scene Viewport");
 		}
 
 		RenderStatsWindow();
@@ -114,7 +121,17 @@ namespace Shark::Editor {
 		ImGui::Begin(m_SceneViewport->GetName().c_str());
 
 		ImVec2 avail = ImGui::GetContentRegionAvail();
+
+		// Debug: Cast to ForwardRenderer to get the Shadow Texture ID
+		auto* fr = dynamic_cast<ForwardRenderer*>(EngineContext::Get().m_Renderer);
+		unsigned int debugTexID = 0;
+
+		if (fr && fr->GetShadowPass()) { // Assuming you add a getter for the ShadowPass
+			debugTexID = fr->GetShadowPass()->GetShadowMapTexture();
+		}
+
 		ImTextureID tex = (ImTextureID)(intptr_t)m_SceneViewport->GetColorAttachment();
+		//ImTextureID tex = (ImTextureID)(intptr_t)debugTexID;
 
 		ImGui::Image(tex, avail, ImVec2(0, 1), ImVec2(1, 0));
 

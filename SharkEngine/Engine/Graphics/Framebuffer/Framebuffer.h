@@ -1,25 +1,24 @@
 #pragma once
 
-#include <glad/glad.h>
+#include "IRenderTarget.h"
 
 namespace Shark::Graphics {
-	class Framebuffer
+	class Framebuffer : public IRenderTarget
 	{
 	public:
 		Framebuffer(int width, int height);
-		~Framebuffer();
+		~Framebuffer() override;
 
-		void Bind() const;
-		static void Unbind();
 		void Clear(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f) const;
 		void Resize(int width, int height);
-		GLuint GetColorTexture() const { return m_ColorTexture; }
+
+		unsigned int GetColorTexture() const { return m_ColorTexture; }
 
 	private:
+		void Invalidate(int width, int height);
 
-		GLuint m_FBO{ 0 };
 		GLuint m_ColorTexture{ 0 };
 		GLuint m_DepthRbo{ 0 };
-		int m_Width, m_Height;
+		unsigned int m_ID{ 0 };				// The "Container" ID
 	};
 }

@@ -92,21 +92,22 @@ namespace Shark::Editor {
 				ImGui::TableSetColumnIndex(0);
 				ImGui::Text("Position");
 				ImGui::TableSetColumnIndex(1);
+
 				if (ImGui::DragFloat3("##Position", pos, 0.01f)) {
 					transform.position = { pos[0], pos[1], pos[2] };
 				}
 
 
 				// Rotation
-				Vector3 euler = Math::ToEulerDegrees(transform.rotation);
-				float rot[3] = { euler.x, euler.y, euler.z };
+				float rot[3] = { transform.eulerAngle.x, transform.eulerAngle.y, transform.eulerAngle.z };
 				ImGui::TableNextRow();
 				ImGui::TableSetColumnIndex(0);
 				ImGui::Text("Rotation");
 				ImGui::TableSetColumnIndex(1);
+
 				if (ImGui::DragFloat3("##Rotation", rot, 0.01f)) {
-					Vector3 updatedEuler = { rot[0], rot[1], rot[2] };
-					transform.rotation = Math::FromEulerDegrees(updatedEuler);
+					transform.eulerAngle = { rot[0], rot[1], rot[2] };
+					transform.UpdateQuaternion();
 				}
 
 				// Scale
@@ -115,6 +116,7 @@ namespace Shark::Editor {
 				ImGui::TableSetColumnIndex(0);
 				ImGui::Text("Scale");
 				ImGui::TableSetColumnIndex(1);
+
 				if (ImGui::DragFloat3("##Scale", scale, 0.01f)) {
 					transform.scale = { scale[0], scale[1], scale[2] };
 				}

@@ -8,6 +8,8 @@ namespace Shark::Math {
 	{
 		Vector3 position{ 0.0f, 0.0f, 0.0f };
 		Vector3 scale{ 1.0f, 1.0f, 1.0f };
+		Vector3 eulerAngle{ 0.0f, 0.0f, 0.0f };
+
 		Quaternion rotation; // Euler angles in degrees (pitch, yaw, roll)
 
 		void Translate(const Vector3& translation) {
@@ -31,6 +33,9 @@ namespace Shark::Math {
 			rotation = glm::quat_cast(look);
 		}
 
+		void UpdateQuaternion() {
+			rotation = FromEulerDegrees(eulerAngle);
+		}
 #pragma region Direction Vectors Functions
 		Vector3 GetForward() const {
 			return rotation * Vector3(0.0f, 0.0f, -1.0f);

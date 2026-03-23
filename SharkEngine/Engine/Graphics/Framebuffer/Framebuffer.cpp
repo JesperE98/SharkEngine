@@ -1,15 +1,25 @@
 #include "Framebuffer.h"
 #include "Core/Utilities/Debug.h"
 
-#include <stdexcept>
-
 namespace Shark::Graphics {
-	Framebuffer::Framebuffer(int width, int height)
-		: m_Width(width), m_Height(height) {
 
-		// Create FBO
-		glGenFramebuffers(1, &m_FBO);
-		Bind();
+	Framebuffer::Framebuffer(int width, int height) : IRenderTarget(width, height) {
+		Invalidate(width, height);
+	}
+
+	Framebuffer::~Framebuffer() {
+		if (m_ColorTexture) glDeleteTextures(1, &m_ColorTexture);
+		if (m_DepthRbo) glDeleteRenderbuffers(1, &m_DepthRbo);
+	}
+
+	void Framebuffer::Invalidate(int width, int height)
+	{
+		if (m_ColorTexture) {
+			glDeleteTextures(1, &m_ColorTexture);
+			glDeleteRenderbuffers(1, &m_DepthRbo);
+		}
+
+		BindBuffer();
 
 		// Color texture
 		glGenTextures(1, &m_ColorTexture);
@@ -30,54 +40,24 @@ namespace Shark::Graphics {
 			SE_FAT(Rendering, "Framebuffer::Framebuffer() - not complete!");
 		}
 
-		Unbind();
-	}
-
-	Framebuffer::~Framebuffer() {
-		if (m_ColorTexture) glDeleteTextures(1, &m_ColorTexture);
-		if (m_DepthRbo) glDeleteRenderbuffers(1, &m_DepthRbo);
-		if (m_FBO) glDeleteFramebuffers(1, &m_FBO);
-	}
-
-	void Framebuffer::Bind() const {
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-		glViewport(0, 0, m_Width, m_Height);
-	}
-
-	void Framebuffer::Unbind() {
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		UnbindBuffer();
 	}
 
 	void Framebuffer::Clear(float r, float g, float b, float a) const {
-		Bind();
+		BindBuffer();
 		glClearColor(r, g, b, a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
 	void Framebuffer::Resize(int width, int height)
 	{
-		if (width <= 0 || height <= 0) return; // Skips invalid sizes
-		if (width == m_Width && height == m_Height) return;
+		if (width <= 0 || height <= 0 || width == m_Width && height == m_Height) return; // Skips invalid sizes
 
 		m_Width = width;
 		m_Height = height;
 
-		Bind();
-
-		// Reallocate color texture
-		glBindTexture(GL_TEXTURE_2D, m_ColorTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_INT, nullptr);
-
-		// Reallocate depth/stencil renderbuffer
-		glBindRenderbuffer(GL_RENDERBUFFER, m_DepthRbo);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-
-		// Check completeness again
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-			SE_FAT(Rendering, "Framebuffer::Resize() - Resize failed!");
-		}
-
-		Unbind();
+		Invalidate(width, height);
 	}
+
 }
 

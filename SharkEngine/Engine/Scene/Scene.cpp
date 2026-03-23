@@ -1,16 +1,20 @@
 #include "Scene.h"
 #include "Components/Logic/CameraController.h"
 #include "Components/Logic/CameraComponent.h"
+#include "Components/Rendering/LightComponent.h"
 
 namespace Shark {
 
     using Shark::Core::GameObject;
 	using Shark::Components::CameraController;
 	using Shark::Components::CameraComponent;
+    using Shark::Components::LightComponent;
+    using Shark::Components::LightType;
 
     Scene::Scene()
     {
 		CreateCamera();
+        CreateDirectionalLight();
     }
 
     Scene::~Scene()
@@ -66,6 +70,19 @@ namespace Shark {
 		cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
 
         AddGameObject(cam);
+    }
+
+    void Scene::CreateDirectionalLight()
+    {
+        GameObject* directionalLight = new GameObject("Directional Light");
+        directionalLight->AddComponent<LightComponent>();
+        directionalLight->GetComponent<LightComponent>()->Type = LightType::Directional;
+        directionalLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+        directionalLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
+        directionalLight->GetTransform().Rotate({ -45.0f, -45.0f, 0.0f });
+
+
+        AddGameObject(directionalLight);
     }
 
     CameraComponent* Scene::GetCamera() const

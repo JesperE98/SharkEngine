@@ -10,6 +10,7 @@ namespace Shark::Components { class CameraComponent; struct LightData; }
 namespace Shark::Graphics {
 	class Shader;
 	class Framebuffer;
+	class ShadowBuffer;
 
 	class RenderPass
 	{
@@ -26,6 +27,7 @@ namespace Shark::Graphics {
 			Shark::Scene* scene, 
 			Shark::Components::CameraComponent* cam, 
 			std::vector<Shark::Components::LightData> lights) = 0;
+		virtual void Execute(Scene* scene, const Shark::Components::LightData& mainLight) = 0;
 
 		virtual void UpdateCameraTransform(
 			Shark::Graphics::Shader* shader,

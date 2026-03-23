@@ -25,7 +25,7 @@ namespace Shark::Components {
 	class LightComponent : virtual public Component {
 	public:
 
-		LightType Type = LightType::Point;
+		LightType Type = LightType::Directional;
 		Shark::Math::Vector3 Color = { 1.0f, 1.0f, 1.0f };
 		float Intensity = 1.0f;
 		float Range = 10.0f;

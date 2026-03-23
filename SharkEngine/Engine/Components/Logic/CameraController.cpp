@@ -20,7 +20,7 @@ namespace Shark::Components {
 
 	void CameraController::Update(float deltaTime) {
 
-		if (!WindowManager::Get().IsSceneViewportFocused() || !WindowManager::Get().IsSceneViewportHovered()) return;
+		//if (!WindowManager::Get().IsSceneViewportFocused() || !WindowManager::Get().IsSceneViewportHovered()) return;
 
 		InputManager& inputManager = InputManager::Get();
 		Transform& transform = GetOwner()->GetTransform();

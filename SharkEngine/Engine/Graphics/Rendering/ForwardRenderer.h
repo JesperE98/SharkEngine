@@ -6,19 +6,26 @@
 namespace Shark::Graphics
 {
 	class Framebuffer;
+	class ShadowMapPass;
+	class ShadowBuffer;
+	class ForwardRenderPass;
 
-	class ForwardRenderer : virtual public Renderer
+	class ForwardRenderer : public Renderer
 	{
 	public:
 		explicit ForwardRenderer();
+		~ForwardRenderer() override;
 		void Init() override final;
 		void BeginFrame() override final;
 		void RenderScene(float deltaTime, Shark::Scene* scene, Shark::Components::CameraComponent* cam) override final;
 		void EndFrame() override final;
 		void SetTarget(Framebuffer* fb);
+		ShadowMapPass* GetShadowPass() const;
 	private:
-		std::unique_ptr<Framebuffer> sceneFb; // Main scene target
-		std::unique_ptr<Framebuffer> shadowFb; // Shadow map target (optional)
+		Framebuffer* m_SceneFb{ nullptr }; // Main scene target
+		ShadowBuffer* m_ShadowFb{ nullptr }; // Shadow map target (optional)
+		ForwardRenderPass* m_ForwardPass{ nullptr };
+		ShadowMapPass* m_ShadowPass{ nullptr };
 	};
 }
 

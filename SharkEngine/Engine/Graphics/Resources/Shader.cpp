@@ -146,7 +146,21 @@ namespace Shark::Graphics {
 
 	void Shader::SetMatrix4(const std::string& name, const glm::mat4 mat) const
 	{
-		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+		// 1. Force this shader to be active so uniforms land in the right place
+		glUseProgram(ID);
+
+		int location = glGetUniformLocation(ID, name.c_str());
+		if (location != -1) {
+			glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+		}
+		//int location = glGetUniformLocation(ID, name.c_str());
+		//if (location == -1) {
+		//	// This will catch the "<location> is invalid" error immediately
+		//	SE_WARN(Resources, "Uniform '{}' not found in shader (maybe optimized out?)", name);
+		//	return;
+		//}
+		//glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+		//glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
 
 	void Shader::CheckCompileErrors(const unsigned int& shader, const std::string& type) {

@@ -174,8 +174,9 @@ namespace Shark::Editor {
 		if (scene) {
 			scene->AddGameObject(obj);
 
-			obj->GetTransform().position = Vector3(-0.5f, 0.0f, 0.0f);
-			obj->GetTransform().scale = Vector3(1.f, 1.f, 1.f);
+			obj->GetTransform().position = Vector3(0.0f, 0.0f, 0.0f);
+			obj->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
+			obj->GetComponent<MeshRendererComponent>()->GetMaterial()->SetTexture("Textures/Viking_House.png");
 			SE_SUCC(Editor, "LevelEditorManager::ReceiveMessage() - Successfully created GameObject: {}", msg.payload);
 		}
 		else {
@@ -191,8 +192,9 @@ namespace Shark::Editor {
 			return;
 		}
 
-		GameObject* obj = new GameObject("Cube");
-
+		GameObject* obj = new GameObject("Platform");
+		obj->GetTransform().position = { 0.0f, -0.5f, 0.0f };
+		obj->GetTransform().SetScale({ 10.0f, 0.5f, 10.0f });
 		Material* mat = new Material();
 
 		obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);

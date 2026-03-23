@@ -38,13 +38,15 @@ namespace Shark {
 
 	void EditorApp::Run() {
 
-		EngineContext::Get().OnInitialize();
+		EngineContext::Get().PreInitialize();
+
 		CreateEditorWindow();
 
 		m_MenuBar = new EditorMenuBar();
 		LevelEditorManager::Get().Initialize();
 		WindowManager::Get().Initialize();
 
+		EngineContext::Get().OnInitialize();
 		GLFWwindow* window = EngineContext::Get().m_Window;
 
 		while (!glfwWindowShouldClose(EngineContext::Get().m_Window))
@@ -74,9 +76,14 @@ namespace Shark {
 
 	void EditorApp::CreateEditorWindow()
 	{
-		glfwMakeContextCurrent(EngineContext::Get().m_Window);	//// Just a dummy VAO for OpenGL 3.3 core profile
+		SE_LOG(Editor, "Creating EditorApp Window.");
+		auto* window = EngineContext::Get().m_Window;
+		if (!window) {
+			SE_FAT(Editor, "Window was not created before CreateEditorWindow was called!");
+			return;
+		}
 
-		SE_LOG(Editor, "EditorApp::CreateEditorWindow() - Creating EditorApp Window.");
+		glfwMakeContextCurrent(window);	//// Just a dummy VAO for OpenGL 3.3 core profile
 
 		const GLubyte* version = glGetString(GL_VERSION);
 		SE_LOG(OpenGL, "OpenGL version: {}", version);

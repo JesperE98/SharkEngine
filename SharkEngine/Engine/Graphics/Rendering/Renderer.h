@@ -1,13 +1,10 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "RenderPass.h"
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <memory>
-#include <iostream>
 
 namespace Shark				{ class Scene; }
 namespace Shark::Core		{ class EngineContext; }
