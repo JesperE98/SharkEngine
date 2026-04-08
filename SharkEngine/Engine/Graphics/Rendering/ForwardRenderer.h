@@ -9,6 +9,8 @@ namespace Shark::Graphics
 	class ShadowMapPass;
 	class ShadowBuffer;
 	class ForwardRenderPass;
+	class SkyPass;
+	class PointShadowPass;
 
 	class ForwardRenderer : public Renderer
 	{
@@ -22,10 +24,12 @@ namespace Shark::Graphics
 		void SetTarget(Framebuffer* fb);
 		ShadowMapPass* GetShadowPass() const;
 	private:
-		Framebuffer* m_SceneFb{ nullptr }; // Main scene target
-		ShadowBuffer* m_ShadowFb{ nullptr }; // Shadow map target (optional)
-		ForwardRenderPass* m_ForwardPass{ nullptr };
-		ShadowMapPass* m_ShadowPass{ nullptr };
+		Framebuffer* m_SceneFb				{ nullptr }; // Main scene target
+		ShadowBuffer* m_ShadowFb			{ nullptr }; // Shadow map target (optional)
+		ForwardRenderPass* m_ForwardPass	{ nullptr };
+		ShadowMapPass* m_ShadowPass			{ nullptr };
+		SkyPass* m_SkyPass					{ nullptr };
+		PointShadowPass* m_PointShadowPass	{ nullptr };
 	};
 }
 

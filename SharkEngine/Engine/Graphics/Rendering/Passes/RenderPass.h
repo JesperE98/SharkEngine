@@ -1,6 +1,8 @@
 #ifndef RENDERPASS_H
 #define RENDERPASS_H
 
+#include "Graphics/Rendering/RenderingConstants.h"
+
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -11,6 +13,7 @@ namespace Shark::Graphics {
 	class Shader;
 	class Framebuffer;
 	class ShadowBuffer;
+	class QuadBuffer;
 
 	class RenderPass
 	{
@@ -27,7 +30,7 @@ namespace Shark::Graphics {
 			Shark::Scene* scene, 
 			Shark::Components::CameraComponent* cam, 
 			std::vector<Shark::Components::LightData> lights) = 0;
-		virtual void Execute(Scene* scene, const Shark::Components::LightData& mainLight) = 0;
+		virtual void Execute(Scene* scene, const std::vector<Shark::Components::LightData>& lights) = 0;
 
 		virtual void UpdateCameraTransform(
 			Shark::Graphics::Shader* shader,

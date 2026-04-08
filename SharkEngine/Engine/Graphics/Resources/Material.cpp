@@ -51,7 +51,7 @@ namespace Shark::Graphics {
 		}
 
 		bool bUseSpecMap = (m_SpecularTexture != nullptr);
-		m_Shader->SetInt("uUseSpecularMap", static_cast<int>(bUseSpecMap));
+		m_Shader->SetBool("uUseSpecularMap", bUseSpecMap);
 
 		if(bUseSpecMap) {
 			glActiveTexture(GL_TEXTURE1);

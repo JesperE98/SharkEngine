@@ -8,7 +8,7 @@
 #pragma	region Engine Includes
 #include <Core/Engine/EngineContext.h>
 #include <Graphics/Rendering/ForwardRenderer.h>
-#include <Graphics/Rendering/ShadowMapPass.h>
+#include <Graphics/Rendering/Passes/ShadowMapPass.h>
 #include <Managers/SceneManager.h>
 #include <Managers/MemoryManager.h>
 #include <Components/Rendering/LightComponent.h>
@@ -126,9 +126,9 @@ namespace Shark::Editor {
 		auto* fr = dynamic_cast<ForwardRenderer*>(EngineContext::Get().m_Renderer);
 		unsigned int debugTexID = 0;
 
-		if (fr && fr->GetShadowPass()) { // Assuming you add a getter for the ShadowPass
-			debugTexID = fr->GetShadowPass()->GetShadowMapTexture();
-		}
+		//if (fr && fr->GetShadowPass()) {
+		//	debugTexID = fr->GetShadowPass()->GetShadowMapTexture();
+		//}
 
 		ImTextureID tex = (ImTextureID)(intptr_t)m_SceneViewport->GetColorAttachment();
 		//ImTextureID tex = (ImTextureID)(intptr_t)debugTexID;

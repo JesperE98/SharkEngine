@@ -15,6 +15,7 @@ namespace Shark {
     {
 		CreateCamera();
         CreateDirectionalLight();
+        CreatePointLight();
     }
 
     Scene::~Scene()
@@ -52,7 +53,7 @@ namespace Shark {
         m_GameObjects.push_back(obj);
     }
 
-    std::vector<GameObject*>& Scene::GetGameObjects()
+    const std::vector<GameObject*>& Scene::GetGameObjects()
     {
         return m_GameObjects;
     }
@@ -74,15 +75,27 @@ namespace Shark {
 
     void Scene::CreateDirectionalLight()
     {
-        GameObject* directionalLight = new GameObject("Directional Light");
-        directionalLight->AddComponent<LightComponent>();
-        directionalLight->GetComponent<LightComponent>()->Type = LightType::Directional;
-        directionalLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
-        directionalLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
-        directionalLight->GetTransform().Rotate({ -45.0f, -45.0f, 0.0f });
+        GameObject* dLight = new GameObject("Directional Light");
+        dLight->AddComponent<LightComponent>();
+        dLight->GetComponent<LightComponent>()->Type = LightType::Directional;
+        dLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+        dLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
+        dLight->GetTransform().Rotate({ -45.0f, -45.0f, 0.0f });
 
 
-        AddGameObject(directionalLight);
+        AddGameObject(dLight);
+    }
+
+    void Scene::CreatePointLight()
+    {
+        GameObject* pLight = new GameObject("Point Light");
+        pLight->AddComponent<LightComponent>();
+        pLight->GetComponent<LightComponent>()->Type = LightType::Point;
+        pLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+        pLight->GetTransform().position = { 0.0f, 1.5f, 0.0f };
+        pLight->GetTransform().Rotate({ 0.0f, 0.0f, 0.0f });
+
+        AddGameObject(pLight);
     }
 
     CameraComponent* Scene::GetCamera() const

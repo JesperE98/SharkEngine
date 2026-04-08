@@ -76,6 +76,19 @@ namespace Shark::Managers {
         return newShader;
     }
 
+    Shader* ShaderManager::LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath, const std::string& geomPath)
+    {
+        if (m_ShaderCache.find(name) != m_ShaderCache.end()) {
+            return m_ShaderCache[name];
+        }
+
+        auto* newShader = new Shader(vertPath.c_str(), fragPath.c_str(), geomPath.c_str());
+        m_ShaderCache[name] = newShader;
+
+        SE_LOG(Resources, "ShaderManager::LoadShader() - Compiled and Cached shader: {} (vert: {}, frag: {}, geom: {})", name, vertPath, fragPath, geomPath);
+        return newShader;
+    }
+
     const Shader* ShaderManager::GetShader(const std::string& name) const
     {
         if(m_ShaderCache.find(name) != m_ShaderCache.end()) {

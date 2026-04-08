@@ -44,12 +44,6 @@ namespace Shark::Graphics {
 		glm::mat4 viewMatrix = cam->GetViewMatrix();
 		glm::mat4 projectionMatrix = cam->GetProjectionMatrix();
 
-        if(m_ShadowMapID != 0) {
-            // If no shadow map, we still need to point the sampler somewhere safe 
-            // or the shader will error out trying to read unit 0
-
-        }
-
         // Loop trough all rendereables in scene
         for (auto* obj : scene->GetGameObjects()) {
             MeshRendererComponent* meshRenderer = obj->GetComponent<MeshRendererComponent>();
@@ -59,13 +53,34 @@ namespace Shark::Graphics {
             if (!shader) continue;
 
             shader->Use();
+           
 
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, m_ShadowMapID);
-            shader->SetInt("uShadowMap", 2);
-            shader->SetMatrix4("uLightSpaceMatrix", m_LightSpaceMatrix);
+            // --- DIRECTIONAL SHADOWS (Slot 2-5) ---
+            for (int i = 0; i < 4; i++) {
+                glActiveTexture(GL_TEXTURE2 + i);
 
-            
+                if (i == 0 && m_ShadowMapIDs[i] != 0)
+                    glBindTexture(GL_TEXTURE_2D, m_ShadowMapIDs[i]);
+                else
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+                shader->SetInt("uShadowMaps[" + std::to_string(i) + "]", 2 + i);
+                shader->SetMatrix4("uLightSpaceMatrices[" + std::to_string(i) + "]", m_LightSpaceMatrices[i]);
+            }
+
+            //// --- POINT SHADOWS (Slot 6-7) ---
+            for (int i = 0; i < MAX_SHADOW_POINT_LIGHTS; i++) {
+                glActiveTexture(GL_TEXTURE6 + i);
+
+                if (m_PointShadowMapIDs[i] != 0)
+                    glBindTexture(GL_TEXTURE_CUBE_MAP, m_PointShadowMapIDs[i]);
+                else
+                    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+                shader->SetInt("uPointShadowMaps[" + std::to_string(i) + "]", 6 + i);
+            }
+            shader->SetFloat("uPointShadowFarPlane", m_PointShadowFarPlane);
+
             UpdateCameraTransform(shader, cam, viewMatrix, projectionMatrix);
             UpdateLights(shader, lights);
 
@@ -81,10 +96,12 @@ namespace Shark::Graphics {
         shader->SetVector3("uViewPos", cam->GetOwner()->GetTransform().position); // Passes Camera Position (for specular highlights)
     }
 
-    void ForwardRenderPass::SetShadowData(unsigned int textureID, const glm::mat4& lightSpaceMatrix)
+    void ForwardRenderPass::SetShadowDataAtIndex(int index, unsigned int texID, const glm::mat4& lightSpaceMatrix)
     {
-        m_ShadowMapID = textureID;
-        m_LightSpaceMatrix = lightSpaceMatrix;
+        if (index < 4) {
+            m_ShadowMapIDs[index] = texID;
+            m_LightSpaceMatrices[index] = lightSpaceMatrix;
+        }
     }
 
     void ForwardRenderPass::UpdateLights(Shader* shader, std::vector<LightData>& lights)
@@ -100,6 +117,15 @@ namespace Shark::Graphics {
             shader->SetFloat(base +     "intensity",    lights[i].intensity);
             shader->SetFloat(base +     "range",        lights[i].range);
         }
+    }
+
+    void ForwardRenderPass::SetPointShadowDataAtIndex(int index, unsigned int cubemapID, float farPlane)
+    {
+        if (index < 4) {
+            m_PointShadowMapIDs[index] = cubemapID;
+            m_PointShadowFarPlane = farPlane;
+        }
+
     }
 
     void ForwardRenderPass::End()

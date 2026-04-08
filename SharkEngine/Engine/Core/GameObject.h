@@ -5,6 +5,8 @@
 #include "Math/Transform.h"
 #include "Components/Component.h"
 #include <vector>
+#include <unordered_map>
+#include <typeindex>
 
 namespace Shark::Core {
 
@@ -36,15 +38,20 @@ namespace Shark::Core {
 
 			m_Components.push_back(comp);
 
+			m_ComponentMap[std::type_index(typeid(T))] = static_cast<T*>(comp);
+
 			return comp;
 		}
 
 		template<typename T>
 		void RemoveComponent() {
-			for (auto it = m_Components.begin(); it != m_Components.end(); ++it) {
+			std::type_index idx(typeid(T));
+			m_ComponentMap.erase(idx);
+
+			for (auto it = m_Components.begin(); it != m_Components.end(); ++it){
 				if (dynamic_cast<T*>(*it)) {
-					delete* it; // Free memory
-					m_Components.erase(it); // Remove from list
+					delete* it;
+					m_Components.erase(it);
 					return;
 				}
 			}
@@ -52,13 +59,14 @@ namespace Shark::Core {
 
 		template<typename T>
 		T* GetComponent() {
-			for (auto* comp : m_Components) {
-				if (auto* casted = dynamic_cast<T*>(comp)) {
-					return casted;
-				}
+			auto it = m_ComponentMap.find(std::type_index(typeid(T)));
+
+			if(it != m_ComponentMap.end()){
+				return static_cast<T*>(it->second);
 			}
 			return nullptr;
 		}
+
 
 #pragma region Hierarchy Management
 		void SetParent(GameObject* newParent);
@@ -73,6 +81,7 @@ namespace Shark::Core {
 
 #pragma region Container Member Variables
 		std::vector<Shark::Components::Component*> m_Components;
+		std::unordered_map<std::type_index, void*> m_ComponentMap;
 		std::vector<GameObject*> m_Children;
 		GameObject* m_Parent{ nullptr };
 #pragma endregion

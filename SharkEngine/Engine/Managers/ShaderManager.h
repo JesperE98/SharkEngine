@@ -21,7 +21,12 @@ namespace Shark::Managers {
 
 		// Return an exisiting shader or loads/compiles a new one
 		Shark::Graphics::Shader* LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath);
-
+		Shark::Graphics::Shader* LoadShader(
+			const std::string& name,
+			const std::string& vertPath,
+			const std::string& fragPath,
+			const std::string& geomPath
+		);
 		// Convenience: find by name if you know a shader is already loaded
 		const Shark::Graphics::Shader* GetShader(const std::string& name) const;
 

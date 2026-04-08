@@ -1,0 +1,7 @@
+#ifndef RENDERING_CONSTANTS_H
+#define RENDERING_CONSTANTS_H
+
+#define MAX_DIR_SHADOWS			4
+#define MAX_SHADOW_POINT_LIGHTS 2
+
+#endif

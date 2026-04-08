@@ -11,13 +11,20 @@ namespace Shark::Graphics {
 
 		// Program ID
 		unsigned int ID;
+		/*
+		* Constructor that builds the shader program from 2 different shaders.
+		* @param vertPath - Path to the vertex shader source code.
+		* @param fragPath - Path to the fragment shader source code.
+		*/
+		explicit Shader(const char* vertPath, const char* fragPath);
 
 		/*
 		* Constructor that builds the shader program from 2 different shaders.
-		* @param vertexPath - Path to the vertex shader source code.
-		* @param fragmentPath - Path to the fragment shader source code.
+		* @param vertPath - Path to the vertex shader source code.
+		* @param fragPath - Path to the fragment shader source code.
+		* @param geomPath - Path to the geometry shader source code.
 		*/
-		Shader(const char* vertexPath, const char* fragmentPath);
+		Shader(const char* vertPath, const char* fragPath, const char* geomPath);
 
 		~Shader();
 
@@ -73,6 +80,10 @@ namespace Shark::Graphics {
 		* @param type - Type of shader ("VERTEX", "FRAGMENT", "PROGRAM").
 		*/
 		void CheckCompileErrors(const unsigned int& shader, const std::string& type);
+
+
+		void CreateShaderProgram(const char* vertPath, const char* fragPath);
+		void CreateShaderProgram(const char* vertPath, const char* fragPath, const char* geomPath);
 	};
 }
 #endif // SHADERS_H

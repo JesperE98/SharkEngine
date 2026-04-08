@@ -15,13 +15,14 @@ namespace Shark {
 		~Scene();
 
 		void AddGameObject(Shark::Core::GameObject* obj);
-		std::vector<Shark::Core::GameObject*>& GetGameObjects();
+		const std::vector<Shark::Core::GameObject*>& GetGameObjects();
 		void DestroyGameObject(Shark::Core::GameObject* obj);
 
 		void Update(float deltaTime);
 
 		void CreateCamera();
 		void CreateDirectionalLight();
+		void CreatePointLight();
 		Shark::Components::CameraComponent* GetCamera() const;
 
 	private:

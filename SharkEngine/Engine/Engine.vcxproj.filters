@@ -27,13 +27,13 @@
     <ClInclude Include="Graphics\Rendering\ForwardRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Rendering\ForwardRenderPass.h">
+    <ClInclude Include="Graphics\Rendering\Passes\ForwardRenderPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Rendering\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Rendering\RenderPass.h">
+    <ClInclude Include="Graphics\Rendering\Passes\RenderPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Resources\Material.h">
@@ -147,13 +147,28 @@
     <ClInclude Include="Components\Rendering\LightComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Rendering\ShadowMapPass.h">
+    <ClInclude Include="Graphics\Rendering\Passes\ShadowMapPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Framebuffer\ShadowBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Framebuffer\IRenderTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Rendering\Passes\SkyPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Framebuffer\QuadBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Framebuffer\PointShadowBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Rendering\Passes\PointShadowPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Rendering\RenderingConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,10 +185,10 @@
     <ClCompile Include="Graphics\Rendering\ForwardRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Rendering\ForwardRenderPass.cpp">
+    <ClCompile Include="Graphics\Rendering\Passes\ForwardRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Rendering\RenderPass.cpp">
+    <ClCompile Include="Graphics\Rendering\Passes\RenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Resources\Material.cpp">
@@ -269,10 +284,22 @@
     <ClCompile Include="Components\Rendering\LightComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Rendering\ShadowMapPass.cpp">
+    <ClCompile Include="Graphics\Rendering\Passes\ShadowMapPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Framebuffer\ShadowBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Rendering\Passes\SkyPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Framebuffer\QuadBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Framebuffer\PointShadowBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Rendering\Passes\PointShadowPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
