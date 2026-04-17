@@ -5,6 +5,9 @@
 #include <Components/Rendering/MeshRendererComponent.h>
 #include <Components/Rendering/LightComponent.h>
 #include <Components/Logic/CameraComponent.h>
+#include <Components/Physics/AABBComponent.h>
+#include <Components/Physics/RigidbodyComponent.h>
+#include <Components/PlayerController.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
 #include <Managers/MeshManager.h>
 #include <Math/MathUtils.h>
@@ -19,6 +22,9 @@ namespace Shark::Editor {
 	using Shark::Components::CameraComponent;
 	using Shark::Components::LightComponent;
 	using Shark::Components::LightType;
+	using Shark::Components::AABBComponent;
+	using Shark::Components::RigidbodyComponent;
+	using Shark::Components::PlayerController;
 	using Shark::Graphics::Mesh;
 	using Shark::Graphics::PrimitiveType;
 	using Shark::Managers::MeshManager;
@@ -54,6 +60,9 @@ namespace Shark::Editor {
 		DrawComponentUI<MeshRendererComponent>("MeshRenderer", m_SelectedObject);
 		DrawComponentUI<CameraComponent>("Camera", m_SelectedObject);
 		DrawComponentUI<LightComponent>("Light", m_SelectedObject);
+		DrawComponentUI<AABBComponent>("AABB Collider", m_SelectedObject);
+		DrawComponentUI<RigidbodyComponent>("Rigidbody", m_SelectedObject);
+		DrawComponentUI<PlayerController>("Player Controller", m_SelectedObject);
 
 		// --- 4. Footer
 		DrawAddComponentButton(m_SelectedObject);
@@ -153,6 +162,18 @@ namespace Shark::Editor {
 				if (!obj->GetComponent<LightComponent>()) {
 					obj->AddComponent<LightComponent>();
 				}
+			}
+			if (ImGui::MenuItem("AABB Collider")) {
+				if (!obj->GetComponent<AABBComponent>())
+					obj->AddComponent<AABBComponent>(Vector3(0.5f, 0.5f, 0.5f), true);
+			}
+			if (ImGui::MenuItem("Rigidbody")) {
+				if (!obj->GetComponent<RigidbodyComponent>())
+					obj->AddComponent<RigidbodyComponent>();
+			}
+			if (ImGui::MenuItem("PlayerController")) {
+				if (!obj->GetComponent<PlayerController>())
+					obj->AddComponent<PlayerController>();
 			}
 			ImGui::EndPopup();
 		}
@@ -292,5 +313,50 @@ namespace Shark::Editor {
 			ImGui::DragFloat("Range", &light->Range, 0.1f, 0.1f, 500.0f);
 		}
 	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<AABBComponent>(AABBComponent* aabb) {
+		float ext[3] = { aabb->m_Extents.x, aabb->m_Extents.y, aabb->m_Extents.z };
+
+		if (ImGui::DragFloat3("Extents", ext, 0.01f, 0.01f, 100.0f)) {
+			aabb->m_Extents = { ext[0], ext[1], ext[2] };
+		}
+
+		float off[3] = { aabb->m_Offset.x, aabb->m_Offset.y, aabb->m_Offset.z };
+	
+		if (ImGui::DragFloat3("Offset", off, 0.01f)) {
+			aabb->m_Offset = { off[0], off[1], off[2] };
+		}
+
+		ImGui::Checkbox("Is Static", &aabb->bIsStatic);
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<RigidbodyComponent>(RigidbodyComponent* physics) {
+		ImGui::DragFloat("Mass",			&physics->mass,			0.1f, 0.1f, 100.0f);
+		ImGui::DragFloat("Gravity",			&physics->gravity,		0.1f, -100.0f, 0.0f);
+		ImGui::DragFloat("Drag",			&physics->drag,			0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat("Bounce Factor",	&physics->bounceFactor,	0.01f, 0.0f, 1.0f);
+		ImGui::Checkbox("Use Gravity",		&physics->bUseGravity);
+
+		// Read-only runtime info
+		ImGui::Separator();
+		ImGui::TextDisabled("Velocity: %.2f, %.2f, %.2f",
+			physics->velocity.x,
+			physics->velocity.y,
+			physics->velocity.z
+		);
+
+		ImGui::TextDisabled("Grounded: %s", physics->bIsGrounded ? "Yes" : "No");
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<PlayerController>(PlayerController* pc) {
+		ImGui::DragFloat("Move Speed",		&pc->moveSpeed,		0.1f,	0.001f, 50.0f);
+		ImGui::DragFloat("Jump Force",		&pc->jumpForce,		0.1f,	0.001f, 50.0f);
+		ImGui::DragFloat("Dash Force",		&pc->dashForce,		0.1f,	0.001f, 50.0f);
+		ImGui::DragFloat("Dash Cooldown",	&pc->dashCooldown,	0.05f,	0.0f,	5.0f);
+	}
+
 #pragma endregion
 }

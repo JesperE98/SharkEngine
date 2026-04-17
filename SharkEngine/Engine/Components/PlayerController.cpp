@@ -1,0 +1,74 @@
+#include "PlayerController.h"
+#include "Core/GameObject.h"
+#include "Physics/RigidbodyComponent.h"
+#include "Core/Engine/EngineContext.h"
+#include "Math/Vector3.h"
+
+namespace Shark::Components {
+
+	using Shark::Math::Vector3;
+
+	void PlayerController::BeginPlay()
+	{
+		m_RigidbodyComp = GetOwner()->GetComponent<RigidbodyComponent>();
+
+		if (!m_RigidbodyComp) {
+			m_RigidbodyComp = GetOwner()->AddComponent<RigidbodyComponent>();
+		}
+	}
+
+	void PlayerController::Update(float deltaTime)
+	{
+		if (!m_RigidbodyComp) {
+			m_RigidbodyComp = GetOwner()->GetComponent<RigidbodyComponent>();
+			if (!m_RigidbodyComp) return;
+		}
+
+		GLFWwindow* window = glfwGetCurrentContext();
+		if (!window) return;
+
+#pragma region MOVEMENT
+
+		Vector3 moveDir = Vector3(0, 0, 0);
+
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) moveDir.z -= 1.0f;
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) moveDir.z += 1.0f;
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) moveDir.x -= 1.0f;
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) moveDir.x += 1.0f;
+
+		// Normalize diagonal movement
+		float len = std::sqrt(moveDir.x * moveDir.x + moveDir.z * moveDir.z);
+		if (len > 0.001f) {
+			moveDir.x /= len;
+			moveDir.z /= len;
+		}
+
+		// Applying horizontal velocity directly for snappier movement than forces
+		m_RigidbodyComp->velocity.x = moveDir.x * moveSpeed;
+		m_RigidbodyComp->velocity.z = moveDir.z * moveSpeed;
+
+#pragma endregion
+
+#pragma region JUMP
+
+		bool jumpPressed = (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS);
+
+		if (jumpPressed && !m_JumpPressedLast && m_RigidbodyComp->bIsGrounded) {
+			m_RigidbodyComp->velocity.y = jumpForce;
+		}
+		m_JumpPressedLast = jumpPressed;
+
+#pragma endregion
+
+#pragma region DASH
+
+		bool dashPressed = (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS);
+
+		if (dashPressed && !m_DashPressedLast && m_DashTimer <= 0.0f && len > 0.001f) {
+			m_RigidbodyComp->velocity.y = moveDir.x * dashForce;
+			m_RigidbodyComp->velocity.y = moveDir.z * dashForce;
+			m_DashTimer = dashCooldown;
+		}
+		m_DashPressedLast = dashPressed;
+	}
+}

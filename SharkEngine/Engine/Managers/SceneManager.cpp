@@ -1,9 +1,11 @@
 #include "SceneManager.h"
 #include "Scene/Scene.h"
+#include "PhysicsSystem.h"
 
 namespace Shark::Managers {
 
 	using Shark::Scene;
+	using Shark::Physics::PhysicsSystem;
 
 	SceneManager& SceneManager::Get()
 	{
@@ -24,6 +26,7 @@ namespace Shark::Managers {
 	{
 		if (m_ActiveScene) {
 			m_ActiveScene->Update(deltaTime);
+			PhysicsSystem::Get().Update(deltaTime, m_ActiveScene);
 		}
 	}
 

@@ -1,7 +1,7 @@
 #ifndef AABB_COMPONENT_H
 #define AABB_COMPONENT_H
 
-#include "Component.h"
+#include "Components/Component.h"
 #include "Math/Vector3.h"
 
 namespace Shark::Components {

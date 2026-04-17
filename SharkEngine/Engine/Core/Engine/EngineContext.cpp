@@ -87,13 +87,14 @@ namespace Shark::Core
 		/* ----------------- Window size ----------------- */
 		int width, height;
 		glfwGetFramebufferSize(m_Window, &width, &height);
+
 		// We use glfwGetProcAddress to find the function since it's an extension in 3.3
-		auto debugCallbackConfig = (void(APIENTRY*)(GLDEBUGPROC, const void*))glfwGetProcAddress("glDebugMessageCallback");
-		if (debugCallbackConfig) {
-			glEnable(GL_DEBUG_OUTPUT);
-			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // Forces the error to happen on the current line
-			debugCallbackConfig(MessageCallback, nullptr);
-		}
+		//auto debugCallbackConfig = (void(APIENTRY*)(GLDEBUGPROC, const void*))glfwGetProcAddress("glDebugMessageCallback");
+		//if (debugCallbackConfig) {
+		//	glEnable(GL_DEBUG_OUTPUT);
+		//	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); // Forces the error to happen on the current line
+		//	debugCallbackConfig(MessageCallback, nullptr);
+		//}
 		
 
 		/* ----------------- Scene ----------------- */

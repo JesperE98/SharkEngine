@@ -4,6 +4,8 @@
 #pragma region Engine Includes
 #include <Core/Utilities/Debug.h>
 #include <Components/Rendering/MeshRendererComponent.h>
+#include <Components/Physics/RigidbodyComponent.h>
+#include <Components/Physics/AABBComponent.h>
 #include <Core/GameObject.h>
 #include <Managers/MeshManager.h>
 #include <Managers/SceneManager.h>
@@ -18,6 +20,8 @@
 namespace Shark::Editor {
 
 	using Components::MeshRendererComponent;
+	using Components::RigidbodyComponent;
+	using Components::AABBComponent;
 	using Core::Message;
 	using Core::EventType;
 	using Core::GameObject;
@@ -163,10 +167,9 @@ namespace Shark::Editor {
 
 		Material* mat = new Material();
 
-		// Manual Texture for now. Goona remove this when I have Texture Manager that sets teh texture via the editor later on
-		/*mat->m_Texture = new Texture("Textures/Viking_House.png");*/
-
 		obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
+		//obj->AddComponent<RigidBodyComponent>();
+		//obj->AddComponent<AABBComponent>(Vector3(5.0f, 0.5f, 5.0f), false);
 
 		// Add to scene
 		Scene* scene = SceneManager::Get().GetActiveScene();
@@ -198,6 +201,7 @@ namespace Shark::Editor {
 		Material* mat = new Material();
 
 		obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
+		obj->AddComponent<AABBComponent>(Vector3(0.5f, 0.5f, 0.5f), true);
 
 		Scene* scene = SceneManager::Get().GetActiveScene();
 		if (scene) {

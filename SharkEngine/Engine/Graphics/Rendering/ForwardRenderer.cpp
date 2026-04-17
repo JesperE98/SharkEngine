@@ -4,9 +4,12 @@
 #include "Passes/PointShadowPass.h"
 #include "Passes/SkyPass.h"
 #include "Core/Engine/EngineContext.h"
+#include "Core/GameObject.h"
+#include "Core/Utilities/DebugRenderer.h"
 #include "Graphics/Framebuffer/Framebuffer.h"
 #include "Components/Rendering/LightComponent.h"
 #include "Components/Logic/CameraComponent.h"
+#include "Components/Physics/AABBComponent.h"
 #include "Scene/Scene.h"
 
 namespace Shark::Graphics {
@@ -15,8 +18,13 @@ namespace Shark::Graphics {
 	using Shark::Components::CameraComponent;
 	using Shark::Components::LightComponent;
 	using Shark::Components::LightData;
+	using Shark::Components::AABB;
+	using Shark::Components::AABBComponent;
 	using Shark::Graphics::ShadowBuffer;
 	using Shark::Graphics::SkyPass;
+	using Shark::Core::GameObject;
+	using Shark::Math::Vector3;
+	using Shark::Core::DebugRenderer;
 
 	ForwardRenderer::ForwardRenderer()
 	{
@@ -51,7 +59,7 @@ namespace Shark::Graphics {
 		m_SkyPass = new SkyPass(Shark::Core::WINDOW_WIDTH, Shark::Core::WINDOW_HEIGHT);
 		m_ForwardPass = new ForwardRenderPass(m_SceneFb); // Creating Forward Pass and adding it to list
 
-
+		DebugRenderer::Get().Init();
 		SE_LOG(Rendering, "ForwardRenderer initialized successfully.");
 		SE_LOG(Rendering, "Amount of passes in RenderPasses: {}", renderPasses.size());
 	}
@@ -110,6 +118,20 @@ namespace Shark::Graphics {
 		}
 
 		m_ForwardPass->Execute(deltaTime, scene, cam, { sceneLights });
+
+		for (GameObject* obj : scene->GetGameObjects()) {
+			AABBComponent* aabb = obj->GetComponent<AABBComponent>();
+			if (!aabb) continue;
+
+			const AABB& worldAABB = aabb->GetWorldAABB();
+			Vector3 color = aabb->bIsStatic ? Vector3(0, 1, 0) : Vector3(1, 1, 0);
+
+			DebugRenderer::Get().AddAABB(worldAABB.min, worldAABB.max, color);
+		}
+
+		DebugRenderer::Get().Render(cam->GetViewMatrix(), cam->GetProjectionMatrix());
+		DebugRenderer::Get().Clear();
+
 		m_ForwardPass->End();
 	}
 

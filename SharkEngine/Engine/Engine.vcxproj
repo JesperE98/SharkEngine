@@ -145,12 +145,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Physics\AABBComponent.h" />
     <ClInclude Include="Components\Behaviour.h" />
     <ClInclude Include="Components\Logic\CameraComponent.h" />
     <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="Components\Physics\RigidbodyComponent.h" />
+    <ClInclude Include="Components\PlayerController.h" />
     <ClInclude Include="Components\Rendering\LightComponent.h" />
     <ClInclude Include="Components\Rendering\MeshRendererComponent.h" />
     <ClInclude Include="Core\Events\SharkEvents.h" />
+    <ClInclude Include="Core\Utilities\DebugRenderer.h" />
     <ClInclude Include="Core\Utilities\Delegate.h" />
     <ClInclude Include="Graphics\Framebuffer\IRenderTarget.h" />
     <ClInclude Include="Graphics\Framebuffer\PointShadowBuffer.h" />
@@ -159,6 +163,7 @@
     <ClInclude Include="Graphics\Rendering\Passes\SkyPass.h" />
     <ClInclude Include="Graphics\Framebuffer\QuadBuffer.h" />
     <ClInclude Include="Graphics\Rendering\RenderingConstants.h" />
+    <ClInclude Include="Managers\PhysicsSystem.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Core\Engine\Engine.h" />
     <ClInclude Include="Core\Engine\EngineContext.h" />
@@ -199,18 +204,23 @@
     <ClInclude Include="Graphics\Rendering\Passes\ShadowMapPass.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Physics\AABBComponent.cpp" />
     <ClCompile Include="Components\Behaviour.cpp" />
     <ClCompile Include="Components\Logic\CameraComponent.cpp" />
     <ClCompile Include="Components\Component.cpp" />
+    <ClCompile Include="Components\Physics\RigidbodyComponent.cpp" />
+    <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\Rendering\LightComponent.cpp" />
     <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp" />
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />
+    <ClCompile Include="Core\Utilities\DebugRenderer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\PointShadowBuffer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\ShadowBuffer.cpp" />
     <ClCompile Include="Graphics\Rendering\Passes\PointShadowPass.cpp" />
     <ClCompile Include="Graphics\Rendering\Passes\SkyPass.cpp" />
     <ClCompile Include="Graphics\Framebuffer\QuadBuffer.cpp" />
+    <ClCompile Include="Managers\PhysicsSystem.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Managers\SceneManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
