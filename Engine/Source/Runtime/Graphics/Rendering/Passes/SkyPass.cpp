@@ -1,10 +1,8 @@
 #include "SkyPass.h"
 #include "Graphics/Framebuffer/QuadBuffer.h"
 #include "Graphics/Resources/Shader.h"
-#include "Managers/ShaderManager.h"
+#include "Graphics/Resources/ShaderManager.h"
 #include "Components/Rendering/LightComponent.h"
-
-#include <glad/glad.h>
 
 namespace Shark::Graphics {
 

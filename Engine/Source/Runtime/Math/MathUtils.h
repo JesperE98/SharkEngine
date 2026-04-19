@@ -1,11 +1,11 @@
 #pragma once
 
 #include <cmath>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/norm.hpp>
-#include <glm/geometric.hpp>
-#include <glm/gtx/euler_angles.hpp>
+#include <gtx/norm.hpp>
+#include <geometric.hpp>
+#include <gtx/euler_angles.hpp>
 
 #include "Vector2.h"
 #include "Vector3.h"

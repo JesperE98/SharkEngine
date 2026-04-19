@@ -4,8 +4,7 @@
 #include "Components/Rendering/MeshRendererComponent.h"
 #include "Components/Rendering/LightComponent.h"
 #include "Scene/Scene.h"
-#include "Managers/ShaderManager.h"
-#include <glad/glad.h>
+#include "Graphics/Resources/ShaderManager.h"
 
 namespace Shark::Graphics {
 

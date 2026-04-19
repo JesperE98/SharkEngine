@@ -1,5 +1,4 @@
 #include "PointShadowBuffer.h"
-#include "Core/Utilities/Debug.h"
 
 namespace Shark::Graphics {
 	PointShadowBuffer::PointShadowBuffer(int resolution) : IRenderTarget(resolution, resolution)

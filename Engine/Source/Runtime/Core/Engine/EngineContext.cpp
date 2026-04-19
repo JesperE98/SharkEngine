@@ -8,23 +8,19 @@
 */
 
 
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "EngineContext.h"
 #include "Engine.h"
 #include "Graphics/Rendering/ForwardRenderer.h"
-#include "Managers/InputManager.h"
-#include "Managers/MemoryManager.h"
-#include "Managers/MeshManager.h"
-#include "Managers/Pathmanager.h"
-#include "Managers/SceneManager.h"
-#include "Managers/TextureManager.h"
-#include "Managers/ShaderManager.h"
-#include "Scene/Scene.h"
+#include "Graphics/Resources/MeshManager.h"
 #include "Graphics/Resources/PrimitiveMesh.h"
-
-#include <Source/Managers/LevelEditorManager.h>
+#include "Graphics/Resources/ShaderManager.h"
+#include "Graphics/Resources/TextureManager.h"
+#include "Input/InputManager.h"
+#include "IO/Pathmanager.h"
+#include "Memory/MemoryManager.h"
+#include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
+#include <glad.h>
 
 namespace Shark::Core
 {
@@ -48,7 +44,6 @@ namespace Shark::Core
 	using Shark::Managers::TextureManager;
 	using Shark::Managers::SceneManager;
 	using Shark::Graphics::ForwardRenderer;
-	using Shark::Editor::LevelEditorManager;
 	using Shark::Graphics::PrimitiveType;
 	using Shark::Scene;
 
@@ -104,8 +99,7 @@ namespace Shark::Core
 
 		/* ----------------- Example Objects ----------------- */
 		MemoryManager::Get().CheckMemoryStatus();
-		LevelEditorManager::Get().RequestModelLoad("Models/Viking_House.obj");
-		LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
+
 	}
 
 	void EngineContext::OnUpdate(float deltaTime) {

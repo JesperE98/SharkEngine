@@ -42,7 +42,7 @@ namespace Shark::Graphics {
 
 	private:
 		bool m_bUseTexture = false;
-		Shark::Math::Vector3 m_BaseColor{ 1.0f, 1.0f, 1.0f }; // Default white color if no m_diffuseTexture is used
+		Shark::Math::Vector3 m_BaseColor = { 1.0f, 1.0f, 1.0f };; // Default white color if no m_diffuseTexture is used
 
 		Texture* m_diffuseTexture{ nullptr }; // Diffuse m_diffuseTexture
 		Texture* m_SpecularTexture{ nullptr }; // Specular m_diffuseTexture (optional, can be nullptr)

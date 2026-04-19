@@ -126,10 +126,10 @@
     <ClInclude Include="Components\Logic\CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Behaviour.h">
+    <ClInclude Include="Components\Behavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\SharkBehaviour.h">
+    <ClInclude Include="Components\SharkBehavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Managers\TextureManager.h">
@@ -186,6 +186,30 @@
     <ClInclude Include="Components\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\Resources\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Resources\ShaderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Resources\MeshManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\PathManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\MemoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Engine\Engine.cpp">
@@ -201,9 +225,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Rendering\Passes\ForwardRenderPass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Rendering\Passes\RenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Resources\Material.cpp">
@@ -222,9 +243,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Resources\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp">
@@ -281,12 +299,6 @@
     <ClCompile Include="Components\Logic\CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\Behaviour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\SharkBehaviour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Managers\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -332,5 +344,42 @@
     <ClCompile Include="Components\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Resources\TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Resources\ShaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Resources\MeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\PathManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory\MemoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Shaders\SE_BasicLit.frag.glsl" />
+    <None Include="..\..\Shaders\SE_BasicLit.vert.glsl" />
+    <None Include="..\..\Shaders\SE_Debug.frag.glsl" />
+    <None Include="..\..\Shaders\SE_Debug.vert.glsl" />
+    <None Include="..\..\Shaders\SE_PointShadow.frag.glsl" />
+    <None Include="..\..\Shaders\SE_PointShadow.geom.glsl" />
+    <None Include="..\..\Shaders\SE_PointShadow.vert.glsl" />
+    <None Include="..\..\Shaders\SE_Shadow.frag.glsl" />
+    <None Include="..\..\Shaders\SE_Shadow.vert.glsl" />
+    <None Include="..\..\Shaders\SE_Sky.frag.glsl" />
+    <None Include="..\..\Shaders\SE_Sky.vert.glsl" />
   </ItemGroup>
 </Project>

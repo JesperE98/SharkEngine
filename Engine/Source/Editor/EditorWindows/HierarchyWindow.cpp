@@ -1,12 +1,12 @@
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
-#include "Source/Managers/LevelEditorManager.h"
+#include "Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
 #include <Core/GameObject.h>
 #include <Core/Utilities/Debug.h>
 #include <Scene/Scene.h>
-#include <Managers/SceneManager.h>
+#include <Scene/SceneManager.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
 #pragma endregion
 

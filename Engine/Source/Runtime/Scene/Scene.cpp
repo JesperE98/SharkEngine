@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Core/GameObject.h"
 #include "Components/Logic/CameraController.h"
 #include "Components/Logic/CameraComponent.h"
 #include "Components/Rendering/LightComponent.h"

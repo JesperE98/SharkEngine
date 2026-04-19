@@ -1,13 +1,13 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
 
-#include "SharkBehaviour.h"
+#include "SharkBehavior.h"
 
 namespace Shark::Components {
 
 	class RigidbodyComponent;
 
-	class PlayerController : public SharkBehaviour {
+	class PlayerController : public SharkBehavior {
 	public:
 #pragma region TUNABLE STATS
 

@@ -3,7 +3,7 @@
 
 #include "Math/Vector3.h"
 #include <vector>
-#include <glm/glm.hpp>
+#include <fwd.hpp>
 
 namespace Shark::Graphics { class Shader; }
 

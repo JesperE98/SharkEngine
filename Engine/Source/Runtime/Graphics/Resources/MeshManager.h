@@ -29,6 +29,7 @@ namespace Shark::Managers {
 		
 		void Update(float DeltaTime);
 		void AddMeshToCache(const std::string& key, Shark::Graphics::Mesh* mesh);
+		void SetResponseTarget(Shark::Core::MessageSystem* target);
 
 		Shark::Graphics::Mesh* GetMesh(const std::string& filePath);
 		Shark::Graphics::Mesh* LoadMesh(Shark::Graphics::PrimitiveType type);
@@ -40,6 +41,7 @@ namespace Shark::Managers {
 	private:
 
 		std::unordered_map<std::string, Shark::Graphics::Mesh*> m_MeshCache;
+		Shark::Core::MessageSystem* m_ResponseTarget = nullptr;
 
 		MeshManager() = default;
 		~MeshManager() = default;

@@ -3,27 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{89FB449B-27B7-4D79-A444-204BD3FE959C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{16DF53DE-1130-4412-BDC5-6210451948E6} = {16DF53DE-1130-4412-BDC5-6210451948E6}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC782252-1EE0-4AFC-9491-BF7160136DEE}"
-	ProjectSection(SolutionItems) = preProject
-		Runtime\Content\Shaders\SE_BasicLit.frag.glsl = Runtime\Content\Shaders\SE_BasicLit.frag.glsl
-		Runtime\Content\Shaders\SE_BasicLit.vert.glsl = Runtime\Content\Shaders\SE_BasicLit.vert.glsl
-		Runtime\Content\Shaders\SE_Debug.frag.glsl = Runtime\Content\Shaders\SE_Debug.frag.glsl
-		Runtime\Content\Shaders\SE_Debug.vert.glsl = Runtime\Content\Shaders\SE_Debug.vert.glsl
-		Runtime\Content\Shaders\SE_PointShadow.frag.glsl = Runtime\Content\Shaders\SE_PointShadow.frag.glsl
-		Runtime\Content\Shaders\SE_PointShadow.geom.glsl = Runtime\Content\Shaders\SE_PointShadow.geom.glsl
-		Runtime\Content\Shaders\SE_PointShadow.vert.glsl = Runtime\Content\Shaders\SE_PointShadow.vert.glsl
-		Runtime\Content\Shaders\SE_Shadow.frag.glsl = Runtime\Content\Shaders\SE_Shadow.frag.glsl
-		Runtime\Content\Shaders\SE_Shadow.vert.glsl = Runtime\Content\Shaders\SE_Shadow.vert.glsl
-		Runtime\Content\Shaders\SE_Sky.frag.glsl = Runtime\Content\Shaders\SE_Sky.frag.glsl
-		Runtime\Content\Shaders\SE_Sky.vert.glsl = Runtime\Content\Shaders\SE_Sky.vert.glsl
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Source\Runtime\Engine.vcxproj", "{16DF53DE-1130-4412-BDC5-6210451948E6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Engine\Source\Editor\Editor.vcxproj", "{89FB449B-27B7-4D79-A444-204BD3FE959C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x64.ActiveCfg = Debug|x64
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x64.Build.0 = Debug|x64
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x86.ActiveCfg = Debug|Win32
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x86.Build.0 = Debug|Win32
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x64.ActiveCfg = Release|x64
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x64.Build.0 = Release|x64
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x86.ActiveCfg = Release|Win32
-		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x86.Build.0 = Release|Win32
 		{16DF53DE-1130-4412-BDC5-6210451948E6}.Debug|x64.ActiveCfg = Debug|x64
 		{16DF53DE-1130-4412-BDC5-6210451948E6}.Debug|x64.Build.0 = Debug|x64
 		{16DF53DE-1130-4412-BDC5-6210451948E6}.Debug|x86.ActiveCfg = Debug|Win32
@@ -49,6 +23,14 @@ Global
 		{16DF53DE-1130-4412-BDC5-6210451948E6}.Release|x64.Build.0 = Release|x64
 		{16DF53DE-1130-4412-BDC5-6210451948E6}.Release|x86.ActiveCfg = Release|Win32
 		{16DF53DE-1130-4412-BDC5-6210451948E6}.Release|x86.Build.0 = Release|Win32
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x64.ActiveCfg = Debug|x64
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x64.Build.0 = Debug|x64
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x86.ActiveCfg = Debug|Win32
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Debug|x86.Build.0 = Debug|Win32
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x64.ActiveCfg = Release|x64
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x64.Build.0 = Release|x64
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x86.ActiveCfg = Release|Win32
+		{89FB449B-27B7-4D79-A444-204BD3FE959C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,8 +2,8 @@
 #define SHADERS_H
 
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm.hpp>
+#include <gtc/type_ptr.hpp>
 
 namespace Shark::Graphics {
 	class Shader {

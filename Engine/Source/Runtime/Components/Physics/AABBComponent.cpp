@@ -10,7 +10,7 @@ namespace Shark::Components {
 		auto& transform = GetOwner()->GetTransform();
 		Vector3 center = transform.position + m_Offset;
 
-		// Scale extents by obect scale
+		// Scale extents by object scale
 		Vector3 scaledExtents = {
 			m_Extents.x * transform.scale.x,
 			m_Extents.y * transform.scale.y,

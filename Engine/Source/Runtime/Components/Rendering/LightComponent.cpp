@@ -1,8 +1,6 @@
 #include "LightComponent.h"
 #include "Core/GameObject.h"
 
-#include <iostream>
-
 namespace Shark::Components {
 
 	using Shark::Core::GameObject;

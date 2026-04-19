@@ -1,12 +1,12 @@
 #include "PointShadowPass.h"
 #include "Graphics/Framebuffer/PointShadowBuffer.h"
 #include "Graphics/Resources/Shader.h"
-#include "Managers/ShaderManager.h"
+#include "Graphics/Resources/ShaderManager.h"
 #include "Components/Rendering/MeshRendererComponent.h"
 #include "Components/Rendering/LightComponent.h"
 #include "Scene/Scene.h"
 
-#include <glm/gtc/matrix_transform.hpp>
+#include <gtc/matrix_transform.hpp>
 
 namespace Shark::Graphics {
 

@@ -5,10 +5,6 @@
 #include "Graphics/Resources/Mesh.h"
 #include "Graphics/Resources/PrimitiveMesh.h"
 
-#pragma region Editor Includes
-#include <Source/Managers/LevelEditorManager.h>
-#pragma endregion
-
 namespace Shark::Managers {
 
 	using Shark::Core::Message;
@@ -19,7 +15,6 @@ namespace Shark::Managers {
 	using Shark::Graphics::Material;
 	using Shark::Graphics::PrimitiveMesh;
 	using Shark::Graphics::PrimitiveType;
-	using Shark::Editor::LevelEditorManager;
 
 	void MeshManager::Update(float DeltaTime)
 	{
@@ -39,6 +34,11 @@ namespace Shark::Managers {
 		if (m_MeshCache.find(key) == m_MeshCache.end()) {
 			m_MeshCache[key] = mesh;
 		}
+	}
+
+	void MeshManager::SetResponseTarget(Shark::Core::MessageSystem* target)
+	{
+		m_ResponseTarget = target;
 	}
 
 	Mesh* MeshManager::GetMesh(const std::string& filePath)
@@ -167,14 +167,15 @@ namespace Shark::Managers {
 			reply.payload = path;
 			reply.data = static_cast<void*>(loadedMesh);
 
-			LevelEditorManager::Get().ReceiveMessage(reply);
+			if (m_ResponseTarget) m_ResponseTarget->Push(reply);
 
 		}
 		else {
 			Message errorMsg;
 			errorMsg.type = EventType::ErrorMessage;
 			errorMsg.payload = "Failed to load mesh at: " + path;
-			LevelEditorManager::Get().inbox.Push(errorMsg);
+			
+			if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 
 			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load mesh at: {}", path);
 		}
@@ -192,13 +193,13 @@ namespace Shark::Managers {
 			reply.payload = std::to_string(static_cast<int>(type));
 			reply.data = static_cast<void*>(loadedMesh);
 
-			LevelEditorManager::Get().ReceiveMessage(reply);
+			if (m_ResponseTarget) m_ResponseTarget->Push(reply);
 		}
 		else {
 			Message errorMsg;
 			errorMsg.type = EventType::ErrorMessage;
 			errorMsg.payload = "Failed to load primitive type: " + std::to_string(static_cast<int>(type));
-			LevelEditorManager::Get().inbox.Push(errorMsg);
+			if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load primitive type: {}", static_cast<int>(type));
 		}
 	}

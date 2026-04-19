@@ -1,11 +1,11 @@
 #include "Core/Utilities/Debug.h"
-#include "Interfaces/IRenderable.h"
-#include "Managers/PathManager.h"
-#include "Math/MathUtils.h"
+#include "IO/PathManager.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
 #include "Mesh.h"
 
 #include <fstream>
-#include <glad/glad.h>
+#include <glad.h>
 
 namespace Shark::Graphics {
 

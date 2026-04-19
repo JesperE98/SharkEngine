@@ -1,8 +1,8 @@
 #include "DebugRenderer.h"
 #include "Debug.h"
-#include "Managers/ShaderManager.h"
+#include "Graphics/Resources/ShaderManager.h"
 #include "Graphics/Resources/Shader.h"
-#include <glad/glad.h>
+#include <glad.h>
 
 namespace Shark::Core {
 

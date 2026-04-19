@@ -23,9 +23,11 @@ namespace Shark::Managers {
 		Shark::Graphics::Texture* LoadTexture(const std::string& filePath);
 
 		void ProcessLoadRequest(const std::string& path);
+		void SetResponseTarget(Shark::Core::MessageSystem* target);
 		
 	private:
 		std::unordered_map<std::string, Shark::Graphics::Texture*> m_TextureCache;
+		Shark::Core::MessageSystem* m_ResponseTarget = nullptr;
 
 		TextureManager() = default;
 		~TextureManager() = default;

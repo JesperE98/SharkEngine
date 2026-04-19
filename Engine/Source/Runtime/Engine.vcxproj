@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)Runtime\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Engine\Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -118,7 +118,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\ThirdParty\include;$(SolutionDir)Editor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty\glad;$(SolutionDir)Engine\ThirdParty\GLFW;$(SolutionDir)Engine\ThirdParty\glm;$(SolutionDir)Engine\ThirdParty\stb;$(SolutionDir)Engine\ThirdParty\KHR;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -146,7 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Components\Physics\AABBComponent.h" />
-    <ClInclude Include="Components\Behaviour.h" />
+    <ClInclude Include="Components\Behavior.h" />
     <ClInclude Include="Components\Logic\CameraComponent.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\Physics\RigidbodyComponent.h" />
@@ -163,10 +163,17 @@
     <ClInclude Include="Graphics\Rendering\Passes\SkyPass.h" />
     <ClInclude Include="Graphics\Framebuffer\QuadBuffer.h" />
     <ClInclude Include="Graphics\Rendering\RenderingConstants.h" />
+    <ClInclude Include="Graphics\Resources\MeshManager.h" />
+    <ClInclude Include="Graphics\Resources\ShaderManager.h" />
+    <ClInclude Include="Graphics\Resources\TextureManager.h" />
+    <ClInclude Include="Input\InputManager.h" />
+    <ClInclude Include="IO\PathManager.h" />
     <ClInclude Include="Managers\PhysicsSystem.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Core\Engine\Engine.h" />
     <ClInclude Include="Core\Engine\EngineContext.h" />
+    <ClInclude Include="Memory\MemoryManager.h" />
+    <ClInclude Include="Physics\PhysicsSystem.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Managers\SceneManager.h" />
     <ClInclude Include="Core\GameObject.h" />
@@ -198,16 +205,15 @@
     <ClInclude Include="Graphics\Resources\Shader.h" />
     <ClInclude Include="Graphics\Resources\Texture.h" />
     <ClInclude Include="Interfaces\IRenderable.h" />
-    <ClInclude Include="Components\SharkBehaviour.h" />
+    <ClInclude Include="Components\SharkBehavior.h" />
     <ClInclude Include="Managers\TextureManager.h" />
     <ClInclude Include="Managers\ShaderManager.h" />
     <ClInclude Include="Graphics\Rendering\Passes\ShadowMapPass.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Physics\AABBComponent.cpp" />
-    <ClCompile Include="Components\Behaviour.cpp" />
     <ClCompile Include="Components\Logic\CameraComponent.cpp" />
-    <ClCompile Include="Components\Component.cpp" />
     <ClCompile Include="Components\Physics\RigidbodyComponent.cpp" />
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\Rendering\LightComponent.cpp" />
@@ -220,7 +226,14 @@
     <ClCompile Include="Graphics\Rendering\Passes\PointShadowPass.cpp" />
     <ClCompile Include="Graphics\Rendering\Passes\SkyPass.cpp" />
     <ClCompile Include="Graphics\Framebuffer\QuadBuffer.cpp" />
+    <ClCompile Include="Graphics\Resources\MeshManager.cpp" />
+    <ClCompile Include="Graphics\Resources\ShaderManager.cpp" />
+    <ClCompile Include="Graphics\Resources\TextureManager.cpp" />
+    <ClCompile Include="Input\InputManager.cpp" />
+    <ClCompile Include="IO\PathManager.cpp" />
     <ClCompile Include="Managers\PhysicsSystem.cpp" />
+    <ClCompile Include="Memory\MemoryManager.cpp" />
+    <ClCompile Include="Physics\PhysicsSystem.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Managers\SceneManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
@@ -245,18 +258,30 @@
     <ClCompile Include="Graphics\Framebuffer\Framebuffer.cpp" />
     <ClCompile Include="Graphics\Rendering\ForwardRenderer.cpp" />
     <ClCompile Include="Graphics\Rendering\Passes\ForwardRenderPass.cpp" />
-    <ClCompile Include="Graphics\Rendering\Passes\RenderPass.cpp" />
     <ClCompile Include="Graphics\Resources\Material.cpp" />
     <ClCompile Include="Graphics\Resources\Mesh.cpp" />
     <ClCompile Include="Managers\MeshManager.cpp" />
     <ClCompile Include="Graphics\Resources\PrimitiveMesh.cpp" />
     <ClCompile Include="Graphics\Resources\Shader.cpp" />
     <ClCompile Include="Graphics\Resources\Texture.cpp" />
-    <ClCompile Include="Components\SharkBehaviour.cpp" />
     <ClCompile Include="Managers\TextureManager.cpp" />
     <ClCompile Include="Managers\ShaderManager.cpp" />
     <ClCompile Include="Graphics\Rendering\Passes\ShadowMapPass.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="ThirdParty\src\glad.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Shaders\SE_BasicLit.frag.glsl" />
+    <None Include="..\..\Shaders\SE_BasicLit.vert.glsl" />
+    <None Include="..\..\Shaders\SE_Debug.frag.glsl" />
+    <None Include="..\..\Shaders\SE_Debug.vert.glsl" />
+    <None Include="..\..\Shaders\SE_PointShadow.frag.glsl" />
+    <None Include="..\..\Shaders\SE_PointShadow.geom.glsl" />
+    <None Include="..\..\Shaders\SE_PointShadow.vert.glsl" />
+    <None Include="..\..\Shaders\SE_Shadow.frag.glsl" />
+    <None Include="..\..\Shaders\SE_Shadow.vert.glsl" />
+    <None Include="..\..\Shaders\SE_Sky.frag.glsl" />
+    <None Include="..\..\Shaders\SE_Sky.vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,5 @@
 #include "InspectorWindow.h"
-#include "Source/Managers/LevelEditorManager.h"
+#include "Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
 #include <Components/Rendering/MeshRendererComponent.h>
@@ -9,7 +9,7 @@
 #include <Components/Physics/RigidbodyComponent.h>
 #include <Components/PlayerController.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
-#include <Managers/MeshManager.h>
+#include <Graphics/Resources/MeshManager.h>
 #include <Math/MathUtils.h>
 #pragma endregion
 

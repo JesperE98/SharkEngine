@@ -1,9 +1,9 @@
 #include "Shader.h"
 #include "Math/MathUtils.h"
 #include "Core/Utilities/Debug.h"
-#include "Managers/PathManager.h"
+#include "IO/PathManager.h"
 
-#include <glad/glad.h>
+#include <glad.h>
 #include <fstream>
 #include <filesystem>
 

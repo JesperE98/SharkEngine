@@ -4,7 +4,7 @@
 #include <Core/Messaging/MessageSystem.h>
 #include <vector>
 
-#include "Source/EditorWindows/EditorWindow.h"
+#include "EditorWindows/EditorWindow.h"
 
 namespace Shark::Editor {
 

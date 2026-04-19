@@ -1,8 +1,6 @@
 #include "CameraController.h"
-#include "Managers/InputManager.h"
+#include "Input/InputManager.h"
 #include "Core/GameObject.h"
-
-#include <Source/Managers/WindowManager.h>
 
 namespace Shark::Components {
 
@@ -10,7 +8,6 @@ namespace Shark::Components {
 	using Shark::Core::GameObject;
 	using Shark::Math::Transform;
 	using Shark::Math::Vector3;
-	using Shark::Editor::WindowManager;
 
 	CameraController::CameraController(float moveSpeed, float sensitivity) 
 		: m_Speed(moveSpeed), m_MouseSensitivity(sensitivity)
@@ -19,8 +16,6 @@ namespace Shark::Components {
 	}
 
 	void CameraController::Update(float deltaTime) {
-
-		//if (!WindowManager::Get().IsSceneViewportFocused() || !WindowManager::Get().IsSceneViewportHovered()) return;
 
 		InputManager& inputManager = InputManager::Get();
 		Transform& transform = GetOwner()->GetTransform();

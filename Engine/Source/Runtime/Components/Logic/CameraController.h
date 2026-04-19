@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Components/SharkBehaviour.h"
+#include "Components/SharkBehavior.h"
 
 namespace Shark::Components {
 
-	class CameraController : virtual public SharkBehaviour
+	class CameraController : virtual public SharkBehavior
 	{
 	public:
 		explicit CameraController(float moveSpeed = 5.0f, float sensitivity = 0.1f);

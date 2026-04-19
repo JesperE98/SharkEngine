@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vector3.h"
-#include <glm/gtc/quaternion.hpp>
+#include <gtc/quaternion.hpp>
 namespace Shark::Math {
 
 	struct Vector3;

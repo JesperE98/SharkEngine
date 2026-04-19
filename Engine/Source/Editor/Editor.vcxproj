@@ -74,7 +74,7 @@
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)Runtime\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Engine\Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -112,14 +112,15 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)ThirdParty;$(SolutionDir)Engine;$(SolutionDir)Engine\ThirdParty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source\Editor;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty\glad;$(SolutionDir)Engine\ThirdParty\GLFW;$(SolutionDir)Engine\ThirdParty\glm;$(SolutionDir)Engine\ThirdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Engine.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)x64\$(Configuration);$(SolutionDir)Engine\ThirdParty\lib;$(SolutionDir)Runtime\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Engine\Binaries\$(Platform)\$(Configuration);$(SolutionDir)Engine\ThirdParty\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -142,7 +143,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="EditorMenuBar.cpp" />
+    <ClCompile Include="EditorWindows\ConsoleWindow.cpp" />
+    <ClCompile Include="EditorWindows\EditorWindow.cpp" />
+    <ClCompile Include="EditorWindows\HierarchyWindow.cpp" />
+    <ClCompile Include="EditorWindows\InspectorWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Managers\LevelEditorManager.cpp" />
+    <ClCompile Include="Managers\WindowManager.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_demo.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_draw.cpp" />
@@ -150,6 +159,19 @@
     <ClCompile Include="ThirdParty\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_tables.cpp" />
     <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Viewport\SceneViewport.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EditorApp.h" />
+    <ClInclude Include="EditorMenuBar.h" />
+    <ClInclude Include="EditorWindows\ConsoleWindow.h" />
+    <ClInclude Include="EditorWindows\EditorWindow.h" />
+    <ClInclude Include="EditorWindows\HierarchyWindow.h" />
+    <ClInclude Include="EditorWindows\InspectorWindow.h" />
+    <ClInclude Include="Interfaces\IViewport.h" />
+    <ClInclude Include="Managers\LevelEditorManager.h" />
+    <ClInclude Include="Managers\WindowManager.h" />
+    <ClInclude Include="Viewport\SceneViewport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

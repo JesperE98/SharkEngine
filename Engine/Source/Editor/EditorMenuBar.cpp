@@ -1,7 +1,7 @@
 #include "EditorMenuBar.h"
 #include "Managers/WindowManager.h"
 
-#include <Core/Engine/EngineContext.h>
+#include <imgui.h>
 
 namespace Shark::Editor {
 

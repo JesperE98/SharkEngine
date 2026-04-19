@@ -1,4 +1,4 @@
-#include <Source/Editor/EditorApp.h>
+#include <EditorApp.h>
 
 int main()
 {

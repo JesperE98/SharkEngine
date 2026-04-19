@@ -1,7 +1,7 @@
 #ifndef SCENE_VIEWPORT_H
 #define SCENE_VIEWPORT_H
 
-#include <Source/Interfaces/IViewport.h>
+#include <Interfaces/IViewport.h>
 #include <memory>
 
 namespace Shark::Components		{ class CameraComponent; }

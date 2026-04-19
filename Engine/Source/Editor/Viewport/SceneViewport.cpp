@@ -2,14 +2,13 @@
 
 #pragma region Engine Includes
 #include <Scene/Scene.h>
-#include <Core/Utilities/Debug.h>
 #include <Graphics/Rendering/Renderer.h>
 #include <Graphics/Framebuffer/Framebuffer.h>
 #include <Graphics/Rendering/ForwardRenderer.h>
 #include <Components/Logic/CameraComponent.h>
 #pragma endregion
 
-#include <ImGui/imgui.h>
+#include <imgui.h>
 
 namespace Shark::Editor {
 

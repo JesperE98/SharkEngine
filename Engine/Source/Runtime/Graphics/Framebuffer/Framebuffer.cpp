@@ -1,5 +1,4 @@
 #include "Framebuffer.h"
-#include "Core/Utilities/Debug.h"
 
 namespace Shark::Graphics {
 

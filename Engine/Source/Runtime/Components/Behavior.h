@@ -4,10 +4,10 @@
 #include "Component.h"
 
 namespace Shark::Components {
-	class Behaviour : virtual public Component
+	class Behavior : virtual public Component
 	{
 	public:
-		virtual ~Behaviour() = default;
+		virtual ~Behavior() = default;
 
 		void SetEnabled(bool value) {
 			if (bEnabled != value) {

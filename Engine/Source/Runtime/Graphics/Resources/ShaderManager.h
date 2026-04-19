@@ -18,6 +18,7 @@ namespace Shark::Managers {
 		void Update(float DeltaTime);
 		void Shutdown();
 		void ProcessLoadRequest(const std::string& path);
+		void SetResponseTarget(Shark::Core::MessageSystem* target);
 
 		// Return an exisiting shader or loads/compiles a new one
 		Shark::Graphics::Shader* LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath);
@@ -32,6 +33,7 @@ namespace Shark::Managers {
 
 	private:
 		std::unordered_map<std::string, Shark::Graphics::Shader*> m_ShaderCache;
+		Shark::Core::MessageSystem* m_ResponseTarget = nullptr;
 
 		ShaderManager() = default;
 		~ShaderManager() = default;

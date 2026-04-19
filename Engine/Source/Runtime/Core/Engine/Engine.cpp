@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "framework.h"
 
-#include <iostream>
+#include <glad.h>
 
 namespace Shark::Core {
 

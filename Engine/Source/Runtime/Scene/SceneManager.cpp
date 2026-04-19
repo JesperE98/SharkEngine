@@ -1,6 +1,6 @@
 #include "SceneManager.h"
-#include "Scene/Scene.h"
-#include "PhysicsSystem.h"
+#include "Scene.h"
+#include "Physics/PhysicsSystem.h"
 
 namespace Shark::Managers {
 

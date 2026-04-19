@@ -1,5 +1,4 @@
 #include "ShadowBuffer.h"
-#include "Core/Utilities/Debug.h"
 
 namespace Shark::Graphics {
 	ShadowBuffer::ShadowBuffer(int w, int h) : IRenderTarget(w, h)

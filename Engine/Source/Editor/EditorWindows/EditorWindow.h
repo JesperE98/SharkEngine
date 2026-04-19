@@ -1,8 +1,8 @@
 #ifndef IPANEL_H
 #define IPANEL_H
 
-#include <Core/Utilities/Debug.h>
-#include <ThirdParty/ImGui/imgui.h>
+#include <string>
+#include <imgui.h>
 
 namespace Shark::Editor {
 

@@ -1,20 +1,20 @@
 #include "WindowManager.h"
 #include "LevelEditorManager.h"
-#include "Source/EditorWindows/HierarchyWindow.h"
-#include "Source/EditorWindows/InspectorWindow.h"
-#include "Source/EditorWindows/ConsoleWindow.h"
-#include "Source/Viewport/SceneViewport.h"
+#include "EditorWindows/HierarchyWindow.h"
+#include "EditorWindows/InspectorWindow.h"
+#include "EditorWindows/ConsoleWindow.h"
+#include "Viewport/SceneViewport.h"
 
 #pragma	region Engine Includes
 #include <Core/Engine/EngineContext.h>
 #include <Graphics/Rendering/ForwardRenderer.h>
 #include <Graphics/Rendering/Passes/ShadowMapPass.h>
-#include <Managers/SceneManager.h>
-#include <Managers/MemoryManager.h>
-#include <Components/Rendering/LightComponent.h>
+#include <Scene/SceneManager.h>
+#include <Memory/MemoryManager.h>
 #pragma endregion
 
 #include <vector>
+#include <imgui.h>
 
 namespace Shark::Editor {
 

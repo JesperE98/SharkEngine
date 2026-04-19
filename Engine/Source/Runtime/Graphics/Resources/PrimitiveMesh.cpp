@@ -1,13 +1,13 @@
 ﻿#include "PrimitiveMesh.h"
 #include "Components/Rendering/MeshRendererComponent.h"
-#include "Core/Utilities/Debug.h"
 #include "Core/GameObject.h"
-#include "Managers/MeshManager.h"
+#include "Core/Utilities/Debug.h"
+#include "Graphics/Resources/MeshManager.h"
 #include "Material.h"
 #include "Math/MathUtils.h"
 #include "Mesh.h"
 
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <iostream>
 #include <ostream>
 #include <string>

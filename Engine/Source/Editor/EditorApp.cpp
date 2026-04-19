@@ -8,14 +8,18 @@
 #pragma region Engine Libraries
 #include <Core/Engine/EngineContext.h>
 #include <Core/Utilities/Debug.h>
-#include <Managers/MemoryManager.h>
-#include <Managers/SceneManager.h>
+#include <Memory/MemoryManager.h>
+#include <Scene/SceneManager.h>
+#include <Graphics/Resources/MeshManager.h>
+#include <Graphics/Resources/ShaderManager.h>
+#include <Graphics/Resources/TextureManager.h>
+#include <Graphics/Resources/PrimitiveMesh.h>
 #pragma endregion
 
 #pragma region ImGUI libraries
-#include <ImGui/imgui.h>
-#include <ImGui/imgui_impl_glfw.h>
-#include <ImGui/imgui_impl_opengl3.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 #pragma endregion
 
 namespace Shark {
@@ -28,6 +32,10 @@ namespace Shark {
 	using Shark::Editor::LevelEditorManager;
 	using Shark::Editor::WindowManager;
 	using Shark::Editor::EditorMenuBar;
+	using Shark::Managers::MeshManager;
+	using Shark::Managers::ShaderManager;
+	using Shark::Managers::TextureManager;
+	using Shark::Graphics::PrimitiveType;
 
 	EditorApp::~EditorApp()
 	{
@@ -45,7 +53,11 @@ namespace Shark {
 		m_MenuBar = new EditorMenuBar();
 		LevelEditorManager::Get().Initialize();
 		WindowManager::Get().Initialize();
-
+		MeshManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
+		ShaderManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
+		TextureManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
+		LevelEditorManager::Get().RequestModelLoad("Models/Viking_House.obj");
+		LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
 		EngineContext::Get().OnInitialize();
 		GLFWwindow* window = EngineContext::Get().m_Window;
 

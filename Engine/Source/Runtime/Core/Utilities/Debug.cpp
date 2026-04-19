@@ -2,7 +2,7 @@
 #include "Core/Events/SharkEvents.h"
 
 #include <iostream>
-#include <glad/glad.h>
+#include <glad.h>
 
 namespace Shark::Core {
 

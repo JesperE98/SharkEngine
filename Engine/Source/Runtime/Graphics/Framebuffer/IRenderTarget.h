@@ -1,7 +1,7 @@
 #ifndef IRENDERTARGET_H
 #define IRENDERTARGET_H
 
-#include <glad/glad.h>
+#include <glad.h>
 #include "Core/Utilities/Debug.h"
 
 namespace Shark::Graphics {

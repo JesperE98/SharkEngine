@@ -1,7 +1,7 @@
 #include "MeshRendererComponent.h"
 #include "Core/GameObject.h"
 
-#include <GLFW/glfw3.h>
+#include <glad.h>
 
 namespace Shark::Components {
 

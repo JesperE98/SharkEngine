@@ -1,9 +1,9 @@
 #include "Texture.h"
 #include "Core/Utilities/Debug.h"
-#include "Managers/PathManager.h"
+#include "IO/PathManager.h"
 
-#include <glad/glad.h>
-#include <stb/image.h>
+#include <glad.h>
+#include <image.h>
 
 namespace Shark::Graphics {
 

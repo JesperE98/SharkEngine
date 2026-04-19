@@ -2,14 +2,11 @@
 #include "Graphics/Resources/Texture.h"
 #include "Core/Utilities/Debug.h"
 
-#include <Source/Managers/LevelEditorManager.h>
-
 namespace Shark::Managers {
 
     using Shark::Core::Message;
 	using Shark::Core::EventType;
     using Shark::Graphics::Texture;
-	using Shark::Editor::LevelEditorManager;
 
     void TextureManager::Update(float DeltaTime)
     {
@@ -68,16 +65,23 @@ namespace Shark::Managers {
             reply.data = static_cast<void*>(loadedTexture);
 
             // Send back to the Editor Manager
-            LevelEditorManager::Get().ReceiveMessage(reply);
+            if (m_ResponseTarget) m_ResponseTarget->Push(reply);
+
         }
         else {
             Message errorMsg;
             errorMsg.type = EventType::ErrorMessage;
             errorMsg.payload = "Failed to load texture at: " + path;
-            LevelEditorManager::Get().inbox.Push(errorMsg);
+            
+            if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 
             SE_ERR(Resources, "TextureManager::ProcessLoadRequest() - Failed to load texture at: {}", path);
         }
+    }
+
+    void TextureManager::SetResponseTarget(Shark::Core::MessageSystem* target)
+    {
+        m_ResponseTarget = target;
     }
 }
 

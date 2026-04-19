@@ -4,7 +4,8 @@
 #include "Graphics/Rendering/RenderingConstants.h"
 
 #include <vector>
-#include <glm/glm.hpp>
+#include <glad.h>
+#include <glm.hpp>
 
 namespace Shark { class Scene; }
 namespace Shark::Components { class CameraComponent; struct LightData; }

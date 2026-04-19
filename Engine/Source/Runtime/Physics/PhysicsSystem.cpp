@@ -3,6 +3,7 @@
 #include "Core/GameObject.h"
 #include "Components/Physics/AABBComponent.h"
 #include "Components/Physics/RigidBodyComponent.h"
+#include "Math/Vector3.h"
 
 #include <vector>
 

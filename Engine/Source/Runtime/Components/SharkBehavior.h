@@ -1,10 +1,10 @@
 #ifndef SHARKBEHAVIOUR_H
 #define SHARKBEHAVIOUR_H
 
-#include "Behaviour.h"
+#include "Behavior.h"
 
 namespace Shark::Components {
-	class SharkBehaviour : virtual public Behaviour
+	class SharkBehavior : virtual public Behavior
 	{
 	public:
 		virtual void BeginPlay() {};

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/vec4.hpp>
+#include <vec4.hpp>
 
 namespace Shark::Math {
 	struct Vector4 {

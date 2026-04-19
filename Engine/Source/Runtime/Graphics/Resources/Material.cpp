@@ -1,8 +1,8 @@
 #include "Material.h"
 #include "Core/Utilities/Debug.h"
-#include "Managers/ShaderManager.h"
-#include "Managers/TextureManager.h"
-#include <glad/glad.h>
+#include "ShaderManager.h"
+#include "TextureManager.h"
+#include <glad.h>
 
 namespace Shark::Graphics {
 

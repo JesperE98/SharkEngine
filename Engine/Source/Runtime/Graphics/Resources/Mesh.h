@@ -2,10 +2,10 @@
 #define MESH_H
 
 #include "Interfaces/IRenderable.h"
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
 #include <vector>
 #include <string>
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
 
 namespace Shark::Graphics
 {

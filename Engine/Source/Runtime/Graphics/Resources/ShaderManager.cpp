@@ -2,14 +2,11 @@
 #include "Core/Utilities/Debug.h"
 #include "Graphics/Resources/Shader.h"
 
-#include <Source/Managers/LevelEditorManager.h>
-
 namespace Shark::Managers {
 
     using Shark::Graphics::Shader;
     using Shark::Core::Message;
 	using Shark::Core::EventType;
-	using Shark::Editor::LevelEditorManager;
 
     ShaderManager& ShaderManager::ShaderManager::Get()
     {
@@ -51,16 +48,23 @@ namespace Shark::Managers {
             reply.data = static_cast<Shader*>(loadedShader);
 
             // Send back to the Editor Manager
-            LevelEditorManager::Get().ReceiveMessage(reply);
+            if (m_ResponseTarget) m_ResponseTarget->Push(reply);
+
         }
         else {
             Message errorMsg;
             errorMsg.type = EventType::ErrorMessage;
             errorMsg.payload = "Failed to load shader at: " + path;
-            LevelEditorManager::Get().inbox.Push(errorMsg);
+            
+            if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 
             SE_ERR(Resources, "ShaderManager::ProcessLoadRequest() - Failed to load shader at: {}", path);
         }
+    }
+
+    void ShaderManager::SetResponseTarget(Shark::Core::MessageSystem* target)
+    {
+        m_ResponseTarget = target;
     }
 
     Shader* ShaderManager::LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)
