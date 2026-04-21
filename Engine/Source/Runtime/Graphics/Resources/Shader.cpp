@@ -3,13 +3,14 @@
 #include "Core/Utilities/Debug.h"
 #include "IO/PathManager.h"
 
-#include <glad.h>
+#include <glad/glad.h>
 #include <fstream>
 #include <filesystem>
 
 namespace Shark::Graphics {
 
-	using Shark::Managers::PathManager;
+	using IO::PathManager;
+	using IO::PathCategory;
 
 	Shader::Shader(const char* vertPath, const char* fragPath)
 	{
@@ -29,8 +30,8 @@ namespace Shark::Graphics {
 	{
 		SE_LOG(Resources, "Shader::Shader() - Creating Shader Program.");
 
-		std::string vPath = PathManager::Get().GetContentPath(vertPath);
-		std::string fPath = PathManager::Get().GetContentPath(fragPath);
+		std::string vPath = PathManager::Get().GetPath(PathCategory::Shaders, vertPath);
+		std::string fPath = PathManager::Get().GetPath(PathCategory::Shaders, fragPath);
 		SE_LOG(Resources, "Shader::Shader() - Vertex Shader Path: {}", vPath);
 
 		// 1. Retrieve the vertex/fragment source code from filePath
@@ -100,9 +101,9 @@ namespace Shark::Graphics {
 	{
 		SE_LOG(Resources, "Shader::Shader() - Creating Shader Program.");
 
-		std::string vPath = PathManager::Get().GetContentPath(vertPath);
-		std::string fPath = PathManager::Get().GetContentPath(fragPath);
-		std::string gPath = geomPath ? PathManager::Get().GetContentPath(geomPath) : "";
+		std::string vPath = PathManager::Get().GetPath(PathCategory::Shaders, vertPath);
+		std::string fPath = PathManager::Get().GetPath(PathCategory::Shaders,           fragPath);
+		std::string gPath = geomPath ? PathManager::Get().GetPath(PathCategory::Shaders, geomPath) : "";
 		SE_LOG(Resources, "Shader::Shader() - Vertex Shader Path: {}", vPath);
 
 		// 1. Retrieve the vertex/fragment source code from filePath

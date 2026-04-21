@@ -2,17 +2,18 @@
 #include "Core/Utilities/Debug.h"
 #include "IO/PathManager.h"
 
-#include <glad.h>
-#include <image.h>
+#include <glad/glad.h>
+#include <stb/image.h>
 
 namespace Shark::Graphics {
 
-	using Shark::Managers::PathManager;
+	using IO::PathManager;
+	using IO::PathCategory;
 
 	Texture::Texture(const char* filePath, bool bUseMipMaps) {
 
 		int width, height, nrChannels;
-		std::string texturePath = PathManager::Get().GetContentPath(filePath);
+		std::string texturePath = PathManager::Get().GetPath(PathCategory::Content, filePath);
 		stbi_set_flip_vertically_on_load(true); // flips the images y-axis
 		unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 

@@ -11,16 +11,16 @@ namespace Shark::Core {
 }
 
 namespace Shark::Graphics {
-	enum class PrimitiveType;
 	class Material;
 	class Mesh;
+	enum class PrimitiveType : uint8_t;
 }
 
-namespace Shark::Managers {
+namespace Shark::Resources {
 
 	class MeshManager {
 	public:
-		Shark::Core::MessageSystem inbox;
+		Core::MessageSystem inbox;
 
 		static MeshManager& Get() {
 			static MeshManager instance;
@@ -28,20 +28,20 @@ namespace Shark::Managers {
 		}
 		
 		void Update(float DeltaTime);
-		void AddMeshToCache(const std::string& key, Shark::Graphics::Mesh* mesh);
-		void SetResponseTarget(Shark::Core::MessageSystem* target);
+		void AddMeshToCache(const std::string& key, Graphics::Mesh* mesh);
+		void SetResponseTarget(Core::MessageSystem* target);
 
-		Shark::Graphics::Mesh* GetMesh(const std::string& filePath);
-		Shark::Graphics::Mesh* LoadMesh(Shark::Graphics::PrimitiveType type);
-		Shark::Graphics::Mesh* LoadMesh(const std::string& filePath);
+		Graphics::Mesh* GetMesh(const std::string& filePath);
+		Graphics::Mesh* LoadMesh(Graphics::PrimitiveType type);
+		Graphics::Mesh* LoadMesh(const std::string& filePath);
 
 		void Shutdown();
-		static void CreateFromObj(Shark::Core::GameObject* obj, const std::string& filePath, Shark::Graphics::Material* mat = nullptr);
+		static void CreateFromObj(Core::GameObject* obj, const std::string& filePath, Graphics::Material* mat = nullptr);
 
 	private:
 
-		std::unordered_map<std::string, Shark::Graphics::Mesh*> m_MeshCache;
-		Shark::Core::MessageSystem* m_ResponseTarget = nullptr;
+		std::unordered_map<std::string, Graphics::Mesh*> m_MeshCache;
+		Core::MessageSystem* m_ResponseTarget = nullptr;
 
 		MeshManager() = default;
 		~MeshManager() = default;
@@ -56,7 +56,7 @@ namespace Shark::Managers {
 		template<>
 		void ProcessLoadRequest<std::string>(const std::string& path);
 		template<>
-		void ProcessLoadRequest<Shark::Graphics::PrimitiveType>(const Shark::Graphics::PrimitiveType& type);
+		void ProcessLoadRequest<Graphics::PrimitiveType>(const Graphics::PrimitiveType& type);
 
 	};
 }

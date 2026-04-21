@@ -1,9 +1,9 @@
 #pragma once
 
-#include "IRenderTarget.h"
+#include "RenderTarget.h"
 
 namespace Shark::Graphics {
-	class Framebuffer : public IRenderTarget
+	class Framebuffer : public RenderTarget
 	{
 	public:
 		Framebuffer(int width, int height);

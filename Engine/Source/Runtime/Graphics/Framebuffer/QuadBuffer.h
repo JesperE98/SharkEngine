@@ -1,10 +1,10 @@
 #ifndef QUAD_BUFFER_H
 #define QUAD_BUFFER_H
 
-#include "IRenderTarget.h"
+#include "RenderTarget.h"
 
 namespace Shark::Graphics {
-	class QuadBuffer : IRenderTarget {
+	class QuadBuffer : RenderTarget {
 	public:
 		QuadBuffer(int w, int h);
 		~QuadBuffer() override;

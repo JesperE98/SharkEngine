@@ -8,18 +8,18 @@
 
 namespace Shark::Graphics {
 
-	using Shark::Graphics::ShadowBuffer;
-	using Shark::Components::LightData;
-	using Shark::Components::MeshRendererComponent;
-	using Shark::Managers::ShaderManager;
+	using Graphics::ShadowBuffer;
+	using Components::LightData;
+	using Components::MeshRendererComponent;
+	using Resources::ShaderManager;
 
 
 	ShadowMapPass::ShadowMapPass(int resolution) : m_Resolution(resolution)
 	{
 		shader = ShaderManager::Get().LoadShader(
 			"SE_Shadow", 
-			"Shaders/SE_Shadow.vert.glsl", 
-			"Shaders/SE_Shadow.frag.glsl"
+			"SE_Shadow.vert.glsl", 
+			"SE_Shadow.frag.glsl"
 		);
 
 		for (int i = 0; i < 4; i++) {

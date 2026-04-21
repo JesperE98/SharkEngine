@@ -1,12 +1,13 @@
 #include "TextureManager.h"
-#include "Graphics/Resources/Texture.h"
+#include "Texture.h"
 #include "Core/Utilities/Debug.h"
 
-namespace Shark::Managers {
+namespace Shark::Resources {
 
-    using Shark::Core::Message;
-	using Shark::Core::EventType;
-    using Shark::Graphics::Texture;
+    using Core::Message;
+	using Core::EventType;
+    using Core::MessageSystem;
+    using Graphics::Texture;
 
     void TextureManager::Update(float DeltaTime)
     {
@@ -79,7 +80,7 @@ namespace Shark::Managers {
         }
     }
 
-    void TextureManager::SetResponseTarget(Shark::Core::MessageSystem* target)
+    void TextureManager::SetResponseTarget(MessageSystem* target)
     {
         m_ResponseTarget = target;
     }

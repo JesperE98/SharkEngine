@@ -5,13 +5,14 @@
 #include "Mesh.h"
 
 #include <fstream>
-#include <glad.h>
+#include <glad/glad.h>
 
 namespace Shark::Graphics {
 
-	using Shark::Managers::PathManager;
-	using Shark::Math::Vector2;
-	using Shark::Math::Vector3;
+	using IO::PathManager;
+	using IO::PathCategory;
+	using Math::Vector2;
+	using Math::Vector3;
 
 	Mesh::Mesh() {
 
@@ -53,7 +54,7 @@ namespace Shark::Graphics {
 	bool Mesh::LoadMeshFromModel(const std::string& filename)
 	{
 
-		std::string fullPath = PathManager::Get().GetContentPath(filename);
+		std::string fullPath = PathManager::Get().GetPath(PathCategory::Content, filename);
 
 		std::ifstream file(fullPath);
 

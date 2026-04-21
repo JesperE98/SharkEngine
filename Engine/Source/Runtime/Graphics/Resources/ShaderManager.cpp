@@ -2,11 +2,12 @@
 #include "Core/Utilities/Debug.h"
 #include "Graphics/Resources/Shader.h"
 
-namespace Shark::Managers {
+namespace Shark::Resources {
 
-    using Shark::Graphics::Shader;
-    using Shark::Core::Message;
-	using Shark::Core::EventType;
+    using Graphics::Shader;
+    using Core::Message;
+	using Core::EventType;
+    using Core::MessageSystem;
 
     ShaderManager& ShaderManager::ShaderManager::Get()
     {
@@ -62,7 +63,7 @@ namespace Shark::Managers {
         }
     }
 
-    void ShaderManager::SetResponseTarget(Shark::Core::MessageSystem* target)
+    void ShaderManager::SetResponseTarget(MessageSystem* target)
     {
         m_ResponseTarget = target;
     }

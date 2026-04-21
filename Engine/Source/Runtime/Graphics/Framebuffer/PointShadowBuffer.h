@@ -1,10 +1,10 @@
 #ifndef POINT_SHADOW_BUFFER_H
 #define POINT_SHADOW_BUFFER_H
 
-#include "IRenderTarget.h"
+#include "RenderTarget.h"
 
 namespace Shark::Graphics {
-	class PointShadowBuffer : IRenderTarget {
+	class PointShadowBuffer : RenderTarget {
 	public:
 		PointShadowBuffer(int resolution);
 		~PointShadowBuffer() override;

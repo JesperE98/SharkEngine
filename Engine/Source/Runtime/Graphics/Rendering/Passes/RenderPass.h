@@ -4,8 +4,7 @@
 #include "Graphics/Rendering/RenderingConstants.h"
 
 #include <vector>
-#include <glad.h>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 
 namespace Shark { class Scene; }
 namespace Shark::Components { class CameraComponent; struct LightData; }
@@ -29,19 +28,19 @@ namespace Shark::Graphics {
 		virtual void Execute(
 			float deltaTime, 
 			Shark::Scene* scene, 
-			Shark::Components::CameraComponent* cam, 
-			std::vector<Shark::Components::LightData> lights) = 0;
-		virtual void Execute(Scene* scene, const std::vector<Shark::Components::LightData>& lights) = 0;
+			Components::CameraComponent* cam, 
+			std::vector<Components::LightData> lights) = 0;
+		virtual void Execute(Scene* scene, const std::vector<Components::LightData>& lights) = 0;
 
 		virtual void UpdateCameraTransform(
-			Shark::Graphics::Shader* shader,
-			Shark::Components::CameraComponent* cam,
+			Shader* shader,
+			Components::CameraComponent* cam,
 			glm::mat4& view,
 			glm::mat4& projection) = 0;
 
 		virtual void UpdateLights(
-			Shark::Graphics::Shader* shader, 
-			std::vector<Shark::Components::LightData>& lights) = 0;
+			Shader* shader, 
+			std::vector<Components::LightData>& lights) = 0;
 
 		// Called after drawing (unbind FBO, reset state)
 		virtual void End() = 0;

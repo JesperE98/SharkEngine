@@ -1,9 +1,9 @@
 #include "ForwardRenderer.h"
+#include "Core/Engine/Engine.h"
 #include "Passes/ForwardRenderPass.h"
 #include "Passes/ShadowMapPass.h"
 #include "Passes/PointShadowPass.h"
 #include "Passes/SkyPass.h"
-#include "Core/Engine/EngineContext.h"
 #include "Core/GameObject.h"
 #include "Core/Utilities/DebugRenderer.h"
 #include "Graphics/Framebuffer/Framebuffer.h"
@@ -15,16 +15,16 @@
 namespace Shark::Graphics {
 
 	using Shark::Scene;
-	using Shark::Components::CameraComponent;
-	using Shark::Components::LightComponent;
-	using Shark::Components::LightData;
-	using Shark::Components::AABB;
-	using Shark::Components::AABBComponent;
-	using Shark::Graphics::ShadowBuffer;
-	using Shark::Graphics::SkyPass;
-	using Shark::Core::GameObject;
-	using Shark::Math::Vector3;
-	using Shark::Core::DebugRenderer;
+	using Components::CameraComponent;
+	using Components::LightComponent;
+	using Components::LightData;
+	using Components::AABB;
+	using Components::AABBComponent;
+	using Graphics::ShadowBuffer;
+	using Graphics::SkyPass;
+	using Core::GameObject;
+	using Math::Vector3;
+	using Core::DebugRenderer;
 
 	ForwardRenderer::ForwardRenderer()
 	{
@@ -51,12 +51,12 @@ namespace Shark::Graphics {
 	{
 		SE_LOG(Rendering, "Initializing ForwardRenderer.");
 
-		m_SceneFb = new Framebuffer(Shark::Core::WINDOW_WIDTH, Shark::Core::WINDOW_HEIGHT);
+		m_SceneFb = new Framebuffer(Core::WINDOW_WIDTH, Core::WINDOW_HEIGHT);
 
 		
 		m_ShadowPass = new ShadowMapPass(2048); // Creating Shadow pass (High Resolution for crisp shadows)
 		m_PointShadowPass = new PointShadowPass(1024);
-		m_SkyPass = new SkyPass(Shark::Core::WINDOW_WIDTH, Shark::Core::WINDOW_HEIGHT);
+		m_SkyPass = new SkyPass(Core::WINDOW_WIDTH, Core::WINDOW_HEIGHT);
 		m_ForwardPass = new ForwardRenderPass(m_SceneFb); // Creating Forward Pass and adding it to list
 
 		DebugRenderer::Get().Init();

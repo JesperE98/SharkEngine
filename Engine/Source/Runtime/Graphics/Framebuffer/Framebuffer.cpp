@@ -2,7 +2,7 @@
 
 namespace Shark::Graphics {
 
-	Framebuffer::Framebuffer(int width, int height) : IRenderTarget(width, height) {
+	Framebuffer::Framebuffer(int width, int height) : RenderTarget(width, height) {
 		Invalidate(width, height);
 	}
 

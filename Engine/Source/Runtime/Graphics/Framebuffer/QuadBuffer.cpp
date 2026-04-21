@@ -1,7 +1,7 @@
 #include "QuadBuffer.h"
 
 namespace Shark::Graphics {
-	QuadBuffer::QuadBuffer(int w, int h) : IRenderTarget(w, h)
+	QuadBuffer::QuadBuffer(int w, int h) : RenderTarget(w, h)
 	{
 		CreateQuad();
 	}

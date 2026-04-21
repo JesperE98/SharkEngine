@@ -2,24 +2,22 @@
 #include "Components/Rendering/MeshRendererComponent.h"
 #include "Core/GameObject.h"
 #include "Core/Utilities/Debug.h"
-#include "Graphics/Resources/MeshManager.h"
-#include "Material.h"
-#include "Math/MathUtils.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
 #include "Mesh.h"
+#include "Material.h"
+#include "MeshManager.h"
 
-#include <glm.hpp>
-#include <iostream>
-#include <ostream>
 #include <string>
 #include <vector>
 
 namespace Shark::Graphics {
 
-	using Shark::Math::Vector2;
-	using Shark::Math::Vector3;
-	using Shark::Core::GameObject;
-	using Shark::Components::MeshRendererComponent;
-	using Shark::Managers::MeshManager;
+	using Math::Vector2;
+	using Math::Vector3;
+	using Core::GameObject;
+	using Components::MeshRendererComponent;
+	using Resources::MeshManager;
 
 	void PrimitiveMesh::DebugFace(const std::string& name, const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& expectedNormal)
 	{

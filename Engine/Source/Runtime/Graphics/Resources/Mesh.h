@@ -10,10 +10,10 @@
 namespace Shark::Graphics
 {
 	struct Vertex {
-		Shark::Math::Vector3 position;	// v
-		Shark::Math::Vector3 color;		// vc
-		Shark::Math::Vector2 uV;			// f
-		Shark::Math::Vector3 normal;		// vn
+		Math::Vector3 position;	// v
+		Math::Vector3 color;		// vc
+		Math::Vector2 uV;			// f
+		Math::Vector3 normal;		// vn
 	};
 
 	class Mesh : public Shark::Interfaces::IRenderable

@@ -2,8 +2,8 @@
 #define SHADERS_H
 
 #include <string>
-#include <glm.hpp>
-#include <gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Shark::Graphics {
 	class Shader {
@@ -24,7 +24,7 @@ namespace Shark::Graphics {
 		* @param fragPath - Path to the fragment shader source code.
 		* @param geomPath - Path to the geometry shader source code.
 		*/
-		Shader(const char* vertPath, const char* fragPath, const char* geomPath);
+		explicit Shader(const char* vertPath, const char* fragPath, const char* geomPath);
 
 		~Shader();
 

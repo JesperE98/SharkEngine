@@ -7,11 +7,11 @@
 
 namespace Shark::Graphics { class Shader; }
 
-namespace Shark::Managers {
+namespace Shark::Resources {
 	class ShaderManager
 	{
 	public:
-		Shark::Core::MessageSystem inbox;
+		Core::MessageSystem inbox;
 		
 		static ShaderManager& Get();
 
@@ -21,19 +21,19 @@ namespace Shark::Managers {
 		void SetResponseTarget(Shark::Core::MessageSystem* target);
 
 		// Return an exisiting shader or loads/compiles a new one
-		Shark::Graphics::Shader* LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath);
-		Shark::Graphics::Shader* LoadShader(
+		Graphics::Shader* LoadShader(const std::string& name, const std::string& vertPath, const std::string& fragPath);
+		Graphics::Shader* LoadShader(
 			const std::string& name,
 			const std::string& vertPath,
 			const std::string& fragPath,
 			const std::string& geomPath
 		);
 		// Convenience: find by name if you know a shader is already loaded
-		const Shark::Graphics::Shader* GetShader(const std::string& name) const;
+		const Graphics::Shader* GetShader(const std::string& name) const;
 
 	private:
-		std::unordered_map<std::string, Shark::Graphics::Shader*> m_ShaderCache;
-		Shark::Core::MessageSystem* m_ResponseTarget = nullptr;
+		std::unordered_map<std::string, Graphics::Shader*> m_ShaderCache;
+		Core::MessageSystem* m_ResponseTarget = nullptr;
 
 		ShaderManager() = default;
 		~ShaderManager() = default;

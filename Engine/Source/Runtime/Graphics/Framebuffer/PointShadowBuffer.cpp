@@ -1,7 +1,7 @@
 #include "PointShadowBuffer.h"
 
 namespace Shark::Graphics {
-	PointShadowBuffer::PointShadowBuffer(int resolution) : IRenderTarget(resolution, resolution)
+	PointShadowBuffer::PointShadowBuffer(int resolution) : RenderTarget(resolution, resolution)
 	{
 		CreateCubemapBuffer(resolution);
 	}

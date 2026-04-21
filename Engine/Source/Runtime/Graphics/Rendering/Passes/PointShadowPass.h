@@ -15,7 +15,7 @@ namespace Shark::Graphics {
 
 		void Begin() override final;
 		void End() override final;
-		void Execute(Shark::Scene* scene, std::vector<Shark::Components::LightData>& lights);
+		void Execute(Shark::Scene* scene, std::vector<Components::LightData>& lights);
 
 		unsigned int GetCubemap(int index) const;
 		float GetFarPlane() const { return m_FarPlane; }
@@ -26,24 +26,24 @@ namespace Shark::Graphics {
 
 		std::array<PointShadowBuffer*, MAX_SHADOW_POINT_LIGHTS>  m_Buffers;
 
-		void RenderPointLight(Shark::Scene* scene, const Shark::Components::LightData& light, int index);
+		void RenderPointLight(Shark::Scene* scene, const Components::LightData& light, int index);
 		
 		void Execute(
 			float deltaTime,
 			Shark::Scene* scene,
-			Shark::Components::CameraComponent* cam,
-			std::vector<Shark::Components::LightData> lights) override final {};
+			Components::CameraComponent* cam,
+			std::vector<Components::LightData> lights) override final {};
 
 		void UpdateCameraTransform(
-			Shark::Graphics::Shader* shader,
-			Shark::Components::CameraComponent* cam,
+			Shader* shader,
+			Components::CameraComponent* cam,
 			glm::mat4& view,
 			glm::mat4& projection) override final {};
 
 		void UpdateLights(
-			Shark::Graphics::Shader* shader,
-			std::vector<Shark::Components::LightData>& lights) override final {};
-		void Execute(Shark::Scene* scene, const std::vector<Shark::Components::LightData>& mainLight) override final {}
+			Shader* shader,
+			std::vector<Components::LightData>& lights) override final {};
+		void Execute(Shark::Scene* scene, const std::vector<Components::LightData>& mainLight) override final {}
 
 	};
 }

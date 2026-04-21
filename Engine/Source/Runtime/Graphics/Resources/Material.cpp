@@ -2,13 +2,13 @@
 #include "Core/Utilities/Debug.h"
 #include "ShaderManager.h"
 #include "TextureManager.h"
-#include <glad.h>
+#include <glad/glad.h>
 
 namespace Shark::Graphics {
 
-	using Shark::Managers::ShaderManager;
-	using Shark::Managers::TextureManager;
-	using Shark::Math::Vector3;
+	using Resources::ShaderManager;
+	using Resources::TextureManager;
+	using Math::Vector3;
 
 	Material::Material(Shader* shaderProgram, Texture* texture)
 		: m_Shader(shaderProgram), m_diffuseTexture(texture)
@@ -64,7 +64,7 @@ namespace Shark::Graphics {
 
 	void Material::SetShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)
 	{
-		Shader* newShader = Managers::ShaderManager::Get().LoadShader(name, vertPath, fragPath);
+		Shader* newShader = ShaderManager::Get().LoadShader(name, vertPath, fragPath);
 
 		if (newShader) {
 			m_Shader = newShader;
@@ -103,6 +103,6 @@ namespace Shark::Graphics {
 	}
 
 	void Material::CreateDefaultShader() {
-		SetShader("SE_BasicLit", "Shaders/SE_BasicLit.vert.glsl", "Shaders/SE_BasicLit.frag.glsl");
+		SetShader("SE_BasicLit", "SE_BasicLit.vert.glsl", "SE_BasicLit.frag.glsl");
 	}
 }

@@ -11,9 +11,9 @@
 namespace Shark::Graphics {
 
     using Shark::Scene;
-    using Shark::Components::CameraComponent;
-    using Shark::Components::MeshRendererComponent;
-    using Shark::Components::LightData;
+    using Components::CameraComponent;
+    using Components::MeshRendererComponent;
+    using Components::LightData;
 
     ForwardRenderPass::ForwardRenderPass(Framebuffer* target)
         : RenderPass(target) {
@@ -34,13 +34,13 @@ namespace Shark::Graphics {
         else {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             // Add this line to fix the "Tiny Scene" issue
-            glViewport(0, 0, Shark::Core::WINDOW_WIDTH, Shark::Core::WINDOW_HEIGHT);
+            glViewport(0, 0, Core::WINDOW_WIDTH, Core::WINDOW_HEIGHT);
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
     }
 
-    void ForwardRenderPass::Execute(float deltaTime, Scene* scene, CameraComponent* cam, std::vector<Shark::Components::LightData> lights) {
+    void ForwardRenderPass::Execute(float deltaTime, Scene* scene, CameraComponent* cam, std::vector<LightData> lights) {
 		glm::mat4 viewMatrix = cam->GetViewMatrix();
 		glm::mat4 projectionMatrix = cam->GetProjectionMatrix();
 

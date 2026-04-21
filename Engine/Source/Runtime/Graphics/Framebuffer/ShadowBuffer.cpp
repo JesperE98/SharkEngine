@@ -1,7 +1,7 @@
 #include "ShadowBuffer.h"
 
 namespace Shark::Graphics {
-	ShadowBuffer::ShadowBuffer(int w, int h) : IRenderTarget(w, h)
+	ShadowBuffer::ShadowBuffer(int w, int h) : RenderTarget(w, h)
 	{
 		CreateShadowBuffer(w, h);
 	}

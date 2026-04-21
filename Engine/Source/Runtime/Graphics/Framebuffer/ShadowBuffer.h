@@ -1,10 +1,10 @@
 #ifndef SHADOW_BUFFER_H
 #define SHADOW_BUFFER_H
 
-#include "IRenderTarget.h"
+#include "RenderTarget.h"
 
 namespace Shark::Graphics {
-	class ShadowBuffer : virtual public IRenderTarget {
+	class ShadowBuffer : virtual public RenderTarget {
 	public:
 		ShadowBuffer(int w, int h);
 		~ShadowBuffer() override;

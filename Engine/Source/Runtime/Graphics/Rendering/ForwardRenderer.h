@@ -19,7 +19,7 @@ namespace Shark::Graphics
 		~ForwardRenderer() override;
 		void Init() override final;
 		void BeginFrame() override final;
-		void RenderScene(float deltaTime, Shark::Scene* scene, Shark::Components::CameraComponent* cam) override final;
+		void RenderScene(float deltaTime, Shark::Scene* scene, Components::CameraComponent* cam) override final;
 		void EndFrame() override final;
 		void SetTarget(Framebuffer* fb);
 		ShadowMapPass* GetShadowPass() const;

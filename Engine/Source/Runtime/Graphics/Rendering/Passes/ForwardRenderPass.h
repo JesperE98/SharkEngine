@@ -16,17 +16,17 @@ namespace Shark::Graphics
 		void Execute(
 			float deltaTime, 
 			Shark::Scene* scene, 
-			Shark::Components::CameraComponent* cam,
-			std::vector<Shark::Components::LightData> lights) override final;
+			Components::CameraComponent* cam,
+			std::vector<Components::LightData> lights) override final;
 
 		void UpdateCameraTransform(
-			Shark::Graphics::Shader* shader,
-			Shark::Components::CameraComponent* cam,
+			Shader* shader,
+			Components::CameraComponent* cam,
 			glm::mat4& view,
 			glm::mat4& projection) override final;
 
 		void SetShadowDataAtIndex(int index, unsigned int texID, const glm::mat4& lightSpaceMatrix);
-		void UpdateLights(Shark::Graphics::Shader* shader, std::vector<Shark::Components::LightData>& lights) override final;
+		void UpdateLights(Shader* shader, std::vector<Components::LightData>& lights) override final;
 
 		void SetPointShadowDataAtIndex(int index, unsigned int cubemapID, float farPlane);
 		void End() override final;
@@ -41,7 +41,7 @@ namespace Shark::Graphics
 		float m_PointShadowFarPlane = 100.0f;
 
 
-		void Execute(Shark::Scene* scene, const std::vector<Shark::Components::LightData>& mainLight) override final {}
+		void Execute(Shark::Scene* scene, const std::vector<Components::LightData>& mainLight) override final {}
 	};
 }
 

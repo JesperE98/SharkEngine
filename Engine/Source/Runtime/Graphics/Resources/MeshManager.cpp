@@ -5,16 +5,17 @@
 #include "Graphics/Resources/Mesh.h"
 #include "Graphics/Resources/PrimitiveMesh.h"
 
-namespace Shark::Managers {
+namespace Shark::Resources {
 
-	using Shark::Core::Message;
-	using Shark::Core::EventType;
-	using Shark::Components::MeshRendererComponent;
-	using Shark::Core::GameObject;
-	using Shark::Graphics::Mesh;
-	using Shark::Graphics::Material;
-	using Shark::Graphics::PrimitiveMesh;
-	using Shark::Graphics::PrimitiveType;
+	using Core::Message;
+	using Core::MessageSystem;
+	using Core::EventType;
+	using Components::MeshRendererComponent;
+	using Core::GameObject;
+	using Graphics::Material;
+	using Graphics::Mesh;
+	using Graphics::PrimitiveType;
+	using Graphics::PrimitiveMesh;
 
 	void MeshManager::Update(float DeltaTime)
 	{
@@ -36,7 +37,7 @@ namespace Shark::Managers {
 		}
 	}
 
-	void MeshManager::SetResponseTarget(Shark::Core::MessageSystem* target)
+	void MeshManager::SetResponseTarget(MessageSystem* target)
 	{
 		m_ResponseTarget = target;
 	}

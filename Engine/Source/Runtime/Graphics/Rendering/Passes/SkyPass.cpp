@@ -6,15 +6,15 @@
 
 namespace Shark::Graphics {
 
-	using Shark::Managers::ShaderManager;
-	using Shark::Components::LightData;
+	using Resources::ShaderManager;
+	using Components::LightData;
 
 	SkyPass::SkyPass(int width, int height)
 	{
 		shader = ShaderManager::Get().LoadShader(
 			"SE_Sky",
-			"Shaders/SE_Sky.vert.glsl",
-			"Shaders/SE_Sky.frag.glsl"
+			"SE_Sky.vert.glsl",
+			"SE_Sky.frag.glsl"
 		);
 
 		m_QuadBuffer = new QuadBuffer(width, height);

@@ -6,21 +6,21 @@
 #include "Components/Rendering/LightComponent.h"
 #include "Scene/Scene.h"
 
-#include <gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Shark::Graphics {
 
-	using Shark::Components::LightData;
-	using Shark::Components::MeshRendererComponent;
-	using Shark::Managers::ShaderManager;
+	using Components::LightData;
+	using Components::MeshRendererComponent;
+	using Resources::ShaderManager;
 
 	PointShadowPass::PointShadowPass(int resolution)
 	{
 		shader = ShaderManager::Get().LoadShader(
 			"SE_PointShadow",
-			"Shaders/SE_PointShadow.vert.glsl",
-			"Shaders/SE_PointShadow.frag.glsl",
-			"Shaders/SE_PointShadow.geom.glsl"
+			"SE_PointShadow.vert.glsl",
+			"SE_PointShadow.frag.glsl",
+			"SE_PointShadow.geom.glsl"
 		);
 
 		for (int i = 0; i < MAX_SHADOW_POINT_LIGHTS; i++) {
@@ -44,7 +44,7 @@ namespace Shark::Graphics {
 		glCullFace(GL_BACK);
 	}
 
-	void PointShadowPass::Execute(Shark::Scene * scene, std::vector<Shark::Components::LightData>&lights)
+	void PointShadowPass::Execute(Shark::Scene * scene, std::vector<LightData>&lights)
 	{
 		int shadowIndex = 0;
 
@@ -57,7 +57,7 @@ namespace Shark::Graphics {
 		}
 	}
 
-	void PointShadowPass::RenderPointLight(Shark::Scene* scene, const Shark::Components::LightData& light, int index)
+	void PointShadowPass::RenderPointLight(Shark::Scene* scene, const LightData& light, int index)
 	{
 		glViewport(0, 0, m_Resolution, m_Resolution);
 		glClear(GL_DEPTH_BUFFER_BIT);

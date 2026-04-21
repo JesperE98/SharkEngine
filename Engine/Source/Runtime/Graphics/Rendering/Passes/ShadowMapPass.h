@@ -15,7 +15,7 @@ namespace Shark::Graphics {
 		void Begin() override final;
 		void End() override final;
 
-		void Execute(Shark::Scene* scene, const std::vector<Shark::Components::LightData>& lights) override;
+		void Execute(Shark::Scene* scene, const std::vector<Components::LightData>& lights) override;
 
 		void SetLightSpaceMatrix(int index, const glm::mat4& matrix);
 		glm::mat4 GetLightSpaceMatrix(int index) const;
@@ -30,9 +30,9 @@ namespace Shark::Graphics {
 		glm::mat4 m_LightSpaceMatrices[4];
 		int m_ActiveShadowCount{ 0 };
 
-		void Execute(float dt, Shark::Scene* s, Shark::Components::CameraComponent* c, std::vector<Shark::Components::LightData> l) override final {}
-		virtual void UpdateCameraTransform(Shark::Graphics::Shader* shader, Shark::Components::CameraComponent* cam, glm::mat4& view, glm::mat4& projection) override final { }
-		virtual void UpdateLights(Shark::Graphics::Shader* shader, std::vector<Shark::Components::LightData>& lights) override final { }
+		void Execute(float dt, Shark::Scene* s, Components::CameraComponent* c, std::vector<Components::LightData> l) override final {}
+		virtual void UpdateCameraTransform(Graphics::Shader* shader, Components::CameraComponent* cam, glm::mat4& view, glm::mat4& projection) override final { }
+		virtual void UpdateLights(Graphics::Shader* shader, std::vector<Components::LightData>& lights) override final { }
 	};
 }
 
