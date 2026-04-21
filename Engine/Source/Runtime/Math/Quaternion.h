@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Vector3.h"
-#include <gtc/quaternion.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 namespace Shark::Math {
 
 	struct Vector3;
@@ -21,9 +22,9 @@ namespace Shark::Math {
 
 		Quaternion operator*(const Quaternion& other) const { return Quaternion(glm::quat(*this) * glm::quat(other)); }
 
-		Shark::Math::Vector3 operator*(const Shark::Math::Vector3& other) const {
+		Vector3 operator*(const Vector3& other) const {
 			glm::vec3 rotated = glm::quat(*this) * glm::vec3(other.x, other.y, other.z);
-			return Shark::Math::Vector3(rotated.x, rotated.y, rotated.z);
+			return Vector3(rotated.x, rotated.y, rotated.z);
 		}
 
 #pragma endregion
