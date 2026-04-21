@@ -1,13 +1,13 @@
 #include "MeshRendererComponent.h"
 #include "Core/GameObject.h"
 
-#include <glad.h>
+#include <glad/glad.h>
 
 namespace Shark::Components {
 
-	using Shark::Core::GameObject;
-	using Shark::Graphics::Mesh;
-	using Shark::Graphics::Material;
+	using Core::GameObject;
+	using Graphics::Mesh;
+	using Graphics::Material;
 
 	MeshRendererComponent::~MeshRendererComponent()
 	{

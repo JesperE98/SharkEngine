@@ -4,8 +4,8 @@
 
 namespace Shark::Components {
 
-	using Shark::Math::Transform;
-	using Shark::Math::Vector3;
+	using Math::Transform;
+	using Math::Vector3;
 
 	void CameraComponent::SetAspectRatio(float aspect)
 	{

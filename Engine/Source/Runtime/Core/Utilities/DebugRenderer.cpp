@@ -2,13 +2,13 @@
 #include "Debug.h"
 #include "Graphics/Resources/ShaderManager.h"
 #include "Graphics/Resources/Shader.h"
-#include <glad.h>
+#include <glad/glad.h>
 
 namespace Shark::Core {
 
-	using Shark::Math::Vector3;
-	using Shark::Managers::ShaderManager;
-	using Shark::Graphics::Shader;
+	using Math::Vector3;
+	using Resources::ShaderManager;
+	using Graphics::Shader;
 
 	DebugRenderer& DebugRenderer::Get()
 	{
@@ -22,8 +22,8 @@ namespace Shark::Core {
 
 		shader = ShaderManager::Get().LoadShader(
 			"SE_DebugLine",
-			"Shaders/SE_Debug.vert.glsl",
-			"Shaders/SE_Debug.frag.glsl"
+			"SE_Debug.vert.glsl",
+			"SE_Debug.frag.glsl"
 		);
 
 		glGenVertexArrays(1, &VAO);
@@ -44,7 +44,7 @@ namespace Shark::Core {
 		SE_LOG(Rendering, "DebugRenderer initialized.");
 	}
 
-	void DebugRenderer::AddAABB(const Shark::Math::Vector3& min, const Shark::Math::Vector3& max, const Shark::Math::Vector3& color)
+	void DebugRenderer::AddAABB(const Vector3& min, const Vector3& max, const Vector3& color)
 	{
 		// Bottom
 		AddLine({ min.x, min.y, min.z }, { max.x, min.y, min.z }, color);
@@ -65,7 +65,7 @@ namespace Shark::Core {
 		AddLine({ min.x, min.y, max.z }, { min.x, max.y, max.z }, color);
 	}
 
-	void DebugRenderer::AddLine(const Shark::Math::Vector3 & start, const Shark::Math::Vector3 & end, const Shark::Math::Vector3 & color)
+	void DebugRenderer::AddLine(const Vector3 & start, const Vector3 & end, const Vector3 & color)
 	{
 		lines.push_back({ start, color, end, color });
 	}

@@ -12,11 +12,11 @@
 
 namespace Shark::Editor {
 
-    using Shark::Editor::InspectorWindow;
-    using Shark::Editor::LevelEditorManager;
-    using Shark::Core::GameObject;
-    using Shark::Managers::SceneManager;
-    using Shark::Graphics::PrimitiveType;
+    using Editor::InspectorWindow;
+    using Editor::LevelEditorManager;
+    using Core::GameObject;
+    using Core::SceneManager;
+    using Graphics::PrimitiveType;
 
     HierarchyWindow::~HierarchyWindow()
     {

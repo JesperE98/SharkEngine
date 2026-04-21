@@ -10,7 +10,7 @@
 
 namespace Shark::Core {
 
-	class GameObject : virtual public Shark::Object
+	class GameObject : public Object
 	{
 	public:
 
@@ -25,8 +25,8 @@ namespace Shark::Core {
 #pragma endregion
 
 
-		Shark::Math::Transform& GetTransform() { return m_Transform; }
-		const Shark::Math::Transform& GetTransform() const { return m_Transform; }
+		Math::Transform& GetTransform() { return m_Transform; }
+		const Math::Transform& GetTransform() const { return m_Transform; }
 
 		template<typename T, typename... Args>
 		T* AddComponent(Args&&... args) {
@@ -77,10 +77,10 @@ namespace Shark::Core {
 #pragma endregion
 	protected:
 		// Core data
-		Shark::Math::Transform m_Transform;
+		Math::Transform m_Transform;
 
 #pragma region Container Member Variables
-		std::vector<Shark::Components::Component*> m_Components;
+		std::vector<Components::Component*> m_Components;
 		std::unordered_map<std::type_index, void*> m_ComponentMap;
 		std::vector<GameObject*> m_Children;
 		GameObject* m_Parent{ nullptr };

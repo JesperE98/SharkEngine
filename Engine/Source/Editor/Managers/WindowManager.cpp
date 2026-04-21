@@ -11,22 +11,23 @@
 #include <Graphics/Rendering/Passes/ShadowMapPass.h>
 #include <Scene/SceneManager.h>
 #include <Memory/MemoryManager.h>
+#include <Components/Rendering/LightComponent.h>
 #pragma endregion
 
 #include <vector>
-#include <imgui.h>
+#include <ImGui/imgui.h>
 
 namespace Shark::Editor {
 
-	using Shark::Core::EngineContext;
-	using Shark::Core::EventType;
-	using Shark::Core::Message;
-	using Shark::Core::Debug;
-	using Shark::Editor::LevelEditorManager;
-	using Shark::Managers::SceneManager;
-	using Shark::Managers::MemoryManager;
-	using Shark::Graphics::ForwardRenderer;
-	using Shark::Graphics::ShadowMapPass;
+	using Core::EngineContext;
+	using Core::EventType;
+	using Core::Message;
+	using Core::Debug;
+	using Core::SceneManager;
+	using Editor::LevelEditorManager;
+	using Memory::MemoryManager;
+	using Graphics::ForwardRenderer;
+	using Graphics::ShadowMapPass;
 
 
 	void WindowManager::Initialize()

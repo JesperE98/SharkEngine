@@ -2,10 +2,10 @@
 #include "Scene.h"
 #include "Physics/PhysicsSystem.h"
 
-namespace Shark::Managers {
+namespace Shark::Core {
 
 	using Shark::Scene;
-	using Shark::Physics::PhysicsSystem;
+	using Physics::PhysicsSystem;
 
 	SceneManager& SceneManager::Get()
 	{

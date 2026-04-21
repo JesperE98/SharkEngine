@@ -9,7 +9,7 @@ namespace Shark::Core {
 
 namespace Shark::Components {
 
-	class Component : virtual public Shark::Object
+	class Component : virtual public Object
 	{
 	public:
 
@@ -17,17 +17,17 @@ namespace Shark::Components {
 
 		Component() : m_Owner(nullptr) {}
 
-		explicit Component(Shark::Core::GameObject* owner)	: m_Owner(owner) {}
+		explicit Component(Core::GameObject* owner)	: m_Owner(owner) {}
 		virtual ~Component() = default;
 
 		virtual void Update(float deltaTime) {};
 
-		void SetOwner(Shark::Core::GameObject* owner) { m_Owner = owner; }
-		Shark::Core::GameObject* GetOwner() const { return m_Owner; }
+		void SetOwner(Core::GameObject* owner) { m_Owner = owner; }
+		Core::GameObject* GetOwner() const { return m_Owner; }
 
 	protected:
 
-		Shark::Core::GameObject* m_Owner;
+		Core::GameObject* m_Owner;
 	};
 }
 

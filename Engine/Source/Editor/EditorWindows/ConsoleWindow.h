@@ -1,11 +1,12 @@
 #ifndef CONSOLE_PANEL_H
 #define CONSOLE_PANEL_H
 
-
 #include "EditorWindow.h"
 
 #include <mutex>
 #include <vector>
+#include <Core/Utilities/Debug.h>
+
 
 namespace Shark::Editor {
 
@@ -33,7 +34,7 @@ namespace Shark::Editor {
 		std::vector<ConsoleEntry> m_LocalHistory;	// Local copy of log history for thread safety
 		std::mutex m_LogMutex;
 
-		void OnLogReceived(const Shark::Core::LogEntry& entry);
+		void OnLogReceived(const Core::LogEntry& entry);
 		ImVec4 GetColorForLogLevel(const std::string& level) const;
 	};
 }

@@ -26,11 +26,11 @@ namespace Shark::Editor {
 
 	private:
 		
-		Shark::Core::GameObject* m_SelectedObject{ nullptr };
+		Core::GameObject* m_SelectedObject{ nullptr };
 		InspectorWindow* m_Inspector{ nullptr };
 
 
-		void DrawObjectNode(Shark::Core::GameObject* obj, const char* filter);
+		void DrawObjectNode(Core::GameObject* obj, const char* filter);
 		bool NameMatchesFilter(const std::string& name, const char* filter);
 	};
 }

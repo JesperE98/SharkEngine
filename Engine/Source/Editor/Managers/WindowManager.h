@@ -12,7 +12,7 @@ namespace Shark::Editor {
 	{
 	public:
 
-		Shark::Core::MessageSystem inbox;
+		Core::MessageSystem inbox;
 
 		static WindowManager& Get() {
 			static WindowManager instance;
@@ -70,7 +70,7 @@ namespace Shark::Editor {
 		@brief Handles incoming messages from other systems. This function processes messages related to window management, such as opening and closing windows, and updates the state of the windows accordingly.
 		@param msg The message to process, containing the event type and any relevant payload data.
 		*/
-		void RecieveMessages(const Shark::Core::Message& msg);
+		void RecieveMessages(const Core::Message& msg);
 
 		template<typename T, typename... Args>
 		T* CreateEditorWindow(Args&&... args) {

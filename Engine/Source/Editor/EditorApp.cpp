@@ -17,25 +17,27 @@
 #pragma endregion
 
 #pragma region ImGUI libraries
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <ImGui/imgui.h>
+#include <ImGui/imgui_impl_glfw.h>
+#include <ImGui/imgui_impl_opengl3.h>
 #pragma endregion
+
+#include "GLFW/glfw3.h"
 
 namespace Shark {
 
-	using Shark::Core::EngineContext;
-	using Shark::Core::Debug;
-	using Shark::Core::Time;
-	using Shark::Managers::MemoryManager;
-	using Shark::Managers::SceneManager;
-	using Shark::Editor::LevelEditorManager;
-	using Shark::Editor::WindowManager;
-	using Shark::Editor::EditorMenuBar;
-	using Shark::Managers::MeshManager;
-	using Shark::Managers::ShaderManager;
-	using Shark::Managers::TextureManager;
-	using Shark::Graphics::PrimitiveType;
+	using Core::EngineContext;
+	using Core::Debug;
+	using Core::Time;
+	using Core::SceneManager;
+	using Memory::MemoryManager;
+	using Editor::LevelEditorManager;
+	using Editor::WindowManager;
+	using Editor::EditorMenuBar;
+	using Resources::MeshManager;
+	using Resources::ShaderManager;
+	using Resources::TextureManager;
+	using Graphics::PrimitiveType;
 
 	EditorApp::~EditorApp()
 	{

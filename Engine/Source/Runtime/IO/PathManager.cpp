@@ -2,7 +2,7 @@
 #include "Core/Utilities/Debug.h"
 #include <filesystem>
 
-namespace Shark::Managers {
+namespace Shark::IO {
 
 	PathManager& PathManager::Get()
 	{
@@ -17,10 +17,10 @@ namespace Shark::Managers {
 		// Search upwards to find the "Content" folder inside "Runtime" folder
 		for (int i = 0; i < 5; i++) {
 			// Updated to look for "Content" folder inside "Runtime"
-			if (std::filesystem::exists(currentPath / "Runtime/Content")) {
+			if (std::filesystem::exists(currentPath / "Content")) {
 				// Found the folder containing "Runtime"
 				// Sets the root folder to "Runtime/" so all future paths start from there
-				m_RootPath = (currentPath / "Runtime").make_preferred().string() + '\\';
+				m_RootPath = currentPath.make_preferred().string() + '\\';
 
 				SE_SUCC(IO, "PathManager::OnInitialize() - Engine Root Found: {}", m_RootPath);
 				return;
@@ -32,9 +32,14 @@ namespace Shark::Managers {
 		SE_ERR(IO, "PathManager::OnInitialize() - Could not find Content folder! Fallback to /.");
 	}
 
-	std::string PathManager::GetContentPath(const std::string& relativePath) const
+	std::string PathManager::GetPath(PathCategory category, const std::string& relativePath) const
 	{
-		return m_RootPath + "Content/" + relativePath;
+		switch (category) {
+		case PathCategory::Root:	return m_RootPath + relativePath;
+		case PathCategory::Content:	return m_RootPath + "Content/" + relativePath;
+		case PathCategory::Shaders:	return m_RootPath + "Shaders/" + relativePath;
+		}
+		return m_RootPath + relativePath;
 	}
 
 	const std::string& PathManager::GetRootPath() const

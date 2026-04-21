@@ -1,9 +1,10 @@
 #ifndef ENGINE_CONTEXT_H
 #define ENGINE_CONTEXT_H
 
+struct GLFWwindow;
 #include "Engine.h"
 
-#include <glfw3.h>
+#include <glad/glad.h>
 
 namespace Shark::Graphics	{ class Renderer; }
 
@@ -15,7 +16,7 @@ namespace Shark::Core {
 #pragma region Core Engine objects
 		GLFWwindow* m_Window{ nullptr };
 		Engine* m_Engine{ nullptr };
-		Shark::Graphics::Renderer* m_Renderer{ nullptr };
+		Graphics::Renderer* m_Renderer{ nullptr };
 #pragma endregion
 		// Singleton accessor
 		static EngineContext& Get() {

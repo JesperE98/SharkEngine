@@ -1,7 +1,7 @@
 #include "Time.h"
 
 #include <chrono>
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace Shark::Core {
 	double Time::m_LastFrame = 0.0f;

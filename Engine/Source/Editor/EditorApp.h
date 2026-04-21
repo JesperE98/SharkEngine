@@ -14,7 +14,7 @@ namespace Shark {
 
 	private:
 
-		Shark::Editor::EditorMenuBar* m_MenuBar{ nullptr };
+		Editor::EditorMenuBar* m_MenuBar{ nullptr };
 
 		void CreateEditorWindow();
 		void BeginFrame();

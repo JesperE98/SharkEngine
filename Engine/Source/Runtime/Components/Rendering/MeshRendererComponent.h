@@ -10,7 +10,7 @@ namespace Shark::Components {
 	class MeshRendererComponent : virtual public Component
 	{
 	public:
-		explicit MeshRendererComponent(Shark::Graphics::Mesh* mesh, Shark::Graphics::Material* mat)
+		explicit MeshRendererComponent(Graphics::Mesh* mesh, Graphics::Material* mat)
 			: m_Mesh(mesh), m_Material(mat) { }
 
 		~MeshRendererComponent() override;
@@ -19,17 +19,19 @@ namespace Shark::Components {
 
 		void Render();
 
-		// --- Asset Setters ---
-		void SetMesh(Shark::Graphics::Mesh* mesh);
-		void SetMaterial(Shark::Graphics::Material* mat);
+#pragma Region ASSET SETTERS
+		void SetMesh(Graphics::Mesh* mesh);
+		void SetMaterial(Graphics::Material* mat);
+#pragma endregion
 
-		// --- Asset Getters ---
-		Shark::Graphics::Mesh* GetMesh() const;
-		Shark::Graphics::Material* GetMaterial() const;
+#pragma region ASSET GETTERS
+		Graphics::Mesh* GetMesh() const;
+		Graphics::Material* GetMaterial() const;
+#pragma endregion
 
 	private:
-		Shark::Graphics::Mesh* m_Mesh{ nullptr };
-		Shark::Graphics::Material* m_Material{ nullptr };
+		Graphics::Mesh* m_Mesh{ nullptr };
+		Graphics::Material* m_Material{ nullptr };
 	};
 }
 

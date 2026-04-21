@@ -5,7 +5,7 @@ namespace Shark {
 	class Scene;
 }
 
-namespace Shark::Managers {
+namespace Shark::Core {
 
 	class SceneManager
 	{

@@ -6,7 +6,7 @@
 
 namespace Shark::Core {
 
-	enum class EventType {
+	enum class EventType : uint8_t {
 		None = 0,				EditorWindowOpen,
 		EditorWindowClose,		EditorWindowResize,
 		KeyPressed,				KeyReleased,

@@ -3,7 +3,7 @@
 
 namespace Shark::Components {
 
-	using Shark::Math::Vector3;
+	using Math::Vector3;
 
 	AABB AABBComponent::GetWorldAABB() const
 	{

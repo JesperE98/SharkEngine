@@ -8,8 +8,8 @@ namespace Shark::Components {
 
 	class RigidbodyComponent : public Component {
 	public:
-		Shark::Math::Vector3 velocity{ 0.0f, 0.0f, 0.0f };
-		Shark::Math::Vector3 acceleration{ 0.0f, 0.0f, 0.0f };
+		Math::Vector3 velocity{ 0.0f, 0.0f, 0.0f };
+		Math::Vector3 acceleration{ 0.0f, 0.0f, 0.0f };
 
 		float mass = 1.0f;
 		float gravity = -20.0f; // Gravity force applied to the object (negative value for downward force)
@@ -25,7 +25,7 @@ namespace Shark::Components {
 drag		* @brief Applies a force to the object, changing its acceleration based on its mass.
 		* @param force The force vector to apply to the object.
 		*/
-		void AddForce(const Shark::Math::Vector3& force);
+		void AddForce(const Math::Vector3& force);
 
 		void Update(float deltaTime) override final;
 	};

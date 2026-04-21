@@ -20,7 +20,7 @@
 #include "Memory/MemoryManager.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
-#include <glad.h>
+
 
 namespace Shark::Core
 {
@@ -36,16 +36,14 @@ namespace Shark::Core
 	// The function pointer type for the callback
 	typedef void (APIENTRY* GLDEBUGPROC)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
-	using Shark::Managers::PathManager;
-	using Shark::Managers::InputManager;
-	using Shark::Managers::MemoryManager;
-	using Shark::Managers::MeshManager;
-	using Shark::Managers::ShaderManager;
-	using Shark::Managers::TextureManager;
-	using Shark::Managers::SceneManager;
-	using Shark::Graphics::ForwardRenderer;
-	using Shark::Graphics::PrimitiveType;
-	using Shark::Scene;
+	using IO::PathManager;
+	using Input::InputManager;
+	using Memory::MemoryManager;
+	using Resources::MeshManager;
+	using Resources::ShaderManager;
+	using Resources::TextureManager;
+	using Graphics::ForwardRenderer;
+	using Graphics::PrimitiveType;
 
 	void APIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
 		GLsizei length, const GLchar* message, const void* userParam)

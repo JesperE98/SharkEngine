@@ -3,7 +3,13 @@
 
 #include <string>
 
-namespace Shark::Managers {
+namespace Shark::IO {
+
+	enum class PathCategory : uint8_t {
+		Root,
+		Content,
+		Shaders
+	};
 
 	class PathManager
 	{
@@ -19,8 +25,7 @@ namespace Shark::Managers {
 		void OnInitialize();
 
 		// Helper to get full paths
-		std::string GetContentPath(const std::string& relativePath) const;
-
+		std::string GetPath(PathCategory category, const std::string& relativePath = "") const;
 		// Get root directory itself
 		const std::string& GetRootPath() const;
 

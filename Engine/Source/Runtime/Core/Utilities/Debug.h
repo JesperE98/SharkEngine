@@ -10,7 +10,7 @@
 
 namespace Shark::Core {
 
-	enum class LogCategory {
+	enum class LogCategory : uint8_t {
 		Engine,		// General startup/shutdown
 		Editor,		// UI and Tooling logic
 		Physics,	// Collision and Rigidbody updates
@@ -86,6 +86,7 @@ namespace Shark::Core {
 	private:
 
 		static inline std::vector<LogEntry> m_LogHistory;
+		static constexpr size_t MAX_LOG_HISTORY = 10000;
 
 		static void LogInternal(LogCategory category, const char* level, FColor color, std::string_view message, const std::vector<std::string>& args);
 

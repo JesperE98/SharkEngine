@@ -22,14 +22,14 @@ namespace Shark::Editor {
 #pragma endregion
 
 		void SetSelectedObject(Core::GameObject* obj) { m_SelectedObject = obj; }
-		Shark::Core::GameObject* GetSelectedObject() { return m_SelectedObject; }
+		Core::GameObject* GetSelectedObject() { return m_SelectedObject; }
 	private:
-		Shark::Core::GameObject* m_SelectedObject;
+		Core::GameObject* m_SelectedObject;
 
 
-		void DrawObjectName(Shark::Core::GameObject* obj);
-		void DrawTransform(Shark::Math::Transform& transform);
-		void DrawAddComponentButton(Shark::Core::GameObject* obj);
+		void DrawObjectName(Core::GameObject* obj);
+		void DrawTransform(Math::Transform& transform);
+		void DrawAddComponentButton(Core::GameObject* obj);
 
 		template<typename T>
 		void OnComponentUI(T* component);

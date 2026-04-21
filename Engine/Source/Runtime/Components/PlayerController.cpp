@@ -1,12 +1,13 @@
 #include "PlayerController.h"
 #include "Core/GameObject.h"
 #include "Physics/RigidbodyComponent.h"
-#include "Core/Engine/EngineContext.h"
 #include "Math/Vector3.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Shark::Components {
 
-	using Shark::Math::Vector3;
+	using Math::Vector3;
 
 	void PlayerController::BeginPlay()
 	{

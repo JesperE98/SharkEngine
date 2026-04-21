@@ -1,9 +1,9 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 
-namespace Shark::Managers {
+namespace Shark::Input {
 	class InputManager
 	{
 	public:

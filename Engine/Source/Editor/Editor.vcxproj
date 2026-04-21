@@ -112,9 +112,9 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source\Editor;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty\glad;$(SolutionDir)Engine\ThirdParty\GLFW;$(SolutionDir)Engine\ThirdParty\glm;$(SolutionDir)Engine\ThirdParty\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source\Editor;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty;$(SolutionDir)Engine\ThirdParty\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,13 +152,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Managers\LevelEditorManager.cpp" />
     <ClCompile Include="Managers\WindowManager.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui_demo.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui_tables.cpp" />
-    <ClCompile Include="ThirdParty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\ThirdParty\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Viewport\SceneViewport.cpp" />
   </ItemGroup>
   <ItemGroup>

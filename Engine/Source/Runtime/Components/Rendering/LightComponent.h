@@ -6,19 +6,19 @@
 
 namespace Shark::Components {
 
-	enum class LightType {
+	enum class LightType : uint8_t {
 		Directional = 0,
 		Point = 1,
 	};
 
 	struct LightData {
 		int type;
-		Shark::Math::Vector3 color;
+		Math::Vector3 color;
 		float intensity;
 
 		// Specifics
-		Shark::Math::Vector3 direction; // For Directional Light
-		Shark::Math::Vector3 position;	// For Point Light
+		Math::Vector3 direction; // For Directional Light
+		Math::Vector3 position;	// For Point Light
 		float range;					// For Point Light Attenuation
 	};
 
@@ -26,7 +26,7 @@ namespace Shark::Components {
 	public:
 
 		LightType Type = LightType::Directional;
-		Shark::Math::Vector3 Color = { 1.0f, 1.0f, 1.0f };
+		Math::Vector3 Color = { 1.0f, 1.0f, 1.0f };
 		float Intensity = 1.0f;
 		float Range = 10.0f;
 

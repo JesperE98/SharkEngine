@@ -3,16 +3,16 @@
 
 #include "Math/Vector3.h"
 #include <vector>
-#include <fwd.hpp>
+#include <glm/fwd.hpp>
 
 namespace Shark::Graphics { class Shader; }
 
 namespace Shark::Core {
 	struct DebugLine {
-		Shark::Math::Vector3 start;
-		Shark::Math::Vector3 startColor;
-		Shark::Math::Vector3 end;
-		Shark::Math::Vector3 endColor;
+		Math::Vector3 start;
+		Math::Vector3 startColor;
+		Math::Vector3 end;
+		Math::Vector3 endColor;
 	};
 
 	class DebugRenderer {
@@ -20,8 +20,8 @@ namespace Shark::Core {
 		static DebugRenderer& Get();
 
 		void Init();
-		void AddAABB(const Shark::Math::Vector3& min, const Shark::Math::Vector3& max, const Shark::Math::Vector3& color);
-		void AddLine(const Shark::Math::Vector3& start, const Shark::Math::Vector3& end, const Shark::Math::Vector3& color);
+		void AddAABB(const Math::Vector3& min, const Math::Vector3& max, const Math::Vector3& color);
+		void AddLine(const Math::Vector3& start, const Math::Vector3& end, const Math::Vector3& color);
 		void Render(const glm::mat4& view, const glm::mat4& projection);
 		void Clear();
 
@@ -33,7 +33,7 @@ namespace Shark::Core {
 		unsigned int VBO = 0;
 		unsigned int VAO = 0;
 		bool bInitialized = false;
-		Shark::Graphics::Shader* shader;
+		Graphics::Shader* shader;
 	};
 }
 

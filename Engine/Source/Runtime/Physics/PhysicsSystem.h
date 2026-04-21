@@ -19,10 +19,10 @@ namespace Shark::Physics {
 	private:
 
 		void ResolveCollision(
-			Shark::Core::GameObject* dynamicObj,
-			Shark::Components::RigidbodyComponent* physics,
-			Shark::Components::AABBComponent* dynamicAABB,
-			Shark::Components::AABBComponent* staticAABB
+			Core::GameObject* dynamicObj,
+			Components::RigidbodyComponent* physics,
+			Components::AABBComponent* dynamicAABB,
+			Components::AABBComponent* staticAABB
 		);
 	};
 }

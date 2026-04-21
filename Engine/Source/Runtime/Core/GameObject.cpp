@@ -1,9 +1,8 @@
 #include "GameObject.h"
-#include "Components/Component.h"
 
 namespace Shark::Core {
 
-	using Shark::Components::Component;
+	using Components::Component;
 
 	GameObject::GameObject(const std::string& name) {
 		this->name = name;

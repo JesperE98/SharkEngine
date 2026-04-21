@@ -10,13 +10,14 @@
 
 namespace Shark::Physics {
 
-	using Shark::Components::AABBComponent;
-	using Shark::Components::RigidbodyComponent;
-	using Shark::Components::AABB;
-	using Shark::Core::GameObject;
-	using Shark::Math::Vector3;
+	using Components::AABBComponent;
+	using Components::RigidbodyComponent;
+	using Components::AABB;
+	using Core::GameObject;
+	using Math::Vector3;
+	using Shark::Scene;
 
-	void PhysicsSystem::Update(float deltaTime, Shark::Scene* scene)
+	void PhysicsSystem::Update(float deltaTime, Scene* scene)
 	{
 		const auto& objects = scene->GetGameObjects();
 

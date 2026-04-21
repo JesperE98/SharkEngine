@@ -2,7 +2,7 @@
 #include "Core/Events/SharkEvents.h"
 
 #include <iostream>
-#include <glad.h>
+#include <glad/glad.h>
 
 namespace Shark::Core {
 
@@ -28,6 +28,10 @@ namespace Shark::Core {
 
 		std::string formattedMessage = ss.str();
 		LogEntry entry{ timeStamp, level, category, formattedMessage };
+
+		if (m_LogHistory.size() >= MAX_LOG_HISTORY) {
+			m_LogHistory.erase(m_LogHistory.begin(), m_LogHistory.begin() + (MAX_LOG_HISTORY / 10));
+		}
 
 		m_LogHistory.push_back(entry);
 
@@ -66,7 +70,7 @@ namespace Shark::Core {
 		case LogCategory::OpenGL:		return "OpenGL";
 		case LogCategory::IO:			return "IO";
 		case LogCategory::Temp:			return "Temp";
-		case LogCategory::Resources:		return "Resources";
+		case LogCategory::Resources:	return "Resources";
 		case LogCategory::Messaging:	return "Messaging";
 		default:						return "General";
 		}

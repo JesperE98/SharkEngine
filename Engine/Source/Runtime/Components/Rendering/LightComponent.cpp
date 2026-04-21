@@ -3,7 +3,7 @@
 
 namespace Shark::Components {
 
-	using Shark::Core::GameObject;
+	using Core::GameObject;
 
 	LightData LightComponent::GetLightData()
 	{

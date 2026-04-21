@@ -1,6 +1,6 @@
 #include "InputManager.h"
 
-namespace Shark::Managers {
+namespace Shark::Input {
 
 	InputManager& InputManager::Get()
 	{

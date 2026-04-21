@@ -15,20 +15,20 @@
 
 namespace Shark::Editor {
 
-	using Shark::Core::GameObject;
-	using Shark::Math::Transform;
-	using Shark::Math::Vector3;
-	using Shark::Components::MeshRendererComponent;
-	using Shark::Components::CameraComponent;
-	using Shark::Components::LightComponent;
-	using Shark::Components::LightType;
-	using Shark::Components::AABBComponent;
-	using Shark::Components::RigidbodyComponent;
-	using Shark::Components::PlayerController;
-	using Shark::Graphics::Mesh;
-	using Shark::Graphics::PrimitiveType;
-	using Shark::Managers::MeshManager;
-	using Shark::Editor::LevelEditorManager;
+	using Core::GameObject;
+	using Math::Transform;
+	using Math::Vector3;
+	using Components::MeshRendererComponent;
+	using Components::CameraComponent;
+	using Components::LightComponent;
+	using Components::LightType;
+	using Components::AABBComponent;
+	using Components::RigidbodyComponent;
+	using Components::PlayerController;
+	using Graphics::Mesh;
+	using Graphics::PrimitiveType;
+	using Resources::MeshManager;
+	using Editor::LevelEditorManager;
 
 	InspectorWindow::~InspectorWindow()
 	{

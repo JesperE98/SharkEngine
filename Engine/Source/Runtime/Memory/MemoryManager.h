@@ -1,7 +1,7 @@
 #ifndef ENGINE_CORE_UTILITIES_MEMORY_H
 #define ENGINE_CORE_UTILITIES_MEMORY_H
 
-namespace Shark::Managers {
+namespace Shark::Memory {
 
 	class MemoryManager
 	{

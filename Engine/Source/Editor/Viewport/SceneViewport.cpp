@@ -8,16 +8,16 @@
 #include <Components/Logic/CameraComponent.h>
 #pragma endregion
 
-#include <imgui.h>
+#include <ImGui/imgui.h>
 
 namespace Shark::Editor {
 
-    using Shark::Components::CameraComponent;
-    using Shark::Graphics::Renderer;
-    using Shark::Graphics::ForwardRenderer;
-    using Shark::Graphics::Framebuffer;
-    using Shark::Core::GameObject;
-    using Shark::Core::Time;
+    using Components::CameraComponent;
+    using Graphics::Renderer;
+    using Graphics::ForwardRenderer;
+    using Graphics::Framebuffer;
+    using Core::GameObject;
+    using Core::Time;
     using Shark::Scene;
 
     SceneViewport::SceneViewport(std::string name)

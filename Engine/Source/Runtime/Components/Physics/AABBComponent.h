@@ -6,8 +6,8 @@
 
 namespace Shark::Components {
 	struct AABB {
-		Shark::Math::Vector3 min{ 0.0f, 0.0f, 0.0f };
-		Shark::Math::Vector3 max{ 0.0f, 0.0f, 0.0f };
+		Math::Vector3 min{ 0.0f, 0.0f, 0.0f };
+		Math::Vector3 max{ 0.0f, 0.0f, 0.0f };
 
 		/*
 		*@brief Checks if this AABB intersects with another AABB.
@@ -26,19 +26,19 @@ namespace Shark::Components {
 		* @return A Vector3 representing the penetration depth along each axis.
 			Positive values indicate overlap, negative values indicate separation.
 		*/
-		Shark::Math::Vector3 GetPenetrationDepth(const AABB& other) {
+		Math::Vector3 GetPenetrationDepth(const AABB& other) {
 			float dx = std::min(max.x, other.max.x) - std::max(min.x, other.min.x);
 			float dy = std::min(max.y, other.max.y) - std::max(min.y, other.min.y);
 			float dz = std::min(max.z, other.max.z) - std::max(min.z, other.min.z);
 			
-			return Shark::Math::Vector3(dx, dy, dz);
+			return Math::Vector3(dx, dy, dz);
 		}
 
 		/*
 		* @brief Get the center point of the AABB.
 		* @return A Vector3 representing the center of the AABB.
 		*/
-		Shark::Math::Vector3 GetCenter() const {
+		Math::Vector3 GetCenter() const {
 			return (min + max) * 0.5f;
 		}
 
@@ -46,19 +46,19 @@ namespace Shark::Components {
 		* @brief Get the size (width, height, depth) of the AABB.
 		* @return A Vector3 representing the size of the AABB along each axis.
 		*/
-		Shark::Math::Vector3 GetSize() const {
+		Math::Vector3 GetSize() const {
 			return max - min;
 		}
 	};
 
 	class AABBComponent : public Component {
 	public:
-		Shark::Math::Vector3 m_Offset{ 0.0f, 0.0f, 0.0f };
-		Shark::Math::Vector3 m_Extents{ 0.5f, 0.5f, 0.5f };
+		Math::Vector3 m_Offset{ 0.0f, 0.0f, 0.0f };
+		Math::Vector3 m_Extents{ 0.5f, 0.5f, 0.5f };
 		bool bIsStatic{ false }; // static = Immoveable collider, dynamic = Movable collider
 
 		AABBComponent() = default;
-		explicit AABBComponent(const Shark::Math::Vector3& extents, bool isStatic = true)
+		explicit AABBComponent(const Math::Vector3& extents, bool isStatic = true)
 			: m_Extents(extents), bIsStatic(isStatic) {}
 
 		/*

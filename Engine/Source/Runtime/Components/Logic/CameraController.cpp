@@ -4,10 +4,10 @@
 
 namespace Shark::Components {
 
-	using Shark::Managers::InputManager;
-	using Shark::Core::GameObject;
-	using Shark::Math::Transform;
-	using Shark::Math::Vector3;
+	using Input::InputManager;
+	using Core::GameObject;
+	using Math::Transform;
+	using Math::Vector3;
 
 	CameraController::CameraController(float moveSpeed, float sensitivity) 
 		: m_Speed(moveSpeed), m_MouseSensitivity(sensitivity)

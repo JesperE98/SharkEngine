@@ -25,15 +25,15 @@ namespace Shark::Editor {
 	using Core::Message;
 	using Core::EventType;
 	using Core::GameObject;
+	using Core::SceneManager;
 	using Editor::InspectorWindow;
 	using Graphics::Material;
 	using Graphics::Mesh;
 	using Graphics::Texture;
 	using Graphics::PrimitiveType;
-	using Managers::MeshManager;
-	using Managers::SceneManager;
-	using Managers::TextureManager;
-	using Managers::ShaderManager;
+	using Resources::MeshManager;
+	using Resources::TextureManager;
+	using Resources::ShaderManager;
 	using Math::Vector3;
 	using Shark::Scene;
 

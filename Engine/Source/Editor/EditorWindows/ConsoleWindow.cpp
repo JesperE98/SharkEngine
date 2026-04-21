@@ -58,14 +58,14 @@ namespace Shark::Editor {
 	{
 	}
 
-	void ConsoleWindow::OnLogReceived(const Shark::Core::LogEntry& entry)
+	void ConsoleWindow::OnLogReceived(const Core::LogEntry& entry)
 	{
 		std::lock_guard<std::mutex> lock(m_LogMutex);
 		ConsoleEntry ce;
 		ce.RawData = entry;
 		ce.Color = GetColorForLogLevel(entry.Level);
 
-		std::string catStr = std::string(Shark::Core::Debug::CategoryToString(entry.Category));
+		std::string catStr = std::string(Core::Debug::CategoryToString(entry.Category));
 
 		ce.FormattedMessage = "[" + catStr + "] " + "[" + entry.Level + "] " + entry.Message;
 		m_LocalHistory.push_back(ce);

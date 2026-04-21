@@ -4,7 +4,10 @@
 #include <Core/Messaging/MessageSystem.h>
 #include <string>
 
-namespace Shark::Graphics { class Mesh; enum class PrimitiveType; }
+namespace Shark::Graphics { 
+	class Mesh; 
+	enum class PrimitiveType : uint8_t; 
+}
 
 namespace Shark::Editor {
 
@@ -14,7 +17,7 @@ namespace Shark::Editor {
 	{
 	public:
 		// The mailbox for other systems to talk to the EditorApp
-		Shark::Core::MessageSystem inbox;
+		Core::MessageSystem inbox;
 
 		static LevelEditorManager& Get() {
 			static LevelEditorManager instance;
@@ -27,11 +30,11 @@ namespace Shark::Editor {
 
 		// The UI call that triggers the request
 		void RequestModelLoad(const std::string& path);
-		void RequestPrimitiveLoad(Shark::Graphics::PrimitiveType type);
+		void RequestPrimitiveLoad(Graphics::PrimitiveType type);
 		void RequestDiffTextureLoad(const std::string& path);
 		void RequestSpecTextureLoad(const std::string& path);
 
-		void ReceiveMessage(const Shark::Core::Message& msg);
+		void ReceiveMessage(const Core::Message& msg);
 		void SetInspectorWindow(InspectorWindow& inspector) { m_InspectorWindow = &inspector; }
 
 	private:
@@ -46,8 +49,8 @@ namespace Shark::Editor {
 		LevelEditorManager(const LevelEditorManager&) = delete;
 		LevelEditorManager& operator=(const LevelEditorManager&) = delete;
 
-		void LoadModel(const Shark::Core::Message& msg);
-		void LoadPrimitive(const Shark::Core::Message& msg);
+		void LoadModel(const Core::Message& msg);
+		void LoadPrimitive(const Core::Message& msg);
 	};
 }
 #endif

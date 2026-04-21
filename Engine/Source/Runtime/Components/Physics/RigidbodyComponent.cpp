@@ -3,9 +3,9 @@
 
 namespace Shark::Components {
 
-	using Shark::Math::Vector3;
+	using Math::Vector3;
 
-	void RigidbodyComponent::AddForce(const Shark::Math::Vector3& force) {
+	void RigidbodyComponent::AddForce(const Vector3& force) {
 		// F = m * a => a = F / m
 		acceleration += force / mass;
 	}
