@@ -3,7 +3,9 @@
 namespace Shark::Graphics {
 	QuadBuffer::QuadBuffer(int w, int h) : RenderTarget(w, h)
 	{
+		SE_PROC(OpenGL, "Creating Quad Buffer...");
 		CreateQuad();
+		SE_SUCC(OpenGL, "Quad Buffer setup complete.");
 	}
 
 	QuadBuffer::~QuadBuffer()

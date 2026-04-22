@@ -16,6 +16,7 @@ namespace Shark::Graphics {
 
 	PointShadowPass::PointShadowPass(int resolution)
 	{
+		SE_PROC(Rendering, "Creating Point Shadow Pass...");
 		shader = ShaderManager::Get().LoadShader(
 			"SE_PointShadow",
 			"SE_PointShadow.vert.glsl",
@@ -26,6 +27,7 @@ namespace Shark::Graphics {
 		for (int i = 0; i < MAX_SHADOW_POINT_LIGHTS; i++) {
 			m_Buffers[i] = new PointShadowBuffer(resolution);
 		}
+		SE_SUCC(Rendering, "Point Shadow Pass setup complete.");
 	}
 
 	PointShadowPass::~PointShadowPass()

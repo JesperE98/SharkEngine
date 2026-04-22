@@ -16,6 +16,7 @@ namespace Shark::Components {
 		CameraComponent(float fov, float aspectRatio, float nearClip, float farClip)
 			: FOV(fov), AspectRatio(aspectRatio), NearClip(nearClip), FarClip(farClip) {
             UpdateProjectionMatrix();
+            tickMode = TickMode::EditOnly;
 		}
 
 #pragma region Component Properties

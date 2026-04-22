@@ -28,11 +28,10 @@ namespace Shark::Graphics {
 
 	void Shader::CreateShaderProgram(const char* vertPath, const char* fragPath)
 	{
-		SE_LOG(Resources, "Shader::Shader() - Creating Shader Program.");
+		SE_PROC(Resources, "Creating Shader Program...");
 
 		std::string vPath = PathManager::Get().GetPath(PathCategory::Shaders, vertPath);
 		std::string fPath = PathManager::Get().GetPath(PathCategory::Shaders, fragPath);
-		SE_LOG(Resources, "Shader::Shader() - Vertex Shader Path: {}", vPath);
 
 		// 1. Retrieve the vertex/fragment source code from filePath
 		std::string vertexCode, fragmentCode;
@@ -60,8 +59,8 @@ namespace Shark::Graphics {
 			fragmentCode = fShaderStream.str();
 		}
 		catch (std::ifstream::failure e) {
-			SE_ERR(Resources, "Shader::Shader() - Failed to read shader files at paths: {} and {}", vPath, fPath);
-			SE_ERR(Resources, "Shader::Shader() - ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
+			SE_ERR(Resources, "Failed to read shader files at paths: {} and {}", vPath, fPath);
+			SE_ERR(Resources, "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
 			SE_ERR(Resources, "Exception: {}", e.what());
 		}
 
@@ -95,16 +94,17 @@ namespace Shark::Graphics {
 		// Delete shaders as they are linked into our program now and no longer are necessary
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
+
+		SE_SUCC(Resources, "Shader Created.\nVertex Shader Path : {}\nFragment Shader Path: {}", vPath, fPath);
 	}
 
 	void Shader::CreateShaderProgram(const char* vertPath, const char* fragPath, const char* geomPath)
 	{
-		SE_LOG(Resources, "Shader::Shader() - Creating Shader Program.");
+		SE_PROC(Resources, "Creating Shader Program...");
 
 		std::string vPath = PathManager::Get().GetPath(PathCategory::Shaders, vertPath);
 		std::string fPath = PathManager::Get().GetPath(PathCategory::Shaders,           fragPath);
 		std::string gPath = geomPath ? PathManager::Get().GetPath(PathCategory::Shaders, geomPath) : "";
-		SE_LOG(Resources, "Shader::Shader() - Vertex Shader Path: {}", vPath);
 
 		// 1. Retrieve the vertex/fragment source code from filePath
 		std::string vertexCode, fragmentCode, geometryCode;
@@ -187,6 +187,8 @@ namespace Shark::Graphics {
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
 		if (hasGeom) glDeleteShader(geometry);
+
+		SE_SUCC(Resources, "Shader Created.\nVertex Shader Path : {}\nFragment Shader Path: {}\nGeometry Shader Path: {}", vPath, fPath, gPath);
 	}
 
 	void Shader::Use() const {
@@ -254,14 +256,6 @@ namespace Shark::Graphics {
 		if (location != -1) {
 			glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 		}
-		//int location = glGetUniformLocation(ID, name.c_str());
-		//if (location == -1) {
-		//	// This will catch the "<location> is invalid" error immediately
-		//	SE_WARN(Resources, "Uniform '{}' not found in shader (maybe optimized out?)", name);
-		//	return;
-		//}
-		//glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
-		//glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
 
 	void Shader::CheckCompileErrors(const unsigned int& shader, const std::string& type) {
@@ -272,14 +266,14 @@ namespace Shark::Graphics {
 			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
-				SE_ERR(Resources, "Shader::CheckCompileErrors() - ERROR::SHADER_COMPILATION_ERROR of type:{}\n{}\n", type, infoLog);
+				SE_ERR(Resources, "ERROR::SHADER_COMPILATION_ERROR of type:{}\n{}\n", type, infoLog);
 			}
 		}
 		else {
 			glGetProgramiv(shader, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
-				SE_ERR(Resources, "Shader::CheckCompileErrors() - ERROR::PROGRAM_LINKING_ERROR of type:{}\n{}\n", type, infoLog);
+				SE_ERR(Resources, "ERROR::PROGRAM_LINKING_ERROR of type:{}\n{}\n", type, infoLog);
 			}
 		}
 	}

@@ -3,7 +3,9 @@
 namespace Shark::Graphics {
 
 	Framebuffer::Framebuffer(int width, int height) : RenderTarget(width, height) {
+		SE_PROC(OpenGL, "Creating Framebuffer...");
 		Invalidate(width, height);
+		SE_SUCC(OpenGL, "Framebuffer setup complete.");
 	}
 
 	Framebuffer::~Framebuffer() {
@@ -13,6 +15,7 @@ namespace Shark::Graphics {
 
 	void Framebuffer::Invalidate(int width, int height)
 	{
+		//SE_PROC(OpenGL, "Invalidating target Framebuffer... Width: {} | Height: {}", width, height);
 		if (m_ColorTexture) {
 			glDeleteTextures(1, &m_ColorTexture);
 			glDeleteRenderbuffers(1, &m_DepthRbo);
@@ -36,10 +39,11 @@ namespace Shark::Graphics {
 
 		// Check completeness
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-			SE_FAT(Rendering, "Framebuffer::Framebuffer() - not complete!");
+			SE_FAT(OpenGL, "Not complete!");
 		}
 
 		UnbindBuffer();
+		//SE_SUCC(OpenGL, "Invalidation setup complete.");
 	}
 
 	void Framebuffer::Clear(float r, float g, float b, float a) const {

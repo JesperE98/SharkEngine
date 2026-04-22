@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\App\Application.h" />
     <ClInclude Include="Components\Physics\AABBComponent.h" />
     <ClInclude Include="Components\Behavior.h" />
     <ClInclude Include="Components\Logic\CameraComponent.h" />
@@ -153,6 +154,8 @@
     <ClInclude Include="Components\PlayerController.h" />
     <ClInclude Include="Components\Rendering\LightComponent.h" />
     <ClInclude Include="Components\Rendering\MeshRendererComponent.h" />
+    <ClInclude Include="Core\App\EditorState.h" />
+    <ClInclude Include="Core\App\EditorStateManager.h" />
     <ClInclude Include="Core\Events\SharkEvents.h" />
     <ClInclude Include="Core\Utilities\DebugRenderer.h" />
     <ClInclude Include="Core\Utilities\Delegate.h" />
@@ -221,6 +224,7 @@
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\Rendering\LightComponent.cpp" />
     <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp" />
+    <ClCompile Include="Core\App\EditorStateManager.cpp" />
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />
     <ClCompile Include="Core\Utilities\DebugRenderer.cpp" />

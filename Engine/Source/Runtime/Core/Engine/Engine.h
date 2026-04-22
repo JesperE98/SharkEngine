@@ -2,36 +2,45 @@
 #define ENGINE_H
 
 #include "Core/Utilities/Debug.h"
-#include <memory>
 
+struct GLFWwindow;
 namespace Shark::Core{
 
-#pragma region Window Settings
+	class Application;
+
 	static constexpr unsigned int WINDOW_WIDTH = 1280;
 	static constexpr unsigned int WINDOW_HEIGHT = 840;
 	const std::string WINDOW_TITLE = "SharkEngine Window";
-#pragma endregion
 
+	/**
+	 * @brief Manages window and OpenGL context initialization, runs the primary application loop, and handles shutdown/cleanup.
+	 */
 	class Engine
 	{
 	public:
 		Engine();
 		~Engine();
 
-		void OnInitialize();
-		void Run();
+		/**
+		 * @brief Initializes window + GL context. Call before Run.
+		 */
+		void Initialize();
+
+		/**
+		 * @brief Executes the function's primary run operation.
+		 */
+		void Run(Application* app);
+
+		/**
+		 * @brief Initiates a shutdown procedure, performing cleanup and stopping services or activities as appropriate.
+		 */
 		void Shutdown();
 
-		bool IsWindowClosed();
+		GLFWwindow* GetWindow() const { return m_Window; }
 
 	private:
-#pragma region Engine Member Variables
-		double m_LastFrame = 0.0f;
-		double m_CurrentFrame = 0.0f;
-		double m_DeltaTime = 0.0f;
-#pragma endregion
-
-
+		GLFWwindow* m_Window	= nullptr;
+		bool m_Initialized		= false;
 	};
 }
 

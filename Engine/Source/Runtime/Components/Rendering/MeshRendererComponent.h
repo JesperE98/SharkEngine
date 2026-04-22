@@ -11,7 +11,9 @@ namespace Shark::Components {
 	{
 	public:
 		explicit MeshRendererComponent(Graphics::Mesh* mesh, Graphics::Material* mat)
-			: m_Mesh(mesh), m_Material(mat) { }
+			: m_Mesh(mesh), m_Material(mat) { 
+			tickMode = TickMode::Always;
+		}
 
 		~MeshRendererComponent() override;
 
@@ -19,7 +21,7 @@ namespace Shark::Components {
 
 		void Render();
 
-#pragma Region ASSET SETTERS
+#pragma region ASSET SETTERS
 		void SetMesh(Graphics::Mesh* mesh);
 		void SetMaterial(Graphics::Material* mat);
 #pragma endregion

@@ -34,7 +34,7 @@ namespace Shark::Graphics {
 	}
 
 	Mesh::~Mesh() {
-		SE_LOG(Rendering, "Mesh::~Mesh() - Destroying Mesh.");
+		SE_LOG(Rendering, "Destroying Mesh.");
 		if (VAO) glDeleteVertexArrays(1, &VAO);
 		if (VBO) glDeleteBuffers(1, &VBO);
 		if (EBO) glDeleteBuffers(1, &EBO);
@@ -72,7 +72,7 @@ namespace Shark::Graphics {
 		std::string line;
 
 		if (!file.is_open()) {
-			SE_WARN(Rendering, "Mesh::LoadMeshFromModel() - Failed to open file.");
+			SE_WARN(Rendering, "Failed to open file.");
 			return false;
 		}
 
@@ -162,7 +162,7 @@ namespace Shark::Graphics {
 
 		file.close();
 
-		SE_LOG(Rendering, "Mesh::LoadMeshFromModel() - Loaded {} vertices from {}",
+		SE_LOG(Rendering, "Loaded {} vertices from {}",
 			vertices.size(), fullPath);
 
 		UploadToGPU();

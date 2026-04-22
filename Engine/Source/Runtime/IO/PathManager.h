@@ -14,21 +14,19 @@ namespace Shark::IO {
 	class PathManager
 	{
 	public:
-		// Delete copy constructor and assignment operator
-		PathManager(const PathManager&) = delete;
-		PathManager& operator=(const PathManager&) = delete;
-
 		// Global access point
 		static PathManager& Get();
 
-		// Call this once during Engine::OnInitialize()
-		void OnInitialize();
+		void Initialize();
 
 		// Helper to get full paths
 		std::string GetPath(PathCategory category, const std::string& relativePath = "") const;
 		// Get root directory itself
 		const std::string& GetRootPath() const;
 
+		// Delete copy constructor and assignment operator
+		PathManager(const PathManager&) = delete;
+		PathManager& operator=(const PathManager&) = delete;
 	private:
 		// Private constructor for Singleton
 		PathManager() = default;

@@ -30,7 +30,13 @@ namespace Shark::Components {
 		float Intensity = 1.0f;
 		float Range = 10.0f;
 
+		LightComponent() {
+			tickMode = TickMode::Always;
+		}
+
 		LightData GetLightData();
+
+
 	};
 }
 

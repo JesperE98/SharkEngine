@@ -17,7 +17,9 @@ namespace Shark::Graphics {
 		glViewport(0, 0, m_Width, m_Height);
 	}
 
-	void RenderTarget::UnbindBuffer() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
+	void RenderTarget::UnbindBuffer() {
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
 
 }

@@ -21,10 +21,10 @@ namespace Shark::Graphics {
 		static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 		virtual ~Renderer() = default;
-		virtual void Init() = 0;
-		virtual void BeginFrame() = 0;
-		virtual void RenderScene(float deltaTime, Shark::Scene* scene, Components::CameraComponent* cam) = 0;
-		virtual void EndFrame() = 0;
+		virtual void OnInitialize() = 0;
+		virtual void OnBeginFrame() = 0;
+		virtual void OnRenderScene(float deltaTime, Shark::Scene* scene, Components::CameraComponent* cam) = 0;
+		virtual void OnEndFrame() = 0;
 
 	protected:
 		Core::EngineContext* context{ nullptr };

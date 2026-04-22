@@ -36,9 +36,7 @@ namespace Shark::Editor {
 		void RenderSceneViewport();
 		void Shutdown();
 
-		const std::vector<EditorWindow*>& GetWindows() const { return m_Windows; }
-		bool IsSceneViewportFocused() const;
-		bool IsSceneViewportHovered() const;
+		const std::vector<EditorWindow*>& GetWindows() const { return m_EditorWindows; }
 
 		/**
 		Utility function to get a specific window type. Returns nullptr if not found or if the cast fails.
@@ -48,8 +46,7 @@ namespace Shark::Editor {
 		T* GetWindow();
 
 	private:
-		std::vector<EditorWindow*> m_Windows;		
-	
+		std::vector<EditorWindow*> m_EditorWindows;
 		class SceneViewport* m_SceneViewport{ nullptr };
 
 		WindowManager() = default;
@@ -70,13 +67,13 @@ namespace Shark::Editor {
 		@brief Handles incoming messages from other systems. This function processes messages related to window management, such as opening and closing windows, and updates the state of the windows accordingly.
 		@param msg The message to process, containing the event type and any relevant payload data.
 		*/
-		void RecieveMessages(const Core::Message& msg);
+		void ReceiveMessages(const Core::Message& msg);
 
 		template<typename T, typename... Args>
 		T* CreateEditorWindow(Args&&... args) {
 			// Create a new window of type T with the provided arguments
 			T* window = new T(std::forward<Args>(args)...);
-			m_Windows.push_back(static_cast<EditorWindow*>(window)); // Store the window in the manager
+			m_EditorWindows.push_back(static_cast<EditorWindow*>(window)); // Store the window in the manager
 
 			return window; // Return the raw pointer to the created window
 		}

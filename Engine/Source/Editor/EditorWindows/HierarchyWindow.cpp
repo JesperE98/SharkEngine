@@ -36,8 +36,13 @@ namespace Shark::Editor {
         ImGui::InputTextWithHint("##Search", "Search...", searchBuffer, IM_ARRAYSIZE(searchBuffer));
 
         // Iterate over root-level objects
-        Scene& scene = *SceneManager::Get().GetActiveScene();
-        for (auto& obj : scene.GetGameObjects()) {
+        Scene* scene = SceneManager::Get().GetActiveScene();
+        if (!scene) {
+            ImGui::TextDisabled("No active scene.");
+            return;
+        }
+
+        for (auto& obj : scene->GetGameObjects()) {
             DrawObjectNode(obj, searchBuffer);
         }
 
@@ -54,7 +59,7 @@ namespace Shark::Editor {
         if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)){
             if (ImGui::MenuItem("Create Empty")) {
                 GameObject* obj = new GameObject("Empty GameObject");
-                scene.AddGameObject(obj);
+                scene->AddGameObject(obj);
             }
 
             if (ImGui::BeginMenu("3D Object")) {
@@ -72,7 +77,7 @@ namespace Shark::Editor {
 
             if (ImGui::BeginMenu("Camera")) {
                 if (ImGui::MenuItem("Create Camera")) {
-                    scene.CreateCamera();
+                    scene->CreateCamera();
                 }
                 ImGui::EndMenu();
             }

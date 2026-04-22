@@ -18,7 +18,7 @@ namespace Shark::Graphics {
 		unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 
 		if (!data) {
-			SE_ERR(Resources, "Texture::Texture() - Failed to load texture at path: {}", texturePath);
+			SE_ERR(Resources, "Failed to load texture at path: {}", texturePath);
 			return;
 		}
 
@@ -54,7 +54,7 @@ namespace Shark::Graphics {
 	{
 		if(m_ID != 0){
 			glDeleteTextures(1, &m_ID);
-			SE_LOG(Resources, "Texture::~Texture() - Deleted texture with ID: {}", m_ID);
+			SE_LOG(Resources, "Deleted texture with ID: {}", m_ID);
 		}
 	}
 

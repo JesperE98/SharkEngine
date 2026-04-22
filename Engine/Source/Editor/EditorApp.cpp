@@ -7,6 +7,7 @@
 
 #pragma region Engine Libraries
 #include <Core/Engine/EngineContext.h>
+#include <Core/App/EditorStateManager.h>
 #include <Core/Utilities/Debug.h>
 #include <Memory/MemoryManager.h>
 #include <Scene/SceneManager.h>
@@ -30,6 +31,7 @@ namespace Shark {
 	using Core::Debug;
 	using Core::Time;
 	using Core::SceneManager;
+	using Core::EditorStateManager;
 	using Memory::MemoryManager;
 	using Editor::LevelEditorManager;
 	using Editor::WindowManager;
@@ -39,72 +41,60 @@ namespace Shark {
 	using Resources::TextureManager;
 	using Graphics::PrimitiveType;
 
-	EditorApp::~EditorApp()
+	void EditorApp::OnInitialize() {
+		SE_PROC(Editor, "Initializing Editor App...");
+		InitImGui();
+
+		m_MenuBar = new EditorMenuBar();
+		LevelEditorManager::Get().Initialize();
+		WindowManager::Get().Initialize();
+
+		MeshManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
+		ShaderManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
+		TextureManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
+
+		LevelEditorManager::Get().RequestModelLoad("Models/Viking_House.obj");
+		LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
+		
+		SE_SUCC(Editor, "Editor App setup complete!");
+	}
+
+	void EditorApp::OnUpdate(float deltaTime) {
+		LevelEditorManager::Get().Update(deltaTime);
+		WindowManager::Get().Update(deltaTime);
+	}
+
+	void EditorApp::OnRender() {
+		BeginImGuiFrame();
+		WindowManager::Get().RenderWindows(0.0f); // deltaTime unused for UI
+		RenderPlayBar();
+		ImGui::End();
+		EndImGuiFrame();
+	}
+
+	void EditorApp::OnShutdown()
 	{
+		if (m_MenuBar) {
+			delete m_MenuBar;
+			m_MenuBar = nullptr;
+		}
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
-	void EditorApp::Run() {
-
-		EngineContext::Get().PreInitialize();
-
-		CreateEditorWindow();
-
-		m_MenuBar = new EditorMenuBar();
-		LevelEditorManager::Get().Initialize();
-		WindowManager::Get().Initialize();
-		MeshManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
-		ShaderManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
-		TextureManager::Get().SetResponseTarget(&LevelEditorManager::Get().inbox);
-		LevelEditorManager::Get().RequestModelLoad("Models/Viking_House.obj");
-		LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
-		EngineContext::Get().OnInitialize();
-		GLFWwindow* window = EngineContext::Get().m_Window;
-
-		while (!glfwWindowShouldClose(EngineContext::Get().m_Window))
-		{
-			glfwPollEvents();
-
-			Time::Update(); // Update the time system to calculate delta time
-			float deltaTime = Time::GetDeltaTime(); // Time difference between frames
-
-			// --- Managers Update ---
-			LevelEditorManager::Get().Update(deltaTime);
-			WindowManager::Get().Update(deltaTime);
-			EngineContext::Get().OnUpdate(deltaTime);
-
-			BeginFrame(); // Start the ImGui frame and create the dockspace
-			WindowManager::Get().RenderWindows(deltaTime); // Render the stats window
-
-			ImGui::End();
-			Render(); // ImGui final render
-			glfwSwapBuffers(window);
-		}
-
-		EngineContext::Get().OnEnd();
-	}
-
-
-
-	void EditorApp::CreateEditorWindow()
+	void EditorApp::InitImGui()
 	{
-		SE_LOG(Editor, "Creating EditorApp Window.");
-		auto* window = EngineContext::Get().m_Window;
+		GLFWwindow* window = EngineContext::Get().GetWindow();
+
 		if (!window) {
 			SE_FAT(Editor, "Window was not created before CreateEditorWindow was called!");
 			return;
 		}
 
-		glfwMakeContextCurrent(window);	//// Just a dummy VAO for OpenGL 3.3 core profile
-
-		const GLubyte* version = glGetString(GL_VERSION);
-		SE_LOG(OpenGL, "OpenGL version: {}", version);
-
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		Debug::CheckGLErrors("Error after VAO: ");
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -114,23 +104,19 @@ namespace Shark {
 		style.Colors[ImGuiCol_WindowBg] = ImVec4(0.25f, 0.25f, 0.25f, 1.0f);
 		style.ItemSpacing.x = 50;
 		style.ItemInnerSpacing.x = 5;
-		//ImGui::StyleColorsLight();
 
-		ImGui_ImplGlfw_InitForOpenGL(EngineContext::Get().m_Window, true);
-		Debug::CheckGLErrors("Error after ImGui_ImplGlfw_InitForOpenGL: ");
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
 
 		ImGui_ImplOpenGL3_Init("#version 330");
-		Debug::CheckGLErrors("Error after ImGui_ImplOpenGL3_Init: ");
-
 	}
 
-	void EditorApp::BeginFrame() {
+	void EditorApp::BeginImGuiFrame() {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
 		// Create a full screen dock space
-		ImGuiWindowFlags window_flags =
+		ImGuiWindowFlags flags =
 			ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
 			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
 			ImGuiWindowFlags_NoNavFocus;
@@ -140,37 +126,50 @@ namespace Shark {
 		ImGui::SetNextWindowSize(viewport->WorkSize);
 		ImGui::SetNextWindowViewport(viewport->ID);
 
-		ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4(1, 1, 1, 1));
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 
-		ImGui::Begin("Dockspace Demo", nullptr, window_flags);
+		ImGui::Begin("Dockspace", nullptr, flags);
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(1);
 
 		m_MenuBar->OnImGuiRender();
+
 		// Dockspace node
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-		ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
 	}
 
-	void EditorApp::Render() {
+	void EditorApp::EndImGuiFrame()
+	{
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		GLenum err;
-		while ((err = glGetError()) != GL_NO_ERROR) {
-			SE_ERR(OpenGL, "EditorApp::Render() - OpenGL error after ImGui: {}", err);
-		}
-
-		// If multi-viewport enabled, update and render platform windows
 		ImGuiIO& io = ImGui::GetIO();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			GLFWwindow* backup = glfwGetCurrentContext();
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(backup_current_context);
+			glfwMakeContextCurrent(backup);
 		}
+	}
+	void EditorApp::RenderPlayBar()
+	{
+		ImGui::Begin("Toolbar");
+		EditorStateManager& sm = EditorStateManager::Get();
+
+		if (ImGui::Button("Edit")) sm.OnSetState(EditorState::Edit);
+		ImGui::SameLine();
+		if (ImGui::Button("Play")) sm.OnSetState(EditorState::Play);
+		ImGui::SameLine();
+		if (ImGui::Button("Pause")) sm.OnSetState(EditorState::Pause);
+		ImGui::SameLine();
+
+		ImGui::Text("State: %s",
+			sm.IsPlaying() ? "Playing" :
+			sm.IsPaused() ? "Paused" : "Editing");
+
+		ImGui::End();
 	}
 }

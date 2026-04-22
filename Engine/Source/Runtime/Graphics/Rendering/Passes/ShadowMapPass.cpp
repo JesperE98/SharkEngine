@@ -16,6 +16,7 @@ namespace Shark::Graphics {
 
 	ShadowMapPass::ShadowMapPass(int resolution) : m_Resolution(resolution)
 	{
+		SE_PROC(Rendering, "Creating Shadow Map Pass...");
 		shader = ShaderManager::Get().LoadShader(
 			"SE_Shadow", 
 			"SE_Shadow.vert.glsl", 
@@ -25,6 +26,7 @@ namespace Shark::Graphics {
 		for (int i = 0; i < 4; i++) {
 			m_ShadowBuffers[i] = std::make_unique<ShadowBuffer>(resolution, resolution);
 		}
+		SE_SUCC(Rendering, "Shadow Map Pass complete.");
 	}
 
 	ShadowMapPass::~ShadowMapPass()

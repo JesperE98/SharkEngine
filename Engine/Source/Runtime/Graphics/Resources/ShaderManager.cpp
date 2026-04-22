@@ -38,7 +38,7 @@ namespace Shark::Resources {
 
     void ShaderManager::ProcessLoadRequest(const std::string& path)
     {
-		SE_PROC(Resources, "ShaderManager::ProcessLoadRequest() - Handshake sent for shader: {}", path);
+		SE_PROC(Resources, "Handshake sent for shader: {}", path);
 
 		Shader* loadedShader = LoadShader(path, path + ".vert.glsl", path + ".frag.glsl");
 
@@ -59,7 +59,7 @@ namespace Shark::Resources {
             
             if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 
-            SE_ERR(Resources, "ShaderManager::ProcessLoadRequest() - Failed to load shader at: {}", path);
+            SE_ERR(Resources, "Failed to load shader at: {}", path);
         }
     }
 
@@ -77,7 +77,7 @@ namespace Shark::Resources {
 		Shader* newShader = new Shader(vertPath.c_str(), fragPath.c_str());
 		m_ShaderCache[name] = newShader;
 
-		SE_LOG(Resources, "ShaderManager::LoadShader() - Compiled and Cached shader: {} (vert: {}, frag: {})", name, vertPath, fragPath);
+		SE_LOG(Resources, "Compiled and Cached shader: {} (vert: {}, frag: {})", name, vertPath, fragPath);
         return newShader;
     }
 
@@ -90,18 +90,18 @@ namespace Shark::Resources {
         auto* newShader = new Shader(vertPath.c_str(), fragPath.c_str(), geomPath.c_str());
         m_ShaderCache[name] = newShader;
 
-        SE_LOG(Resources, "ShaderManager::LoadShader() - Compiled and Cached shader: {} (vert: {}, frag: {}, geom: {})", name, vertPath, fragPath, geomPath);
+        SE_LOG(Resources, "Compiled and Cached shader: {} (vert: {}, frag: {}, geom: {})", name, vertPath, fragPath, geomPath);
         return newShader;
     }
 
     const Shader* ShaderManager::GetShader(const std::string& name) const
     {
         if(m_ShaderCache.find(name) != m_ShaderCache.end()) {
-			SE_SUCC(Resources, "ShaderManager::GetShader() - Cache hit for shader: {}", name);
+			SE_SUCC(Resources, "Cache hit for shader: {}", name);
             return m_ShaderCache.at(name);
 		}
 
-		SE_WARN(Resources, "ShaderManager::GetShader() - Cache miss for shader: {}", name);
+		SE_WARN(Resources, "Cache miss for shader: {}", name);
         return nullptr;
     }
 }

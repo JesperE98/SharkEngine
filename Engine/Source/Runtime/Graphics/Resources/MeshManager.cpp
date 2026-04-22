@@ -97,7 +97,7 @@ namespace Shark::Resources {
 		case PrimitiveType::Plane:
 			break;
 		default:
-			SE_WARN(Rendering, "MeshManager::LoadMesh() - Unknown PrimitiveType!");
+			SE_WARN(Rendering, "Unknown PrimitiveType!");
 			return nullptr;
 		}
 
@@ -116,7 +116,7 @@ namespace Shark::Resources {
 			return cachedMesh;
 		}
 
-		SE_WARN(Rendering, "MeshManager::LoadMesh() - Cache miss! Loading {} from disk...", filePath);
+		SE_WARN(Rendering, "Cache miss! Loading {} from disk...", filePath);
 		// 2. Load from disk
 		Mesh* newMesh = new Mesh();
 		if (newMesh->LoadMeshFromModel(filePath)) {
@@ -141,7 +141,7 @@ namespace Shark::Resources {
 	void MeshManager::CreateFromObj(GameObject* obj, const std::string& filePath, Material* mat) {
 
 		if (!obj) {
-			SE_ERR(Rendering, "MeshManager::CreateFromObj() - Passing null GameObject to CreateFromObj");
+			SE_ERR(Rendering, "Passing null GameObject to CreateFromObj");
 			return;
 		}
 
@@ -149,17 +149,17 @@ namespace Shark::Resources {
 		if (newMesh) {
 			Material* material = mat ? mat : new Material(); // if none mat wasn't provided, create default material
 			obj->AddComponent<MeshRendererComponent>(newMesh, material);
-			SE_LOG(Rendering, "MeshManager::CreateFromObj() - Loaded mesh from {} and attached to GameObject: {}", filePath, obj->GetName());
+			SE_LOG(Rendering, "Loaded mesh from {} and attached to GameObject: {}", filePath, obj->GetName());
 		}
 		else {
-			SE_ERR(Rendering, "MeshManager::CreateFromObj() - Failed to load mesh from {}", filePath);
+			SE_ERR(Rendering, "Failed to load mesh from {}", filePath);
 		}
 	}
 
 	template<>
 	void MeshManager::ProcessLoadRequest<std::string>(const std::string& path)
 	{
-		SE_PROC(Rendering, "MeshManager::ProcessLoadRequest() - Handshake sent to {}", path);
+		SE_PROC(Rendering, "Handshake sent to {}", path);
 		Mesh* loadedMesh = LoadMesh(path);
 
 		if (loadedMesh) {
@@ -178,14 +178,14 @@ namespace Shark::Resources {
 			
 			if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 
-			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load mesh at: {}", path);
+			SE_ERR(Rendering, "Failed to load mesh at: {}", path);
 		}
 	}
 
 	template<>
 	void MeshManager::ProcessLoadRequest<PrimitiveType>(const PrimitiveType& type)
 	{
-		SE_PROC(Rendering, "MeshManager::ProcessLoadRequest() - Received request to load primitive type: {}", static_cast<int>(type));
+		SE_PROC(Rendering, "Received request to load primitive type: {}", static_cast<int>(type));
 		Mesh* loadedMesh = LoadMesh(type);
 
 		if (loadedMesh) {
@@ -201,7 +201,7 @@ namespace Shark::Resources {
 			errorMsg.type = EventType::ErrorMessage;
 			errorMsg.payload = "Failed to load primitive type: " + std::to_string(static_cast<int>(type));
 			if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
-			SE_ERR(Rendering, "MeshManager::ProcessLoadRequest() - Failed to load primitive type: {}", static_cast<int>(type));
+			SE_ERR(Rendering, "Failed to load primitive type : {}", static_cast<int>(type));
 		}
 	}
 }

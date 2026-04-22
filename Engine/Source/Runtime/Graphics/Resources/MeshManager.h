@@ -13,7 +13,7 @@ namespace Shark::Core {
 namespace Shark::Graphics {
 	class Material;
 	class Mesh;
-	enum class PrimitiveType : uint8_t;
+	enum class PrimitiveType;
 }
 
 namespace Shark::Resources {

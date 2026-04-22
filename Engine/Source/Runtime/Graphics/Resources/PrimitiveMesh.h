@@ -11,7 +11,7 @@ namespace Shark::Graphics {
     class Material;
     class Mesh;
 
-    enum class PrimitiveType : uint8_t {
+    enum class PrimitiveType {
         None,
         Cube,
         Sphere, // For future use

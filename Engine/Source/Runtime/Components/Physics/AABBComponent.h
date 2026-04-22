@@ -59,7 +59,9 @@ namespace Shark::Components {
 
 		AABBComponent() = default;
 		explicit AABBComponent(const Math::Vector3& extents, bool isStatic = true)
-			: m_Extents(extents), bIsStatic(isStatic) {}
+			: m_Extents(extents), bIsStatic(isStatic) {
+			tickMode = TickMode::Always;
+		}
 
 		/*
 		* @return Get the AABB in world space, taking into account the GameObject's transform and the component's offset.

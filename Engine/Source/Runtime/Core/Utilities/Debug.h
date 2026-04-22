@@ -35,38 +35,38 @@ namespace Shark::Core {
 
 		// Basic Logs (White)
 		template<typename... Args>
-		static void Log(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "LOG", FColor::White, message, PackArgs(std::forward<Args>(args)...));
+		static void Log(LogCategory category, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "LOG", FColor::White, function, message, PackArgs(std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void LogWarning(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "WARNING", FColor::Yellow, message, PackArgs(std::forward<Args>(args)...));
+		static void LogWarning(LogCategory category, const char* file, int line, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "WARNING", FColor::Yellow, file, line, function, message, PackArgs(std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void LogError(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "ERROR", FColor::Red, message, PackArgs(std::forward<Args>(args)...));
+		static void LogError(LogCategory category, const char* file, int line, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "ERROR", FColor::Red, file, line, function, message, PackArgs(std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void LogSuccess(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "SUCCESS", FColor::Green, message, PackArgs(std::forward<Args>(args)...));
+		static void LogSuccess(LogCategory category, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "SUCCESS", FColor::Green, function, message, PackArgs(std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void LogRequest(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "REQUEST", FColor::Cyan, message, PackArgs(std::forward<Args>(args)...));
+		static void LogRequest(LogCategory category, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "REQUEST", FColor::Cyan, function, message, PackArgs(std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void LogProcess(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "PROCESS", FColor::Cyan, message, PackArgs(std::forward<Args>(args)...));
+		static void LogProcess(LogCategory category, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "PROCESS", FColor::Cyan, function, message, PackArgs(std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void LogFatal(LogCategory category, std::string_view message, Args&&... args) {
-			LogInternal(category, "FATAL", FColor::DarkRed, message, PackArgs(std::forward<Args>(args)...));
+		static void LogFatal(LogCategory category, const char* file, int line, const char* function, std::string_view message, Args&&... args) {
+			LogInternal(category, "FATAL", FColor::DarkRed, file, line, function, message, PackArgs(std::forward<Args>(args)...));
 
 			throw std::runtime_error("Engine Fatal Error: Check Console");
 		}
@@ -88,7 +88,23 @@ namespace Shark::Core {
 		static inline std::vector<LogEntry> m_LogHistory;
 		static constexpr size_t MAX_LOG_HISTORY = 10000;
 
-		static void LogInternal(LogCategory category, const char* level, FColor color, std::string_view message, const std::vector<std::string>& args);
+		static void LogInternal(
+			LogCategory category,
+			const char* level,
+			FColor color,
+			const char* function,
+			std::string_view message,
+			const std::vector<std::string>& args);
+
+		static void LogInternal(
+			LogCategory category,
+			const char* level,
+			FColor color,
+			const char* file,
+			int line,
+			const char* function,
+			std::string_view message,
+			const std::vector<std::string>& args);
 
 		template<typename... Args>
 		static std::vector<std::string> PackArgs(Args&&... args) {
@@ -109,31 +125,34 @@ namespace Shark::Core {
 
 // Standard Log (White/BrightWhite)
 #define SE_LOG(Category, Message, ...) \
-	Shark::Core::Debug::Log(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::Log(Shark::Core::LogCategory::Category, __func__, Message, ##__VA_ARGS__)
 
 // Warning (Yellow) - Pointing to LogWarning
 #define SE_WARN(Category, Message, ...) \
-	Shark::Core::Debug::LogWarning(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogWarning(Shark::Core::LogCategory::Category, \
+	__FILE__, __LINE__, __func__, Message, ##__VA_ARGS__)
 
 // Error (Red) - Pointing to LogError
 #define SE_ERR(Category, Message, ...) \
-	Shark::Core::Debug::LogError(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogError(Shark::Core::LogCategory::Category, \
+	__FILE__, __LINE__, __func__, Message, ##__VA_ARGS__)
 
 // Success (Green) - Pointing to LogSuccess
 #define SE_SUCC(Category, Message, ...) \
-	Shark::Core::Debug::LogSuccess(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogSuccess(Shark::Core::LogCategory::Category, __func__, Message, ##__VA_ARGS__)
 
 // Request (Cyan) - Pointing to LogRequest
 #define SE_REQ(Category, Message, ...) \
-	Shark::Core::Debug::LogRequest(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogRequest(Shark::Core::LogCategory::Category, __func__, Message, ##__VA_ARGS__)
 
 // Process (Cyan) - Pointing to LogProcess
 #define SE_PROC(Category, Message, ...) \
-	Shark::Core::Debug::LogProcess(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogProcess(Shark::Core::LogCategory::Category, __func__, Message, ##__VA_ARGS__)
 
 // Fatal Error (DarkRed) - Pointing to LogFatal
 #define SE_FAT(Category, Message, ...) \
-	Shark::Core::Debug::LogFatal(Shark::Core::LogCategory::Category, Message, ##__VA_ARGS__)
+	Shark::Core::Debug::LogFatal(Shark::Core::LogCategory::Category, \
+	__FILE__, __LINE__, __func__, Message, ##__VA_ARGS__)
 #pragma endregion
 
 #endif // ENGINE_CORE_UTILITIES_DEBUG_H

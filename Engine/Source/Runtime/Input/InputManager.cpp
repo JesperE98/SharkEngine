@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include <GLFW/glfw3.h>
 
 namespace Shark::Input {
 
@@ -7,7 +8,7 @@ namespace Shark::Input {
 		static InputManager instance;
 		return instance;
 	}
-	void InputManager::OnInitialize(GLFWwindow* window)
+	void InputManager::Initialize(GLFWwindow* window)
 	{
 		m_Window = window;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

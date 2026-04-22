@@ -1,7 +1,7 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace Shark::Input {
 	class InputManager
@@ -9,7 +9,7 @@ namespace Shark::Input {
 	public:
 		static InputManager& Get();
 
-		void OnInitialize(GLFWwindow* window);
+		void Initialize(GLFWwindow* window);
 		void Update(float deltaTime);
 
 		bool IsKeyPressed(int key);
@@ -17,18 +17,17 @@ namespace Shark::Input {
 		void GetMouseDelta(float& xOffset, float& yOffset);
 		GLFWwindow* GetWindow() { return m_Window; }
 
-	private:
-		InputManager() = default;
-		~InputManager() = default;
-
 		// Delete copy/assignment for Singleton safety
-		InputManager(const InputManager&) = delete;
-		InputManager& operator=(const InputManager&) = delete;
-
-		GLFWwindow* m_Window{ nullptr };
+		InputManager(const InputManager&)				= delete;
+		InputManager& operator=(const InputManager&)	= delete;
+	private:
+		GLFWwindow* m_Window = nullptr;
 		double m_LastX{ 0.0f }, m_LastY{ 0.0f };
 		float m_MouseDeltaX{ 0.0f }, m_MouseDeltaY{ 0.0f };
 		bool m_FirstMouse{ true };
+
+		InputManager() = default;
+		~InputManager() = default;
 	};
 
 }

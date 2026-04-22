@@ -1,12 +1,14 @@
-#include <EditorApp.h>
+#include "Core/Engine/Engine.h"
+#include "EditorApp.h"
 
 int main()
 {
-	Shark::EditorApp* editor = new Shark::EditorApp();
-	editor->Run();
+	Shark::Core::Engine engine;
+	engine.Initialize();
 
-	delete editor;
-	editor = nullptr;
+	Shark::EditorApp app;
+	engine.Run(&app);
 
+	engine.Shutdown();
 	return 0;
 }

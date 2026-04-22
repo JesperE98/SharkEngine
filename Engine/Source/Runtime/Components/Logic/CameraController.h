@@ -9,7 +9,7 @@ namespace Shark::Components {
 	public:
 		explicit CameraController(float moveSpeed = 5.0f, float sensitivity = 0.1f);
 
-		virtual void Update(float deltaTime) override;
+		void Update(float deltaTime) override;
 
 	private:
 

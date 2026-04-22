@@ -30,29 +30,25 @@ namespace Shark::Editor {
         m_Framebuffer = std::make_shared<Framebuffer>(m_Width, m_Height);
     }
 
-    void SceneViewport::OnRender(Scene& scene, Renderer& rend)
+    void SceneViewport::OnRender(Scene* scene, Renderer* rend)
     {
-        ForwardRenderer* fr = dynamic_cast<ForwardRenderer*>(&rend);
+        ForwardRenderer* fr = dynamic_cast<ForwardRenderer*>(rend);
         if (fr) {
             fr->SetTarget(m_Framebuffer.get());
         }
 
-        CameraComponent* cam = scene.GetCamera();
+        CameraComponent* cam = scene->GetCamera();
 
         if (!cam) {
-            rend.BeginFrame();
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			rend.EndFrame();
-
-            m_ActiveCamera = nullptr;
+            ImGui::TextDisabled("No active camera in scene.");
             return;
         }
 
         m_ActiveCamera = cam;
 
-        rend.BeginFrame();
-        rend.RenderScene(Time::GetDeltaTime(), &scene, m_ActiveCamera);
-        rend.EndFrame();
+        rend->OnBeginFrame();
+        rend->OnRenderScene(Time::GetDeltaTime(), scene, m_ActiveCamera);
+        rend->OnEndFrame();
     }
 
     unsigned int SceneViewport::GetColorAttachment() const
@@ -78,20 +74,6 @@ namespace Shark::Editor {
             m_ActiveCamera->SetAspectRatio(aspect);
             m_ActiveCamera->UpdateProjectionMatrix();
         }
-    }
-
-    void SceneViewport::UpdateViewportSize()
-    {
-        ImGui::Begin(m_Name.c_str());
-
-        m_IsFocused = ImGui::IsWindowFocused();
-        m_IsHovered = ImGui::IsWindowHovered();
-
-        ImVec2 avail = ImGui::GetContentRegionAvail();
-		
-		SetSize(static_cast<int>(avail.x), static_cast<int>(avail.y));
-
-        ImGui::End();
     }
 
     void SceneViewport::SetActiveCamera(CameraComponent* cam)

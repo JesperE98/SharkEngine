@@ -11,6 +11,7 @@ namespace Shark::Graphics {
 
 	SkyPass::SkyPass(int width, int height)
 	{
+		SE_PROC(Rendering, "Creating Sky Pass...");
 		shader = ShaderManager::Get().LoadShader(
 			"SE_Sky",
 			"SE_Sky.vert.glsl",
@@ -18,6 +19,7 @@ namespace Shark::Graphics {
 		);
 
 		m_QuadBuffer = new QuadBuffer(width, height);
+		SE_SUCC(Rendering, "Sky Pass setup complete.");
 	}
 
 	SkyPass::~SkyPass()

@@ -9,11 +9,18 @@ namespace Shark::Core {
 
 namespace Shark::Components {
 
+	enum class TickMode : uint8_t {
+		PlayOnly,
+		EditOnly,
+		Always
+	};
+
 	class Component : virtual public Object
 	{
 	public:
 
 		bool bEnabled = true;
+		TickMode tickMode = TickMode::PlayOnly;
 
 		Component() : m_Owner(nullptr) {}
 

@@ -29,7 +29,7 @@ namespace Shark::Graphics {
 		float dot = Math::Dot(normal, expectedNormal);
 		bool flipped = dot < 0.0f;
 
-		SE_LOG(Rendering, " PrimitiveMesh::DebugFace - Face: {} | Normal: {} -> {}",
+		SE_LOG(Rendering, "Face: {} | Normal: {} -> {}",
 			name, normal, (flipped ? "FLIPPED" : "OK"));
 	}
 
@@ -114,7 +114,7 @@ namespace Shark::Graphics {
 
 		}
 
-		SE_LOG(Rendering, "PrimitiveMesh::CreateCube() - Created Cube Mesh with {} vertices and {} triangles.",
+		SE_LOG(Rendering, "Created Cube Mesh with {} vertices and {} triangles.",
 			vertices.size(), indices.size());
 
 		return new Mesh(vertices, indices);
@@ -123,7 +123,7 @@ namespace Shark::Graphics {
 	GameObject* PrimitiveMesh::CreatePrimitive(GameObject* obj, PrimitiveType type, Material* mat)
 	{
 		if (!obj) {
-			SE_ERR(Rendering, "PrimitiveMesh::CreatePrimitive - Passed null GameObject!");
+			SE_ERR(Rendering, "Passed null GameObject!");
 			return nullptr;
 		}
 

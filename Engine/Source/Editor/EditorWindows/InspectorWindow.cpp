@@ -85,7 +85,7 @@ namespace Shark::Editor {
 
 			if (ImGui::InputText("##Name", nameBuffer, sizeof(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
 				obj->SetName(std::string(nameBuffer));
-				SE_LOG(Editor, "InspectorWindow::OnRenderPanel() - Object renamed to {}", nameBuffer);
+				SE_LOG(Editor, "Object renamed to {}", nameBuffer);
 			}
 		}
 	}
@@ -191,7 +191,7 @@ namespace Shark::Editor {
 		if (ImGui::InputText("##MeshPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
 			// MeshManager handles the cache lookup automatically
 			LevelEditorManager::Get().RequestModelLoad(std::string(pathBuffer));
-			SE_LOG(Editor, "InspectorWindow - Mesh path swapped to: {}", pathBuffer);
+			SE_LOG(Editor, "Mesh path swapped to: {}", pathBuffer);
 
 			memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
 		}
@@ -213,7 +213,7 @@ namespace Shark::Editor {
 			ImGui::Text("Diffuse Map");
 			if (ImGui::InputText("##DiffusePath", diffuseBuffer, sizeof(diffuseBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
 				LevelEditorManager::Get().RequestDiffTextureLoad(static_cast<std::string>(diffuseBuffer));
-				SE_LOG(Editor, "InspectorWindow - Requesting texture swap: {}", diffuseBuffer);
+				SE_LOG(Editor, "Requesting texture swap: {}", diffuseBuffer);
 				memset(diffuseBuffer, 0, sizeof(diffuseBuffer)); // Clear on success
 			}
 			ImGui::TextDisabled("Current: %s", material->GetTexturePath().c_str());

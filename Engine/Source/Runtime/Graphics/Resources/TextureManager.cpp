@@ -21,7 +21,7 @@ namespace Shark::Resources {
 
     void TextureManager::Shutdown()
     {
-        SE_LOG(Resources, "TextureManager::Shutdown() - Cleaning up {} textures.", m_TextureCache.size());
+        SE_LOG(Resources, "Cleaning up {} textures.", m_TextureCache.size());
         
         for (auto& pair : m_TextureCache) {
             if (pair.second) {
@@ -40,7 +40,7 @@ namespace Shark::Resources {
             return it->second;
         }
 
-		SE_WARN(Resources, "TextureManager::LoadTexture() - Cache miss! Loading {} from disk...", filePath);
+		SE_WARN(Resources, "Cache miss! Loading {} from disk...", filePath);
 
 		// 2. Load from disk
 		Texture* newTexture = new Texture(filePath.c_str(), true);
@@ -56,7 +56,7 @@ namespace Shark::Resources {
 
     void TextureManager::ProcessLoadRequest(const std::string& path)
     {
-        SE_PROC(Resources, "TextureManager::ProcessLoadRequest() - Handshake sent for texture: {}", path);
+        SE_PROC(Resources, "Handshake sent for texture: {}", path);
         Texture* loadedTexture = LoadTexture(path);
 
         if (loadedTexture) {
@@ -76,7 +76,7 @@ namespace Shark::Resources {
             
             if (m_ResponseTarget) m_ResponseTarget->Push(errorMsg);
 
-            SE_ERR(Resources, "TextureManager::ProcessLoadRequest() - Failed to load texture at: {}", path);
+            SE_ERR(Resources, "Failed to load texture at: {}", path);
         }
     }
 

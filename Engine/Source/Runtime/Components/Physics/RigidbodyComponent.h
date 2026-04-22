@@ -19,7 +19,9 @@ namespace Shark::Components {
 		bool bIsGrounded{ false }; // Whether the object is currently on the ground (used for jumping and gravity)
 		bool bUseGravity{ true }; // Whether to apply gravity to this object
 
-		RigidbodyComponent() = default;
+		RigidbodyComponent() {
+			tickMode = TickMode::PlayOnly;
+		}
 
 		/*
 drag		* @brief Applies a force to the object, changing its acceleration based on its mass.

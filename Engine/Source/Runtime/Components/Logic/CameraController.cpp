@@ -1,7 +1,7 @@
 #include "CameraController.h"
 #include "Input/InputManager.h"
 #include "Core/GameObject.h"
-
+#include "GLFW/glfw3.h"
 namespace Shark::Components {
 
 	using Input::InputManager;
@@ -12,7 +12,9 @@ namespace Shark::Components {
 	CameraController::CameraController(float moveSpeed, float sensitivity) 
 		: m_Speed(moveSpeed), m_MouseSensitivity(sensitivity)
 	{
-		SE_LOG(Rendering, "CameraController::CameraController() - Initializing Camera controller with move speed {} and mouse sensitivity {}.", m_Speed, m_MouseSensitivity);
+		SE_LOG(Rendering, "Initializing Camera controller with move speed {} and mouse sensitivity {}.", m_Speed, m_MouseSensitivity);
+
+		tickMode = TickMode::EditOnly;
 	}
 
 	void CameraController::Update(float deltaTime) {

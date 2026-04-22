@@ -6,14 +6,21 @@
 
 namespace Shark::Core {
 
-	void Debug::LogInternal(LogCategory category, const char* level, FColor color, std::string_view message, const std::vector<std::string>& args)
-	{
-		// Use stringstream to handle types that have operator<<
-		std::string timeStamp = Time::CreateTimeStamp();
+	// Helper to strip full path down to just the filename
+	static const char* GetShortFileName(const char* path) {
+		if (!path) return "";
+		
+		const char* file = std::strrchr(path, '\\');
+		if (!file) file = std::strrchr(path, '/');
+
+		return file ? file + 1 : path;
+	}
+
+	// Helper to format the argument substitution - shared between overloads
+	static std::string FormatMessage(std::string_view message, const std::vector<std::string>& args) {
 		std::stringstream ss;
 		size_t argIndex = 0;
 
-		// This is a simplified manual parser for the ({}) brackets
 		for (size_t i = 0; i < message.length(); ++i) {
 			if (message[i] == '{' && i + 1 < message.length() && message[i + 1] == '}') {
 				if (argIndex < args.size()) {
@@ -26,21 +33,59 @@ namespace Shark::Core {
 			}
 		}
 
-		std::string formattedMessage = ss.str();
-		LogEntry entry{ timeStamp, level, category, formattedMessage };
+		return ss.str();
+	}
+
+	// --- Info-level logs (Log, Success, Request, Process) ---
+	void Debug::LogInternal(LogCategory category, const char* level, FColor color, const char* function, std::string_view message, const std::vector<std::string>& args)
+	{
+		// Use stringstream to handle types that have operator<<
+		std::string timeStamp = Time::CreateTimeStamp();
+
+		// Prepend function name
+		std::string fullMessage = std::string(function) + "() - " + FormatMessage(message, args);
+
+		LogEntry entry{ timeStamp, level, category, fullMessage };
 
 		if (m_LogHistory.size() >= MAX_LOG_HISTORY) {
 			m_LogHistory.erase(m_LogHistory.begin(), m_LogHistory.begin() + (MAX_LOG_HISTORY / 10));
 		}
-
 		m_LogHistory.push_back(entry);
 
 		SharkEvents::OnLogAdded().Broadcast(entry);
 
-		std::cout << FColor::DarkGrey.Code << '[' << timeStamp << "]: "
+		std::cout << 
+			FColor::DarkGrey.Code << '[' << timeStamp << "]: "
 			<< color.Code << '[' << level << "] "
 			<< CategoryToString(category) << ": "
-			<< formattedMessage << FColor::White.Code
+			<< fullMessage << FColor::White.Code
+			<< std::endl;
+	}
+
+	// --- Error-level logs (Warning, Error, Fatal) with file + line ---
+	void Debug::LogInternal(LogCategory category, const char* level, FColor color, const char* file, int line, const char* function, std::string_view message, const std::vector<std::string>& args)
+	{
+		std::string timeStamp			= Time::CreateTimeStamp();
+
+		// Build full message: "ShortFile.cpp:42 OnInitialize() - message"
+		std::stringstream prefix;
+		prefix << GetShortFileName(file) << ":" << line << " " << function << "() - ";
+		std::string fullMessage = prefix.str() + FormatMessage(message, args);
+
+		LogEntry entry{ timeStamp, level, category, fullMessage };
+
+		if (m_LogHistory.size() >= MAX_LOG_HISTORY) {
+			m_LogHistory.erase(m_LogHistory.begin(), m_LogHistory.begin() + (MAX_LOG_HISTORY / 10));
+		}
+		m_LogHistory.push_back(entry);
+
+		SharkEvents::OnLogAdded().Broadcast(entry);
+
+		std::cout <<
+			FColor::DarkGrey.Code << '[' << timeStamp << "]: "
+			<< color.Code << '[' << level << "] "
+			<< CategoryToString(category) << ": "
+			<< fullMessage << FColor::White.Code
 			<< std::endl;
 	}
 

@@ -43,20 +43,18 @@ namespace Shark::Editor {
 		// Set the inspector window in the LevelEditorManager so it can update it based on messages
 		LevelEditorManager::Get().SetInspectorWindow(*inspectorWindow);
 
-		for (auto& windows : m_Windows) {
+		for (auto& windows : m_EditorWindows) {
 			windows->OnInitialize();
 		}
 
 		m_SceneViewport->OnInitialize();
-
-		SE_LOG(Editor, "EditorApp::Edtior() - Created EditorApp.");
 	}
 
 	void WindowManager::Update(float deltaTime) {
 		Message msg;
 
 		while(inbox.Pop(msg)) {
-			RecieveMessages(msg);
+			ReceiveMessages(msg);
 		}
 	}
 
@@ -65,7 +63,7 @@ namespace Shark::Editor {
 		Debug::CheckGLErrors("WindowManager::RenderWindows() - Start of Render");
 
 		// Render all visible windows except the SceneViewport (which is rendered separately)
-		for (auto& window : m_Windows) {
+		for (auto& window : m_EditorWindows) {
 			if (window->IsVisible()) {
 				window->Render(deltaTime);
 				Debug::CheckGLErrors("After Window: " + window->GetWindowName());
@@ -85,7 +83,7 @@ namespace Shark::Editor {
 
 	void WindowManager::Shutdown()
 	{
-		for (EditorWindow* window : m_Windows) {
+		for (EditorWindow* window : m_EditorWindows) {
 			if(window) {
 				window->OnShutdown();
 				delete window;
@@ -97,53 +95,41 @@ namespace Shark::Editor {
 			m_SceneViewport = nullptr;
 		}
 
-		m_Windows.clear();
-	}
-
-	bool WindowManager::IsSceneViewportFocused() const
-	{
-		return m_SceneViewport->IsFocused();
-	}
-
-	bool WindowManager::IsSceneViewportHovered() const
-	{
-		return m_SceneViewport->IsHovered();
+		m_EditorWindows.clear();
 	}
 
 	void WindowManager::AddWindow(EditorWindow* window) {
-		m_Windows.push_back(window);
+		m_EditorWindows.push_back(window);
 	}
 
 	void WindowManager::RenderSceneViewport()
 	{
-		m_SceneViewport->UpdateViewportSize();
-		m_SceneViewport->OnRender(*SceneManager::Get().GetActiveScene(), *EngineContext::Get().m_Renderer);
-
 		ImGui::Begin(m_SceneViewport->GetName().c_str());
 
+		// Check for focus/hover state
+		bool focused = ImGui::IsWindowFocused();
+		bool hovered = ImGui::IsWindowHovered();
+		m_SceneViewport->IsFocused(focused);
+		m_SceneViewport->IsHovered(hovered);
+
+		// Resize framebuffer to match ImGui content region
 		ImVec2 avail = ImGui::GetContentRegionAvail();
+		m_SceneViewport->SetSize(static_cast<int>(avail.x), static_cast<int>(avail.y));
 
-		// Debug: Cast to ForwardRenderer to get the Shadow Texture ID
-		auto* fr = dynamic_cast<ForwardRenderer*>(EngineContext::Get().m_Renderer);
-		unsigned int debugTexID = 0;
-
-		//if (fr && fr->GetShadowPass()) {
-		//	debugTexID = fr->GetShadowPass()->GetShadowMapTexture();
-		//}
+		// Render the scene into viewport's framebuffer
+		m_SceneViewport->OnRender(SceneManager::Get().GetActiveScene(), EngineContext::Get().GetRenderer());
 
 		ImTextureID tex = (ImTextureID)(intptr_t)m_SceneViewport->GetColorAttachment();
-		//ImTextureID tex = (ImTextureID)(intptr_t)debugTexID;
-
 		ImGui::Image(tex, avail, ImVec2(0, 1), ImVec2(1, 0));
 
 		ImGui::End();
 	}
 
-	void WindowManager::RecieveMessages(const Message& msg)
+	void WindowManager::ReceiveMessages(const Message& msg)
 	{
 		switch(msg.type) {
 		case EventType::EditorWindowClose:
-			for (auto& window : m_Windows) {
+			for (auto& window : m_EditorWindows) {
 				if(window->GetWindowName() == msg.payload) {
 					window->SetWindowVisible(false);
 					break;
@@ -152,7 +138,7 @@ namespace Shark::Editor {
 			break;
 
 			case EventType::EditorWindowOpen:
-				for (auto& window : m_Windows) {
+				for (auto& window : m_EditorWindows) {
 					if(window->GetWindowName() == msg.payload) {
 						window->SetWindowVisible(true);
 						break;
@@ -207,7 +193,7 @@ namespace Shark::Editor {
 
 	template<typename T>
 	T* WindowManager::GetWindow() {
-		for (auto* window : m_Windows) {
+		for (auto* window : m_EditorWindows) {
 			if (T* target = dynamic_cast<T*>(window)) {
 				return target;
 			}

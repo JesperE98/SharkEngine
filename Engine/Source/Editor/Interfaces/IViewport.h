@@ -14,7 +14,7 @@ namespace Shark::Interfaces {
 		/* Initialize any resources needed for this viewport (e.g., framebuffer, textures). */
 		virtual void OnInitialize() = 0;
 		/* Render the scene into this viewport using a renderer. */
-		virtual void OnRender(Shark::Scene& scene, Graphics::Renderer& rend) = 0;
+		virtual void OnRender(Shark::Scene* scene, Graphics::Renderer* rend) = 0;
 		/* Return the raw GPU texture handle (OpenGL GLuint). */
 		virtual unsigned int GetColorAttachment() const = 0;
 		/* Name for identification (Scene, Game, etc...). */

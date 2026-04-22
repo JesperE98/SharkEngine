@@ -28,7 +28,7 @@ namespace Shark::Graphics {
 
 	ForwardRenderer::ForwardRenderer()
 	{
-		Init();
+		OnInitialize();
 	}
 
 	ForwardRenderer::~ForwardRenderer()
@@ -47,9 +47,9 @@ namespace Shark::Graphics {
 		m_PointShadowPass	= nullptr;
 	}
 
-	void ForwardRenderer::Init()
+	void ForwardRenderer::OnInitialize()
 	{
-		SE_LOG(Rendering, "Initializing ForwardRenderer.");
+		SE_PROC(Rendering, "Initializing ForwardRenderer...");
 
 		m_SceneFb = new Framebuffer(Core::WINDOW_WIDTH, Core::WINDOW_HEIGHT);
 
@@ -61,10 +61,10 @@ namespace Shark::Graphics {
 
 		DebugRenderer::Get().Init();
 		SE_LOG(Rendering, "ForwardRenderer initialized successfully.");
-		SE_LOG(Rendering, "Amount of passes in RenderPasses: {}", renderPasses.size());
+		//SE_LOG(Rendering, "Amount of passes in RenderPasses: {}", renderPasses.size());
 	}
 
-	void ForwardRenderer::BeginFrame()
+	void ForwardRenderer::OnBeginFrame()
 	{
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
@@ -72,7 +72,7 @@ namespace Shark::Graphics {
 		glFrontFace(GL_CCW);
 	}
 
-	void ForwardRenderer::RenderScene(float deltaTime, Scene* scene, CameraComponent* cam)
+	void ForwardRenderer::OnRenderScene(float deltaTime, Scene* scene, CameraComponent* cam)
 	{
 		std::vector<LightData> sceneLights;
 		for (auto* obj : scene->GetGameObjects()) {
@@ -81,16 +81,17 @@ namespace Shark::Graphics {
 			}
 		}
 
-		if (sceneLights.empty()) return;
+		if (!sceneLights.empty()) {
+			m_ShadowPass->Begin();
+			m_ShadowPass->Execute(scene, sceneLights);
+			m_ShadowPass->End();
 
-		m_ShadowPass->Begin();
-		m_ShadowPass->Execute(scene, sceneLights);
-		m_ShadowPass->End();
+			m_PointShadowPass->Begin();
+			m_PointShadowPass->Execute(scene, sceneLights);
+			m_PointShadowPass->End();
+		}
 
-		m_PointShadowPass->Begin();
-		m_PointShadowPass->Execute(scene, sceneLights);
-		m_PointShadowPass->End();
-
+		// Sky should always render
 		glm::mat4 view			= cam->GetViewMatrix();
 		glm::mat4 projection	= cam->GetProjectionMatrix();
 		m_SkyPass->SetCameraData(glm::inverse(view), glm::inverse(projection));
@@ -98,6 +99,7 @@ namespace Shark::Graphics {
 		m_SkyPass->Execute(scene, sceneLights);
 		m_SkyPass->End();
 		
+		// Forward pass always renders
 		m_ForwardPass->Begin();
 
 		// --- DIRECTIONAL SHADOW MAPS
@@ -119,6 +121,7 @@ namespace Shark::Graphics {
 
 		m_ForwardPass->Execute(deltaTime, scene, cam, { sceneLights });
 
+		// Debug AABBs
 		for (GameObject* obj : scene->GetGameObjects()) {
 			AABBComponent* aabb = obj->GetComponent<AABBComponent>();
 			if (!aabb) continue;
@@ -135,7 +138,7 @@ namespace Shark::Graphics {
 		m_ForwardPass->End();
 	}
 
-	void ForwardRenderer::EndFrame()
+	void ForwardRenderer::OnEndFrame()
 	{
 		for (auto& pass : renderPasses) pass->End();
 	}

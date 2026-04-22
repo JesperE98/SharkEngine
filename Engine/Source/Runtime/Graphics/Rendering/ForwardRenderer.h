@@ -15,12 +15,12 @@ namespace Shark::Graphics
 	class ForwardRenderer : public Renderer
 	{
 	public:
-		explicit ForwardRenderer();
+		ForwardRenderer();
 		~ForwardRenderer() override;
-		void Init() override final;
-		void BeginFrame() override final;
-		void RenderScene(float deltaTime, Shark::Scene* scene, Components::CameraComponent* cam) override final;
-		void EndFrame() override final;
+		void OnInitialize() override final;
+		void OnBeginFrame() override final;
+		void OnRenderScene(float deltaTime, Shark::Scene* scene, Components::CameraComponent* cam) override final;
+		void OnEndFrame() override final;
 		void SetTarget(Framebuffer* fb);
 		ShadowMapPass* GetShadowPass() const;
 	private:

@@ -6,7 +6,7 @@
 
 namespace Shark::Graphics { 
 	class Mesh; 
-	enum class PrimitiveType : uint8_t; 
+	enum class PrimitiveType; 
 }
 
 namespace Shark::Editor {

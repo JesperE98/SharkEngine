@@ -57,42 +57,27 @@ namespace Shark::Editor {
 
 	void LevelEditorManager::RequestModelLoad(const std::string& path)
 	{
-		Message msg;
-		msg.type = EventType::LoadModel;
-		msg.payload = path;
-
-		MeshManager::Get().inbox.Push(msg);
-		
-		SE_REQ(Editor, "LevelEditorManager::RequestModelLoad() - Sent load request for: {}", path);
+		Core::SendTo(MeshManager::Get(), EventType::LoadModel, path);
+		SE_REQ(Editor, "Sent load request for: {}", path);
 	}
 
 	void LevelEditorManager::RequestPrimitiveLoad(PrimitiveType type)
 	{
-		Message msg;
-		msg.type = EventType::LoadPrimitiveType;
-		msg.payload = std::to_string(static_cast<int>(type));
-
-		MeshManager::Get().inbox.Push(msg);
+		std::string payload = std::to_string(static_cast<int>(type));
+		Core::SendTo(MeshManager::Get(), EventType::LoadPrimitiveType, payload);
+		SE_REQ(Editor, "Sent load request for: {}", payload);
 	}
 
 	void LevelEditorManager::RequestDiffTextureLoad(const std::string& path)
 	{
-		Message msg;
-		msg.type = EventType::LoadTexture;
-		msg.payload = path;
-		TextureManager::Get().inbox.Push(msg);
-
-		SE_REQ(Editor, "LevelEditorManager::RequestDiffTextureLoad() - Sent load request for: {}", path);
+		Core::SendTo(TextureManager::Get(), EventType::LoadTexture, path);
+		SE_REQ(Editor, "Sent load request for: {}", path);
 	}
 
 	void LevelEditorManager::RequestSpecTextureLoad(const std::string& path)
 	{
-		Message msg;
-		msg.type = EventType::LoadTexture;
-		msg.payload = path;
-		TextureManager::Get().inbox.Push(msg);
-
-		SE_REQ(Editor, "LevelEditorManager::RequestSpecTextureLoad() - Sent load request for: {}", path);
+		Core::SendTo(TextureManager::Get(), EventType::LoadTexture, path);
+		SE_REQ(Editor, "Sent load request for: {}", path);
 	}
 
 	void LevelEditorManager::ReceiveMessage(const Message& msg) {
@@ -110,7 +95,7 @@ namespace Shark::Editor {
 						renderer->SetMaterial(new Material());
 					}
 
-					SE_LOG(Editor, "LevelEditorManager::ReceiveMessage() - Updated existing object primitive mesh: {}", msg.payload);
+					SE_LOG(Editor, "Updated existing object primitive mesh: {}", msg.payload);
 				}
 				else {
 					msg.type == EventType::ModelLoaded ? LoadModel(msg) : LoadPrimitive(msg);
@@ -149,7 +134,7 @@ namespace Shark::Editor {
 				
 
 			case EventType::ErrorMessage: {
-				SE_ERR(Editor, "LevelEditorManager::ReceiveMessage() - Error: {}", msg.payload);
+				SE_ERR(Editor, "Error: {}", msg.payload);
 				break;
 			}
 				
@@ -161,7 +146,7 @@ namespace Shark::Editor {
 		Mesh* loadedMesh = static_cast<Mesh*>(msg.data);
 
 		if(!loadedMesh) {
-			SE_ERR(Editor, "LevelEditorManager::LoadModel() - Received null mesh for: {}", msg.payload);
+			SE_ERR(Editor, "Received null mesh for: {}", msg.payload);
 			return;
 		}
 
@@ -180,10 +165,10 @@ namespace Shark::Editor {
 			obj->GetTransform().position = Vector3(0.0f, 0.0f, 0.0f);
 			obj->GetTransform().scale = Vector3(10.f, 10.f, 10.f);
 			obj->GetComponent<MeshRendererComponent>()->GetMaterial()->SetTexture("Textures/Viking_House.png");
-			SE_SUCC(Editor, "LevelEditorManager::ReceiveMessage() - Successfully created GameObject: {}", msg.payload);
+			SE_SUCC(Editor, "Successfully created GameObject: {}", msg.payload);
 		}
 		else {
-			SE_ERR(Editor, "LevelEditorManager::ReceiveMessage() - Failed to create GameObject for loaded model: {}", msg.payload);
+			SE_ERR(Editor, "Failed to create GameObject for loaded model: {}", msg.payload);
 			delete obj;
 		}
 	}
@@ -191,7 +176,7 @@ namespace Shark::Editor {
 	void LevelEditorManager::LoadPrimitive(const Message& msg) {
 		Mesh* loadedMesh = static_cast<Mesh*>(msg.data);
 		if(!loadedMesh) {
-			SE_ERR(Editor, "LevelEditorManager::LoadPrimitive() - Received null mesh for primitive type: {}", msg.payload);
+			SE_ERR(Editor, "Received null mesh for primitive type: {}", msg.payload);
 			return;
 		}
 
@@ -207,10 +192,10 @@ namespace Shark::Editor {
 		if (scene) {
 			scene->AddGameObject(obj);
 
-			SE_SUCC(Editor, "LevelEditorManager::LoadPrimitive() - Successfully created primitive GameObject: {}", obj->GetName());
+			SE_SUCC(Editor, "Successfully created primitive GameObject: {}", obj->GetName());
 		}
 		else {
-			SE_ERR(Editor, "LevelEditorManager::LoadPrimitive() - Failed to create GameObject for primitive type: {}", obj->GetName());
+			SE_ERR(Editor, "Failed to create GameObject for primitive type: {}", obj->GetName());
 			delete obj;
 		}
 	}

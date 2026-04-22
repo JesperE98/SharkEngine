@@ -13,7 +13,7 @@ namespace Shark::Graphics {
 	Material::Material(Shader* shaderProgram, Texture* texture)
 		: m_Shader(shaderProgram), m_diffuseTexture(texture)
 	{
-		SE_LOG(Resources, "Material::Material() - Creating Material.");
+		SE_PROC(Resources, "Creating Material...");
 
 		if (!m_Shader) {
 			CreateDefaultShader();
@@ -27,6 +27,7 @@ namespace Shark::Graphics {
 			m_bUseTexture = true;
 		}
 
+		SE_SUCC(Resources, "Material created.");
 	}
 
 	Material::~Material()
@@ -69,7 +70,7 @@ namespace Shark::Graphics {
 		if (newShader) {
 			m_Shader = newShader;
 			m_ShaderPath = name;
-			SE_SUCC(Resources, "Material::SetShader() - Shader set to: {}", name);
+			SE_SUCC(Resources, "Shader set to: {}", name);
 		}
 	}
 
