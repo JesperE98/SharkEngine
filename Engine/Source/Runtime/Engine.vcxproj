@@ -118,7 +118,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty\;$(SolutionDir)Engine\ThirdParty\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Engine\ThirdParty\;$(SolutionDir)Engine\ThirdParty\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -157,6 +157,7 @@
     <ClInclude Include="Core\App\EditorState.h" />
     <ClInclude Include="Core\App\EditorStateManager.h" />
     <ClInclude Include="Core\Events\SharkEvents.h" />
+    <ClInclude Include="Core\Serialization\SceneSerializer.h" />
     <ClInclude Include="Core\Utilities\DebugRenderer.h" />
     <ClInclude Include="Core\Utilities\Delegate.h" />
     <ClInclude Include="Graphics\Framebuffer\RenderTarget.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="Core\App\EditorStateManager.cpp" />
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />
+    <ClCompile Include="Core\Serialization\SceneSerializer.cpp" />
     <ClCompile Include="Core\Utilities\DebugRenderer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\PointShadowBuffer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\RenderTarget.cpp" />

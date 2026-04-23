@@ -5,6 +5,7 @@
 #include "Components/Rendering/MeshRendererComponent.h"
 #include "Components/Rendering/LightComponent.h"
 #include "Scene/Scene.h"
+#include "Core/GameObject.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 

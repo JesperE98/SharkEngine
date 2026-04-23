@@ -17,6 +17,8 @@ namespace Shark::Editor {
 		void DrawWindowsMenu();
 		void DrawSettingsMenu();
 		void DrawHelpMenu();
+		void OnSaveScene();
+		void OnLoadScene();
 	};
 }
 

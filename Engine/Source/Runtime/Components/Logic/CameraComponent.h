@@ -13,6 +13,8 @@ namespace Shark::Components {
     class CameraComponent : public Component
     {
     public:
+        CameraComponent() : CameraComponent(45.0f, 1.77f, 0.1f, 1000.0f) {}
+
 		CameraComponent(float fov, float aspectRatio, float nearClip, float farClip)
 			: FOV(fov), AspectRatio(aspectRatio), NearClip(nearClip), FarClip(farClip) {
             UpdateProjectionMatrix();

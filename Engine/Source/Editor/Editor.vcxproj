@@ -112,9 +112,10 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source\Editor;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty;$(SolutionDir)Engine\ThirdParty\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty;$(SolutionDir)Engine\ThirdParty\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

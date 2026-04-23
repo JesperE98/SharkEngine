@@ -129,6 +129,15 @@ namespace Shark::Resources {
 		return nullptr;
 	}
 
+	Mesh* MeshManager::LoadMeshSync(const std::string& path) {
+		auto it = m_MeshCache.find(path);
+		if (it != m_MeshCache.end()) return it->second;
+
+		Mesh* mesh = LoadMesh(path);
+		if (mesh) m_MeshCache[path] = mesh;
+		return mesh;
+	}
+
 	void MeshManager::Shutdown()
 	{
 		for (auto& pair : m_MeshCache) {

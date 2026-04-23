@@ -90,6 +90,7 @@ namespace Shark::Editor {
 				if (selected && selected->GetComponent<MeshRendererComponent>()) {
 					MeshRendererComponent* renderer = selected->GetComponent<MeshRendererComponent>();
 					renderer->SetMesh(loadedMesh);
+					renderer->SetMeshPath(msg.payload);
 
 					if(!renderer->GetMaterial()) {
 						renderer->SetMaterial(new Material());
@@ -152,10 +153,8 @@ namespace Shark::Editor {
 
 		Material* mat = new Material();
 
-		obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
-		//obj->AddComponent<RigidBodyComponent>();
-		//obj->AddComponent<AABBComponent>(Vector3(5.0f, 0.5f, 5.0f), false);
-
+		MeshRendererComponent* renderer = obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
+		renderer->SetMeshPath(msg.payload);
 		// Add to scene
 		Scene* scene = SceneManager::Get().GetActiveScene();
 
@@ -185,7 +184,9 @@ namespace Shark::Editor {
 		obj->GetTransform().SetScale({ 10.0f, 0.5f, 10.0f });
 		Material* mat = new Material();
 
-		obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
+		MeshRendererComponent* renderer = obj->AddComponent<MeshRendererComponent>(loadedMesh, mat);
+		renderer->SetMeshPath(msg.payload);
+
 		obj->AddComponent<AABBComponent>(Vector3(0.5f, 0.5f, 0.5f), true);
 
 		Scene* scene = SceneManager::Get().GetActiveScene();

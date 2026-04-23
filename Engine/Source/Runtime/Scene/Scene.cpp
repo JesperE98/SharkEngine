@@ -1,8 +1,8 @@
 #include "Scene.h"
-#include "Core/GameObject.h"
-#include "Components/Logic/CameraController.h"
-#include "Components/Logic/CameraComponent.h"
-#include "Components/Rendering/LightComponent.h"
+#include <Core/GameObject.h>
+#include <Components/Logic/CameraController.h>
+#include <Components/Logic/CameraComponent.h>
+#include <Components/Rendering/LightComponent.h>
 
 namespace Shark {
 
@@ -14,9 +14,7 @@ namespace Shark {
 
     Scene::Scene()
     {
-		CreateCamera();
-        CreateDirectionalLight();
-        CreatePointLight();
+        SetName("DefaultScene");
     }
 
     Scene::~Scene()

@@ -10,6 +10,11 @@ namespace Shark::Components {
 	class MeshRendererComponent : virtual public Component
 	{
 	public:
+
+		MeshRendererComponent() {
+			tickMode = TickMode::Always;
+		}
+
 		explicit MeshRendererComponent(Graphics::Mesh* mesh, Graphics::Material* mat)
 			: m_Mesh(mesh), m_Material(mat) { 
 			tickMode = TickMode::Always;
@@ -24,16 +29,19 @@ namespace Shark::Components {
 #pragma region ASSET SETTERS
 		void SetMesh(Graphics::Mesh* mesh);
 		void SetMaterial(Graphics::Material* mat);
+		void SetMeshPath(const std::string& path) { m_MeshPath = path; }
 #pragma endregion
 
 #pragma region ASSET GETTERS
 		Graphics::Mesh* GetMesh() const;
 		Graphics::Material* GetMaterial() const;
+		const std::string& GetMeshPath() const { return m_MeshPath; }
 #pragma endregion
 
 	private:
-		Graphics::Mesh* m_Mesh{ nullptr };
+		Graphics::Mesh*		m_Mesh{ nullptr };
 		Graphics::Material* m_Material{ nullptr };
+		std::string			m_MeshPath;
 	};
 }
 

@@ -34,6 +34,7 @@ namespace Shark::Resources {
 		Graphics::Mesh* GetMesh(const std::string& filePath);
 		Graphics::Mesh* LoadMesh(Graphics::PrimitiveType type);
 		Graphics::Mesh* LoadMesh(const std::string& filePath);
+		Graphics::Mesh* LoadMeshSync(const std::string& path);
 
 		void Shutdown();
 		static void CreateFromObj(Core::GameObject* obj, const std::string& filePath, Graphics::Material* mat = nullptr);

@@ -5,6 +5,7 @@
 #include "Components/Rendering/LightComponent.h"
 #include "Scene/Scene.h"
 #include "Graphics/Resources/ShaderManager.h"
+#include "Core/GameObject.h"
 
 namespace Shark::Graphics {
 

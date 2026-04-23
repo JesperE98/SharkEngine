@@ -1,10 +1,17 @@
 #include "EditorMenuBar.h"
 #include "Managers/WindowManager.h"
 
+#include <Core/Serialization/SceneSerializer.h>
+#include <Scene/SceneManager.h>
+#include <Scene/Scene.h>
 #include <ImGui/imgui.h>
 
 
 namespace Shark::Editor {
+
+	using Shark::Scene;
+	using Serialization::SceneSerializer;
+	using Core::SceneManager;
 
 	void EditorMenuBar::OnImGuiRender()
 	{
@@ -36,9 +43,13 @@ namespace Shark::Editor {
 	{
 		if(ImGui::BeginMenu("File")){
 			if (ImGui::MenuItem("New Scene", "Ctrl+N")) { /* TODO: SceneManager::Get().CreateNewScene(); */ }
-			if (ImGui::MenuItem("Open Scene", "Ctrl+O")) { /* TODO: Open File Dialog and load scene */ }
+			if (ImGui::MenuItem("Load Scene", "Ctrl+O")) { 
+				OnLoadScene();
+			}
 			ImGui::Separator();
-			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* TODO: SceneManager::Get().SaveActiveScene(); */ }
+			if (ImGui::MenuItem("Save", "Ctrl+S")) { 
+				OnSaveScene();
+			}
 			ImGui::Separator();
 			if (ImGui::MenuItem("Exit", "Alt+F4")) {
 				// Accessing the Engine context to close the app
@@ -102,6 +113,31 @@ namespace Shark::Editor {
 			if (ImGui::MenuItem("Report a Bug")) { /* TODO: Open Bug Report URL */ }
 			if (ImGui::MenuItem("About")) { /* TODO: Open About Window */ }
 			ImGui::EndMenu();
+		}
+	}
+	
+	void EditorMenuBar::OnSaveScene() {
+		Scene* scene = SceneManager::Get().GetActiveScene();
+		if (scene) {
+			std::string path = "Content/Scenes/" + scene->GetName() + ".json";
+			SceneSerializer serializer(scene);
+			serializer.SaveToFile(path);
+		}
+	}
+
+	void EditorMenuBar::OnLoadScene() {
+		std::string path = "Content/Scenes/DefaultScene.json";
+
+		Scene* newScene = new Scene();
+
+		SceneSerializer serializer(newScene);
+
+		if (serializer.LoadFromFile(path)) {
+			// Replace active scene
+			SceneManager::Get().SetActiveScene(newScene);
+		} else {
+			delete newScene;
+			SE_ERR(Editor, "Failed to load scene from {}", path);
 		}
 	}
 }

@@ -67,6 +67,10 @@ namespace Shark::Core {
 			return nullptr;
 		}
 
+		const std::vector<Components::Component*>& GetComponents() const {
+			return m_Components;
+		}
+
 
 #pragma region Hierarchy Management
 		void SetParent(GameObject* newParent);

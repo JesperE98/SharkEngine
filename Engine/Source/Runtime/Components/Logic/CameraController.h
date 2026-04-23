@@ -11,6 +11,13 @@ namespace Shark::Components {
 
 		void Update(float deltaTime) override;
 
+		void SetMoveSpeed(float value) { m_Speed = value; }
+		void SetMouseSensitivity(float value) { m_MouseSensitivity = value; }
+
+		float GetMoveSpeed() const			{ return m_Speed; }
+		float GetMouseSensitivity() const	{ return m_MouseSensitivity; }
+		float GetYaw() const				{ return m_Yaw; }
+		float GetPitch() const				{ return m_Pitch; }
 	private:
 
 		float m_Yaw = 0.f;

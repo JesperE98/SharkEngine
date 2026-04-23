@@ -1,0 +1,226 @@
+{
+    "gameObjects": [
+        {
+            "components": [
+                {
+                    "aspectRatio": 1.67123281955719,
+                    "enabled": true,
+                    "farClip": 1000.0,
+                    "fov": 45.0,
+                    "nearClip": 0.10000000149011612,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enabled": true,
+                    "mouseSensitivity": 0.10000000149011612,
+                    "moveSpeed": 5.0,
+                    "type": "CameraController"
+                }
+            ],
+            "name": "Main Camera",
+            "transform": {
+                "position": [
+                    -5.397035121917725,
+                    3.692779541015625,
+                    4.773598670959473
+                ],
+                "rotation": [
+                    -29.20001220703125,
+                    -58.59967803955078,
+                    -4.916026227874681e-06
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "color": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "enabled": true,
+                    "intensity": 1.0,
+                    "lightType": 0,
+                    "range": 10.0,
+                    "type": "LightComponent"
+                }
+            ],
+            "name": "Directional Light",
+            "transform": {
+                "position": [
+                    0.0,
+                    5.0,
+                    0.0
+                ],
+                "rotation": [
+                    -45.0,
+                    -45.000003814697266,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "enabled": true,
+                    "material": {
+                        "diffusePath": "Textures/Viking_House.png",
+                        "shininess": 32.0,
+                        "specularPath": "",
+                        "tiling": [
+                            1.0,
+                            1.0
+                        ],
+                        "useMipMaps": true
+                    },
+                    "meshPath": "Models/Viking_House.obj",
+                    "type": "MeshRendererComponent"
+                }
+            ],
+            "name": "Models/Viking_House.obj",
+            "transform": {
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    10.0,
+                    10.0,
+                    10.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "enabled": true,
+                    "material": {
+                        "diffusePath": "Textures/WoodFloor/WoodFloor_Color.png",
+                        "shininess": 120.3479995727539,
+                        "specularPath": "Textures/WoodFloor/WoodFloor_Color.png",
+                        "tiling": [
+                            10.0,
+                            10.0
+                        ],
+                        "useMipMaps": true
+                    },
+                    "meshPath": "1",
+                    "type": "MeshRendererComponent"
+                },
+                {
+                    "enabled": true,
+                    "extents": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "isStatic": true,
+                    "offset": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "type": "AABBComponent"
+                }
+            ],
+            "name": "Platform",
+            "transform": {
+                "position": [
+                    0.0,
+                    -0.5,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    10.0,
+                    0.5,
+                    10.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "enabled": true,
+                    "material": {
+                        "diffusePath": "",
+                        "shininess": 32.0,
+                        "specularPath": "",
+                        "tiling": [
+                            1.0,
+                            1.0
+                        ],
+                        "useMipMaps": true
+                    },
+                    "meshPath": "1",
+                    "type": "MeshRendererComponent"
+                },
+                {
+                    "enabled": true,
+                    "extents": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "isStatic": false,
+                    "offset": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "type": "AABBComponent"
+                },
+                {
+                    "bounceFactor": 0.0,
+                    "drag": 0.8500000238418579,
+                    "enabled": true,
+                    "gravity": -20.0,
+                    "mass": 1.0,
+                    "type": "RigidbodyComponent",
+                    "useGravity": true
+                }
+            ],
+            "name": "Player",
+            "transform": {
+                "position": [
+                    1.2200000286102295,
+                    1.0,
+                    2.4000000953674316
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        }
+    ],
+    "name": "DefaultScene",
+    "version": 1
+}

@@ -10,7 +10,12 @@
 #include "Core/Utilities/Debug.h"
 #include "Physics/PhysicsSystem.h"
 #include "Core/App/EditorStateManager.h"
+
 #include "Scene/Scene.h"
+#include <Components/Logic/CameraComponent.h>
+#include <Components/Logic/CameraController.h>
+#include <Core/GameObject.h>
+#include <Components/Rendering/LightComponent.h>
 
 namespace Shark::Core
 {
@@ -23,6 +28,11 @@ namespace Shark::Core
 	using Graphics::ForwardRenderer;
 	using Graphics::PrimitiveType;
 	using Physics::PhysicsSystem;
+
+	using Components::CameraComponent;
+	using Components::CameraController;
+	using Components::LightComponent;
+	using Components::LightType;
 
 	void EngineContext::Initialize() {
 		SE_PROC(Engine, "Initializing Engine Context...");
@@ -37,17 +47,28 @@ namespace Shark::Core
 		/* ----------------- Scene ----------------- */
 		SceneManager::Get().RegisterScene("EditorDefault", [](Scene* scene) {
 			// Empty default scene
-			//auto* cameraObj = new GameObject("Main Camera2");
-			//cameraObj->GetTransform().position = { 0.0f, 2.0f, 10.0f };
-			//cameraObj->AddComponent<CameraComponent>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-			//scene->AddGameObject(cameraObj);
+			GameObject* cam = new GameObject("Main Camera");
+			cam->AddComponent<CameraComponent>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+			cam->AddComponent<CameraController>(5.0f, 0.1f);
+			cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
+			scene->AddGameObject(cam);
 
-			//// default directional light
-			//auto* sunObj = new GameObject("Directional Light");
-			//sunObj->GetTransform().position = { 0.0f, 10.0f, 0.0f };
-			//sunObj->GetTransform().Rotate({ -45.0f, 30.0f, 0.0f });
-			//sunObj->AddComponent<LightComponent>()->Type = LightType::Directional;
-			//scene->AddGameObject(sunObj);
+			GameObject* dLight = new GameObject("Directional Light");
+			dLight->AddComponent<LightComponent>();
+			dLight->GetComponent<LightComponent>()->Type = LightType::Directional;
+			dLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+			dLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
+			dLight->GetTransform().rotation = { -45.0f, -45.0f, 0.0f };
+			scene->AddGameObject(dLight);
+
+			// Optional with Point Light
+			//GameObject* pLight = new GameObject("Point Light");
+			//pLight->AddComponent<LightComponent>();
+			//pLight->GetComponent<LightComponent>()->Type = LightType::Point;
+			//pLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+			//pLight->GetTransform().position = { 0.0f, 1.5f, 0.0f };
+			//pLight->GetTransform().Rotate({ 0.0f, 0.0f, 0.0f });
+			//scene->AddGameObject(pLight);
 			});
 
 		SceneManager::Get().LoadScene("EditorDefault");
