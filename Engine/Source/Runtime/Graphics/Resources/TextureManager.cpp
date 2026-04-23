@@ -84,5 +84,10 @@ namespace Shark::Resources {
     {
         m_ResponseTarget = target;
     }
+
+    unsigned int TextureManager::GetTextureID(const std::string& path) {
+        Texture* tex = LoadTexture(path);
+        return tex ? tex->GetID() : 0;
+    }
 }
 

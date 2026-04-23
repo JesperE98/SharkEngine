@@ -30,10 +30,11 @@ uniform samplerCube uPointShadowMaps[MAX_POINT_SHADOWS]; // matches MAX_SHADOW_P
 uniform float uPointShadowFarPlane;
 
 // -- Material Properties --
-uniform float uShininess;			// Shininess factor for specular highlights
-uniform vec3 uBaseColor;
-uniform bool uUseTexture;
-uniform bool uUseSpecularMap;
+uniform float	uShininess;			// Shininess factor for specular highlights
+uniform vec3	uBaseColor;
+uniform bool	uUseTexture;
+uniform bool	uUseSpecularMap;
+uniform vec2	uTextureTiling;
 
 // -- Light & Camera Properties --
 #define MAX_LIGHTS 8
@@ -83,11 +84,13 @@ float CalculatePointShadow(int lightIndex, vec3 fragPos, vec3 lightPos) {
 
 void main(){
 	// Get Base Color wether we use a texture or not, same for the specular
-	vec3 baseColor	= uUseTexture ? texture(uDiffuseMap, vTexCoord).rgb : uBaseColor;
+	vec2 uv = vTexCoord * uTextureTiling;
+
+	vec3 baseColor	= uUseTexture ? texture(uDiffuseMap, uv).rgb : uBaseColor;
 
 	vec3 specFactor;
 		if (uUseSpecularMap) {
-			vec3 roughnessSample = texture(uSpecularMap, vTexCoord).rgb;
+			vec3 roughnessSample = texture(uSpecularMap, uv).rgb;
 			specFactor = vec3(1.0) - roughnessSample; 
 		} else {
 			specFactor = vec3(0.05); // Default low shine for non-mapped objects

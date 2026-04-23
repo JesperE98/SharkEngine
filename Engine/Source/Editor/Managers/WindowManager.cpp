@@ -3,6 +3,7 @@
 #include "EditorWindows/HierarchyWindow.h"
 #include "EditorWindows/InspectorWindow.h"
 #include "EditorWindows/ConsoleWindow.h"
+#include "EditorWindows/ContentBrowser.h"
 #include "Viewport/SceneViewport.h"
 
 #pragma	region Engine Includes
@@ -36,6 +37,7 @@ namespace Shark::Editor {
 		ConsoleWindow* consoleWindow = CreateEditorWindow<ConsoleWindow>();
 		HierarchyWindow* hierarchyWindow = CreateEditorWindow<HierarchyWindow>();
 		InspectorWindow* inspectorWindow = CreateEditorWindow<InspectorWindow>();
+		ContentBrowser* contentBrowser = CreateEditorWindow<ContentBrowser>();
 		m_SceneViewport = new SceneViewport("Scene");
 
 		hierarchyWindow->SetInspector(inspectorWindow);

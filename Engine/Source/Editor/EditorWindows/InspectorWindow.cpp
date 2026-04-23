@@ -17,6 +17,7 @@ namespace Shark::Editor {
 
 	using Core::GameObject;
 	using Math::Transform;
+	using Math::Vector2;
 	using Math::Vector3;
 	using Components::MeshRendererComponent;
 	using Components::CameraComponent;
@@ -196,10 +197,19 @@ namespace Shark::Editor {
 			memset(pathBuffer, 0, sizeof(pathBuffer)); // Clear on success
 		}
 
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_MODEL")) {
+				const char* path = static_cast<const char*>( payload->Data );
+				LevelEditorManager::Get().RequestModelLoad(std::string(path));
+				SE_LOG(Editor, "Dropped model: {}", path);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		ImGui::SameLine();
 		ImGui::TextDisabled("(?)");
 		if (ImGui::IsItemHovered()) {
-			ImGui::SetTooltip("Enter path and press ENTER to load.");
+			ImGui::SetTooltip("Enter path and press ENTER, or drag a model from the Content Browser.");
 		}
 
 		ImGui::Spacing();
@@ -216,8 +226,17 @@ namespace Shark::Editor {
 				SE_LOG(Editor, "Requesting texture swap: {}", diffuseBuffer);
 				memset(diffuseBuffer, 0, sizeof(diffuseBuffer)); // Clear on success
 			}
-			ImGui::TextDisabled("Current: %s", material->GetTexturePath().c_str());
 
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_TEXTURE")) {
+					const char* path = static_cast<const char*>( payload->Data );
+					LevelEditorManager::Get().RequestDiffTextureLoad(std::string(path));
+					SE_LOG(Editor, "Dropped diffuse texture: {}", path);
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::TextDisabled("Current: %s", material->GetTexturePath().c_str());
 			ImGui::Spacing();
 
 			// 2. Specular Map
@@ -228,8 +247,17 @@ namespace Shark::Editor {
 				SE_LOG(Editor, "Specular texture updated to: {}", specularBuffer);
 				memset(specularBuffer, 0, sizeof(specularBuffer)); // Clear on success
 			}
-			ImGui::TextDisabled("Current: %s", material->GetSpecularTexturePath().c_str());
 
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_TEXTURE")) {
+					const char* path = static_cast<const char*>( payload->Data );
+					material->SetSpecularTexture(std::string(path));
+					SE_LOG(Editor, "Dropped model: {}", path);
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::TextDisabled("Current: %s", material->GetSpecularTexturePath().c_str());
 			ImGui::Spacing();
 
 			// 3. Shininess factor
@@ -242,6 +270,12 @@ namespace Shark::Editor {
 			bool bUseMipMaps = material->GetUseMipMaps();
 			if (ImGui::Checkbox("Use Mip Maps", &bUseMipMaps)) {
 				material->SetUseMipMaps(bUseMipMaps);
+			}
+
+			Vector2 tiling = material->GetTiling();
+			ImGui::Text("Texture Tiling");
+			if (ImGui::DragFloat2("##Tiling", &tiling.x, 0.1f, 0.1f, 100.0f)) {
+				material->SetTiling(tiling);
 			}
 		}
 		else {

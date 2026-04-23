@@ -146,6 +146,7 @@
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorMenuBar.cpp" />
     <ClCompile Include="EditorWindows\ConsoleWindow.cpp" />
+    <ClCompile Include="EditorWindows\ContentBrowser.cpp" />
     <ClCompile Include="EditorWindows\EditorWindow.cpp" />
     <ClCompile Include="EditorWindows\HierarchyWindow.cpp" />
     <ClCompile Include="EditorWindows\InspectorWindow.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EditorMenuBar.h" />
     <ClInclude Include="EditorWindows\ConsoleWindow.h" />
+    <ClInclude Include="EditorWindows\ContentBrowser.h" />
     <ClInclude Include="EditorWindows\EditorWindow.h" />
     <ClInclude Include="EditorWindows\HierarchyWindow.h" />
     <ClInclude Include="EditorWindows\InspectorWindow.h" />

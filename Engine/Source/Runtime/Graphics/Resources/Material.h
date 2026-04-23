@@ -3,8 +3,8 @@
 
 #include "Shader.h"
 #include "Texture.h"
+#include "Math/Vector2.h"
 #include "Math/Vector3.h"
-
 
 namespace Shark::Graphics {
 	class Material {
@@ -40,8 +40,12 @@ namespace Shark::Graphics {
 			}
 		};
 
+		void SetTiling(const Math::Vector2& t) { m_Tiling = t; }
+		const Math::Vector2& GetTiling() const { return m_Tiling; }
+
 	private:
 		bool m_bUseTexture = false;
+		Math::Vector2 m_Tiling = { 1.0f, 1.0f };
 		Math::Vector3 m_BaseColor = { 1.0f, 1.0f, 1.0f };; // Default white color if no m_diffuseTexture is used
 
 		Texture* m_diffuseTexture{ nullptr }; // Diffuse m_diffuseTexture

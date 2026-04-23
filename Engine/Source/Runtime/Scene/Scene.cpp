@@ -81,8 +81,7 @@ namespace Shark {
         dLight->GetComponent<LightComponent>()->Type = LightType::Directional;
         dLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
         dLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
-        dLight->GetTransform().Rotate({ -45.0f, -45.0f, 0.0f });
-
+        dLight->GetTransform().rotation = { -45.0f, -45.0f, 0.0f };
 
         AddGameObject(dLight);
     }

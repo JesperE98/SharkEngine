@@ -61,6 +61,7 @@ namespace Shark::Graphics {
 		}
 
 		m_Shader->SetFloat("uShininess", m_Shininess);
+		m_Shader->SetVector2("uTextureTiling", m_Tiling);
 	}
 
 	void Material::SetShader(const std::string& name, const std::string& vertPath, const std::string& fragPath)

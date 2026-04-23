@@ -25,17 +25,17 @@ namespace Shark::Resources {
 
 		void ProcessLoadRequest(const std::string& path);
 		void SetResponseTarget(Core::MessageSystem* target);
-		
+		unsigned int GetTextureID(const std::string& path);
+
+		// Delete copy constructor and assignment operator
+		TextureManager(const TextureManager&) = delete;
+		TextureManager& operator=(const TextureManager&) = delete;
 	private:
 		std::unordered_map<std::string, Graphics::Texture*> m_TextureCache;
 		Core::MessageSystem* m_ResponseTarget = nullptr;
 
 		TextureManager() = default;
 		~TextureManager() = default;
-
-		// Delete copy constructor and assignment operator
-		TextureManager(const TextureManager&) = delete;
-		TextureManager& operator=(const TextureManager&) = delete;
 	};
 }
 #endif // TEXTUREMANAGER_H
