@@ -2,6 +2,7 @@
 #define FORWARD_RENDERER_H
 
 #include "Renderer.h"
+#include <Core/Spatial/Octree.h>
 
 namespace Shark::Graphics
 {
@@ -30,6 +31,9 @@ namespace Shark::Graphics
 		ShadowMapPass* m_ShadowPass			{ nullptr };
 		SkyPass* m_SkyPass					{ nullptr };
 		PointShadowPass* m_PointShadowPass	{ nullptr };
+
+		std::unique_ptr<Spatial::Octree<Core::GameObject*>> m_DebugOctree;
+		bool m_DrawOctree = true; // Toggle via inspector later
 	};
 }
 

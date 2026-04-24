@@ -145,6 +145,20 @@ namespace Shark::Spatial {
 	}
 
 	template<typename T>
+	void Octree<T>::ForEachNodeBoundsWithDepth(const std::function<void(const AABB&, int depth)>& fn) const {
+		std::function<void(const Node*)> visit = [&](const Node* node) {
+			if (!node) return;
+			fn(node->bounds, node->depth);
+			if (!node->isLeaf) {
+				for (const auto& child : node->children) {
+					visit(child.get());
+				}
+			}
+		};
+		visit(m_Root.get());
+	}
+
+	template<typename T>
 	void Octree<T>::VisitNodes(const Node* node, const std::function<void(const AABB&)>& fn) const {
 
 		if (!node) return;

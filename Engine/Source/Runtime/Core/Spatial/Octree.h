@@ -29,6 +29,7 @@ namespace Shark::Spatial {
 		bool Remove(T payload);
 		size_t Size() const { return m_ItemLookup.size(); }
 		void ForEachNodeBounds(const std::function<void(const AABB&)>& fn) const;
+		void ForEachNodeBoundsWithDepth(const std::function<void(const AABB&, int depth)>& fn) const;
 
 	private:
 		struct Node {
