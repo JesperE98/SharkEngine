@@ -222,6 +222,9 @@
     <ClInclude Include="Core\Serialization\SceneSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Spatial\Octree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Engine\Engine.cpp">
@@ -368,6 +371,9 @@
     <ClCompile Include="Core\Serialization\SceneSerializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Spatial\OctreeSystem.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Shaders\SE_BasicLit.frag.glsl" />
@@ -381,5 +387,8 @@
     <None Include="..\..\Shaders\SE_Shadow.vert.glsl" />
     <None Include="..\..\Shaders\SE_Sky.frag.glsl" />
     <None Include="..\..\Shaders\SE_Sky.vert.glsl" />
+    <None Include="Core\Spatial\Octree.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

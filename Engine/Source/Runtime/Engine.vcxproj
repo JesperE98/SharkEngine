@@ -158,6 +158,7 @@
     <ClInclude Include="Core\App\EditorStateManager.h" />
     <ClInclude Include="Core\Events\SharkEvents.h" />
     <ClInclude Include="Core\Serialization\SceneSerializer.h" />
+    <ClInclude Include="Core\Spatial\Octree.h" />
     <ClInclude Include="Core\Utilities\DebugRenderer.h" />
     <ClInclude Include="Core\Utilities\Delegate.h" />
     <ClInclude Include="Graphics\Framebuffer\RenderTarget.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />
     <ClCompile Include="Core\Serialization\SceneSerializer.cpp" />
+    <ClCompile Include="Core\Spatial\OctreeSystem.h" />
     <ClCompile Include="Core\Utilities\DebugRenderer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\PointShadowBuffer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\RenderTarget.cpp" />
@@ -284,6 +286,7 @@
     <None Include="..\..\Shaders\SE_Shadow.vert.glsl" />
     <None Include="..\..\Shaders\SE_Sky.frag.glsl" />
     <None Include="..\..\Shaders\SE_Sky.vert.glsl" />
+    <None Include="Core\Spatial\Octree.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

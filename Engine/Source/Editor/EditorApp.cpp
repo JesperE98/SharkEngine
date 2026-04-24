@@ -15,6 +15,7 @@
 #include <Graphics/Resources/ShaderManager.h>
 #include <Graphics/Resources/TextureManager.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
+#include <Core/Spatial/Octree.h>
 #pragma endregion
 
 #pragma region ImGUI libraries
@@ -40,6 +41,8 @@ namespace Shark {
 	using Resources::ShaderManager;
 	using Resources::TextureManager;
 	using Graphics::PrimitiveType;
+	using namespace Shark::Spatial;
+	using namespace Shark::Components;
 
 	void EditorApp::OnInitialize() {
 		SE_PROC(Editor, "Initializing Editor App...");
@@ -55,6 +58,28 @@ namespace Shark {
 
 		LevelEditorManager::Get().RequestModelLoad("Models/Viking_House.obj");
 		LevelEditorManager::Get().RequestPrimitiveLoad(PrimitiveType::Cube);
+
+		AABB worldBounds;
+		worldBounds.min = { -50, -50, -50 };
+		worldBounds.max = { 50, 50, 50 };
+
+		Octree<int> tree(worldBounds, 3, 2); // maxDepth=3, maxItems=2 for easy subdivision
+
+		AABB a; a.min = { -10, -10, -10 }; a.max = { -9, -9, -9 }; // corner 0
+		AABB b; b.min = { -8, -8, -8 }; b.max = { -7, -7, -7 }; // also corner 0
+		AABB c; c.min = { -6, -6, -6 }; c.max = { -5, -5, -5 }; // corner 0 - triggers subdivide
+		AABB d; d.min = { 10, 10, 10 }; d.max = { 11, 11, 11 }; // opposite corner
+
+		tree.Insert(1, a);
+		tree.Insert(2, b);
+		tree.Insert(3, c);
+		tree.Insert(4, d);
+
+		SE_LOG(Engine, "Octree test size {}", tree.Size());
+
+		int nodeCount = 0;
+		tree.ForEachNodeBounds([&](const AABB&) { nodeCount++; });
+		SE_LOG(Engine, "Octree test node count: {}", nodeCount);
 		
 		SE_SUCC(Editor, "Editor App setup complete!");
 	}
