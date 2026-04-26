@@ -16,6 +16,7 @@
 #include <Components/Logic/CameraController.h>
 #include <Core/GameObject.h>
 #include <Components/Rendering/LightComponent.h>
+#include <Core/Spatial/OctreeSystem.h>
 
 namespace Shark::Core
 {
@@ -33,6 +34,7 @@ namespace Shark::Core
 	using Components::CameraController;
 	using Components::LightComponent;
 	using Components::LightType;
+	using Spatial::OctreeSystem;
 
 	void EngineContext::Initialize() {
 		SE_PROC(Engine, "Initializing Engine Context...");
@@ -70,6 +72,11 @@ namespace Shark::Core
 			//pLight->GetTransform().Rotate({ 0.0f, 0.0f, 0.0f });
 			//scene->AddGameObject(pLight);
 			});
+
+		Components::AABB worldBounds;
+		worldBounds.min = { -50, -50, -50 };
+		worldBounds.max = { 50, 50, 50 };
+		OctreeSystem::Get().Initialize(worldBounds, 5, 8);
 
 		SceneManager::Get().LoadScene("EditorDefault");
 

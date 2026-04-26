@@ -4,6 +4,12 @@
 #include <Core/Serialization/SceneSerializer.h>
 #include <Scene/SceneManager.h>
 #include <Scene/Scene.h>
+#include <Core/GameObject.h>
+#include <Core/Spatial/OctreeSystem.h>
+#include <Components/Physics/AABBComponent.h>
+#include <Graphics/Resources/MeshManager.h>
+#include <Graphics/Resources/PrimitiveMesh.h>
+#include <Components/Rendering/MeshRendererComponent.h>
 #include <ImGui/imgui.h>
 
 
@@ -12,6 +18,15 @@ namespace Shark::Editor {
 	using Shark::Scene;
 	using Serialization::SceneSerializer;
 	using Core::SceneManager;
+	using Core::GameObject;
+	using Spatial::OctreeSystem;
+	using Resources::MeshManager;
+	using Graphics::PrimitiveMesh;
+	using Graphics::PrimitiveType;
+	using Graphics::Mesh;
+	using Graphics::Material;
+	using Components::MeshRendererComponent;
+	using Components::AABBComponent;
 
 	void EditorMenuBar::OnImGuiRender()
 	{
@@ -32,6 +47,27 @@ namespace Shark::Editor {
 			DrawWindowsMenu();
 			DrawSettingsMenu();
 			DrawHelpMenu();
+
+
+			if (ImGui::BeginMenu("Debug")) {
+				if (ImGui::MenuItem("Spawn 50 Test Cubes")) {
+					SpawnTestCubes(50);
+				}
+				if (ImGui::MenuItem("Spawn 500 Test Cubes")) {
+					SpawnTestCubes(500);
+				}
+				if (ImGui::MenuItem("Clear Test Cubes")) {
+					ClearTestCubes();
+				}
+
+				ImGui::Separator();
+
+				bool drawOctree = OctreeSystem::Get().IsDebugDrawEnabled();
+				if (ImGui::MenuItem("Show Octree WireFrame", nullptr, drawOctree)) {
+					OctreeSystem::Get().SetDebugDrawEnabled(!drawOctree);
+				}
+				ImGui::EndMenu();
+			}
 			ImGui::EndMenuBar();
 		}
 
@@ -139,5 +175,60 @@ namespace Shark::Editor {
 			delete newScene;
 			SE_ERR(Editor, "Failed to load scene from {}", path);
 		}
+	}
+	void EditorMenuBar::SpawnTestCubes(int count) {
+		Scene* scene = SceneManager::Get().GetActiveScene();
+		if (!scene) {
+			SE_WARN(Editor, "No active scene to spawn cubes into.");
+			return;
+		}
+
+		Mesh* cubeMesh = MeshManager::Get().LoadMesh(PrimitiveType::Cube);
+		if (!cubeMesh) {
+			SE_ERR(Editor, "Failed to load Cube Primitive");
+			return;
+		}
+
+		for (int i = 0; i < count; ++i) {
+			GameObject* obj = new GameObject("TestCube_" + std::to_string(i));
+
+			// Random positions in [-30, 30]
+			float x = ( rand() % 60 ) - 30.0f;
+			float y = ( rand() % 20 ) - 10.0f;
+			float z = ( rand() % 60 ) - 30.0f;
+			
+			obj->GetTransform().position = { x, y, z };
+			obj->GetTransform().scale = { 1, 1, 1 };
+
+			Material* mat = new Material();
+			obj->AddComponent<MeshRendererComponent>(cubeMesh, mat);
+			obj->AddComponent<AABBComponent>(Math::Vector3(0.5f, 0.5f, 0.5f), true);
+
+			scene->AddGameObject(obj);
+			OctreeSystem::Get().Insert(obj);
+		}
+
+		SE_LOG(Editor, "Spawned {} test cubes.", count);
+	}
+
+	void EditorMenuBar::ClearTestCubes() {
+		Scene* scene = SceneManager::Get().GetActiveScene();
+		if (!scene) return;
+
+		int removed = 0;
+
+		auto objects = scene->GetGameObjects();
+		for (auto* obj : objects) {
+			if (obj && obj->GetName().starts_with("TestCube_")) {
+				OctreeSystem::Get().Remove(obj);
+				scene->DestroyGameObject(obj);
+				++removed;
+			}
+		}
+
+		// Forces the octree to rebuild on the next frame after destroy queue drains
+		OctreeSystem::Get().RebuildFromScene(scene);
+
+		SE_LOG(Editor, "Removed {} test cubes.", removed);
 	}
 }

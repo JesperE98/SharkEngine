@@ -136,24 +136,11 @@ namespace Shark::Graphics {
 		m_ForwardPass->Execute(deltaTime, scene, cam, { sceneLights });
 
 		// TEMPORARY: Build Octree from scene AABBs and draw wireframe
-		if (m_DrawOctree) {
-			Octree<GameObject*>::AABB worldBounds;
-			worldBounds.min = { -50, -50, -50 };
-			worldBounds.max = { 50, 50, 50 };
-
-			m_DebugOctree = std::make_unique<Octree<GameObject*>>(worldBounds, 5, 2);
-
-			for (GameObject* obj : scene->GetGameObjects()) {
-				AABBComponent* aabb = obj->GetComponent<AABBComponent>();
-				if (!aabb) continue;
-				m_DebugOctree->Insert(obj, aabb->GetWorldAABB());
-			}
-
-			// Draw every node's bounds, colored by depth
-			m_DebugOctree->ForEachNodeBoundsWithDepth([](const AABB& b, int depth) {
+		if (OctreeSystem::Get().IsDebugDrawEnabled()) {
+			OctreeSystem::Get().ForEachNodeBoundsWithDepth([](const AABB& b, int depth) {
 				Vector3 color = GetOctreeDepthColor(depth);
 				DebugRenderer::Get().AddAABB(b.min, b.max, color);
-													  });
+														   });
 		}
 		// === END TEMPORARY ===
 

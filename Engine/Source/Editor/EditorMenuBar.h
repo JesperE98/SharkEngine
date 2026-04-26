@@ -19,6 +19,8 @@ namespace Shark::Editor {
 		void DrawHelpMenu();
 		void OnSaveScene();
 		void OnLoadScene();
+		void SpawnTestCubes(int count);
+		void ClearTestCubes();
 	};
 }
 

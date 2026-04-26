@@ -230,6 +230,7 @@
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />
     <ClCompile Include="Core\Serialization\SceneSerializer.cpp" />
+    <ClCompile Include="Core\Spatial\OctreeSystem.cpp" />
     <ClCompile Include="Core\Spatial\OctreeSystem.h" />
     <ClCompile Include="Core\Utilities\DebugRenderer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\PointShadowBuffer.cpp" />

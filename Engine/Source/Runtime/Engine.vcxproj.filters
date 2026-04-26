@@ -374,6 +374,9 @@
     <ClCompile Include="Core\Spatial\OctreeSystem.h">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Spatial\OctreeSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Shaders\SE_BasicLit.frag.glsl" />

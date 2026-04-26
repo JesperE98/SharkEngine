@@ -83,6 +83,7 @@ namespace Shark::Editor {
             }
             ImGui::EndPopup();
         }
+
     }
 
     void HierarchyWindow::OnShutdown()

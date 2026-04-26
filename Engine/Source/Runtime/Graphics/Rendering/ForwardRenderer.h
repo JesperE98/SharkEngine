@@ -2,7 +2,7 @@
 #define FORWARD_RENDERER_H
 
 #include "Renderer.h"
-#include <Core/Spatial/Octree.h>
+#include <Core/Spatial/OctreeSystem.h>
 
 namespace Shark::Graphics
 {

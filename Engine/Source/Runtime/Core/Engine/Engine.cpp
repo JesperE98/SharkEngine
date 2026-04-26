@@ -47,6 +47,7 @@ namespace Shark::Core {
 		}
 
 		glfwMakeContextCurrent(m_Window);
+		glfwSwapInterval(1); // enables VSync, caps to monitor refresh rate
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			SE_ERR(Engine, "Failed to initialize GLAD.");

@@ -1,10 +1,12 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Core/Utilities/Debug.h"
+#include <Core/Spatial/OctreeSystem.h>
 
 namespace Shark::Core {
 
 	using Shark::Scene;
+	using Spatial::OctreeSystem;
 
 	SceneManager& SceneManager::Get()
 	{
@@ -46,6 +48,8 @@ namespace Shark::Core {
 		m_ActiveScene = newScene;
 		m_ActiveSceneName = name;
 
+		OctreeSystem::Get().RebuildFromScene(newScene);
+
 		// Broadcast using a helper function
 		SendTo(*this, EventType::SceneLoaded, name, newScene);
 
@@ -70,6 +74,7 @@ namespace Shark::Core {
 	{
 		UnloadActiveScene();
 		m_ActiveScene = scene;
+		OctreeSystem::Get().RebuildFromScene(scene);
 	}
 
 	void SceneManager::Update(float deltaTime)

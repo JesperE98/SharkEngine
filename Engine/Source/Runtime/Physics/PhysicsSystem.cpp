@@ -5,8 +5,6 @@
 #include "Components/Physics/RigidBodyComponent.h"
 #include "Math/Vector3.h"
 
-#include <vector>
-
 
 namespace Shark::Physics {
 
@@ -19,11 +17,10 @@ namespace Shark::Physics {
 
 	void PhysicsSystem::Update(float deltaTime, Scene* scene)
 	{
-		const auto& objects = scene->GetGameObjects();
+		m_StaticObjects.clear();
+		m_DynamicObjects.clear();
 
-		// Need to differentiate dynamic and static objects apart from ech other
-		std::vector<GameObject*> dynamicObjects;
-		std::vector<GameObject*> staticObjects;
+		const auto& objects = scene->GetGameObjects();
 
 		for (GameObject* obj : objects) {
 			AABBComponent* aabb = obj->GetComponent<AABBComponent>();
@@ -31,16 +28,16 @@ namespace Shark::Physics {
 
 			if (aabb->bIsStatic) 
 			{
-				staticObjects.push_back(obj);
+				m_StaticObjects.push_back(obj);
 			}
 			else
 			{
-				dynamicObjects.push_back(obj);
+				m_DynamicObjects.push_back(obj);
 			}
 		}
 
 		// Update physics (gravity + velocity)
-		for (GameObject* obj : dynamicObjects) {
+		for (GameObject* obj : m_DynamicObjects) {
 			RigidbodyComponent* physics	= obj->GetComponent<RigidbodyComponent>();
 
 			if (physics)
@@ -48,7 +45,7 @@ namespace Shark::Physics {
 		}
 
 		// Resolve collisions
-		for (GameObject* dynObj : dynamicObjects) {
+		for (GameObject* dynObj : m_DynamicObjects) {
 			RigidbodyComponent* physics = dynObj->GetComponent<RigidbodyComponent>();
 			AABBComponent* dynAABB = dynObj->GetComponent<AABBComponent>();
 
@@ -56,7 +53,7 @@ namespace Shark::Physics {
 
 			physics->bIsGrounded = false;
 
-			for (GameObject* statObj : staticObjects) {
+			for (GameObject* statObj : m_StaticObjects) {
 				AABBComponent* statAABB = statObj->GetComponent<AABBComponent>();
 
 				if (!statAABB) continue;
