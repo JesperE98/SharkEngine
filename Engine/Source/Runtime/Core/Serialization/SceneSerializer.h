@@ -21,6 +21,7 @@ namespace Shark::Components {
 	class RigidbodyComponent;
 	class LightComponent;
 	class PlayerController;
+	class GoalTrigger;
 }
 
 namespace Shark::Graphics {
@@ -63,6 +64,7 @@ namespace Shark::Serialization {
 		nlohmann::json SerializeRigidBody(const Components::RigidbodyComponent* c);
 		nlohmann::json SerializeLight(const Components::LightComponent* c);
 		nlohmann::json SerializePlayerController(const Components::PlayerController* c);
+		nlohmann::json SerializeGoalTrigger(const Components::GoalTrigger* c);
 
 		nlohmann::json SerializeMaterial(const Graphics::Material* mat);
 		nlohmann::json SerializeTransform(const Math::Transform& t);
@@ -86,6 +88,7 @@ namespace Shark::Serialization {
 		void DeserializeRigidbody(const nlohmann::json& j, Components::RigidbodyComponent* c);
 		void DeserializeLight(const nlohmann::json& j, Components::LightComponent* c);
 		void DeserializePlayerController(const nlohmann::json& j, Components::PlayerController* c);
+		void DeserializeGoalTrigger(const nlohmann::json& j, Components::GoalTrigger* c);
 
 		void DeserializeMaterial(const nlohmann::json& j, Graphics::Material* mat);
 		void DeserializeTransform(const nlohmann::json& j, Math::Transform& t);
@@ -94,7 +97,7 @@ namespace Shark::Serialization {
 		static Math::Vector3 JsonToVec3(const nlohmann::json& j);
 		static Math::Quaternion JsonToQuatFromEuler(const nlohmann::json& j);
 
-#pragma enderegion
+#pragma endregion
 
 		Shark::Scene* m_Scene = nullptr;
 	};

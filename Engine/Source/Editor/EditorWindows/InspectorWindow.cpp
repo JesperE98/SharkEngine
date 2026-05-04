@@ -2,23 +2,30 @@
 #include "Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
+#include <Components/ComponentRegistry.h>
 #include <Components/Rendering/MeshRendererComponent.h>
 #include <Components/Rendering/LightComponent.h>
 #include <Components/Logic/CameraComponent.h>
 #include <Components/Physics/AABBComponent.h>
 #include <Components/Physics/RigidbodyComponent.h>
 #include <Components/PlayerController.h>
+#include <Components/GoalTrigger.h>
+
 #include <Graphics/Resources/PrimitiveMesh.h>
 #include <Graphics/Resources/MeshManager.h>
+
 #include <Math/MathUtils.h>
 #pragma endregion
 
 namespace Shark::Editor {
 
 	using Core::GameObject;
+
 	using Math::Transform;
 	using Math::Vector2;
 	using Math::Vector3;
+
+	using Components::ComponentRegistry;
 	using Components::MeshRendererComponent;
 	using Components::CameraComponent;
 	using Components::LightComponent;
@@ -26,9 +33,13 @@ namespace Shark::Editor {
 	using Components::AABBComponent;
 	using Components::RigidbodyComponent;
 	using Components::PlayerController;
+	using Components::GoalTrigger;
+
 	using Graphics::Mesh;
 	using Graphics::PrimitiveType;
+
 	using Resources::MeshManager;
+
 	using Editor::LevelEditorManager;
 
 	InspectorWindow::~InspectorWindow()
@@ -64,6 +75,7 @@ namespace Shark::Editor {
 		DrawComponentUI<AABBComponent>("AABB Collider", m_SelectedObject);
 		DrawComponentUI<RigidbodyComponent>("Rigidbody", m_SelectedObject);
 		DrawComponentUI<PlayerController>("Player Controller", m_SelectedObject);
+		DrawComponentUI<GoalTrigger>("Goal Trigger", m_SelectedObject);
 
 		// --- 4. Footer
 		DrawAddComponentButton(m_SelectedObject);
@@ -147,34 +159,10 @@ namespace Shark::Editor {
 		}
 
 		if (ImGui::BeginPopup("AddComponentPopup")) {
-			if (ImGui::MenuItem("Camera")) {
-				if (!obj->GetComponent<CameraComponent>()) {
-					obj->AddComponent<CameraComponent>(45.0f, 1.77f, 0.1f, 1000.0f);
+			for (const auto& name : Components::ComponentRegistry::Get().GetAllNames()) {
+				if (ImGui::MenuItem(name.c_str())) {
+					Components::ComponentRegistry::Get().Create(name, obj);
 				}
-			}
-			if (ImGui::MenuItem("MeshRenderer")) {
-				if (!obj->GetComponent<MeshRendererComponent>()) {
-
-					auto* mesh = MeshManager::Get().LoadMesh(PrimitiveType::Cube);
-					obj->AddComponent<MeshRendererComponent>(mesh, nullptr);
-				}
-			}
-			if (ImGui::MenuItem("LightComponent")) {
-				if (!obj->GetComponent<LightComponent>()) {
-					obj->AddComponent<LightComponent>();
-				}
-			}
-			if (ImGui::MenuItem("AABB Collider")) {
-				if (!obj->GetComponent<AABBComponent>())
-					obj->AddComponent<AABBComponent>(Vector3(0.5f, 0.5f, 0.5f), true);
-			}
-			if (ImGui::MenuItem("Rigidbody")) {
-				if (!obj->GetComponent<RigidbodyComponent>())
-					obj->AddComponent<RigidbodyComponent>();
-			}
-			if (ImGui::MenuItem("PlayerController")) {
-				if (!obj->GetComponent<PlayerController>())
-					obj->AddComponent<PlayerController>();
 			}
 			ImGui::EndPopup();
 		}
@@ -392,5 +380,27 @@ namespace Shark::Editor {
 		ImGui::DragFloat("Dash Cooldown",	&pc->dashCooldown,	0.05f,	0.0f,	5.0f);
 	}
 
+	template<>
+	void InspectorWindow::OnComponentUI<GoalTrigger>(GoalTrigger* gt) {
+		static char buffer[256] = "";
+
+		// Sync buffer with current value when selection changes
+		if (strcmp(buffer, gt->nextLevel.c_str()) != 0) {
+			strncpy_s(buffer, gt->nextLevel.c_str(), sizeof(buffer));
+			buffer[sizeof(buffer) - 1] = '\0';
+		}
+
+		ImGui::Text("Next Level");
+		if (ImGui::InputText("##NextLevel", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+			gt->nextLevel = std::string(buffer);
+			SE_LOG(Editor, "GoalTrigger nextLevel set to: {}", buffer);
+		}
+
+		ImGui::SameLine();
+		ImGui::TextDisabled("(?)");
+		if (ImGui::IsItemHovered()) {
+			ImGui::SetTooltip("Path or name of the next level scene to load on trigger.");
+		}
+	}
 #pragma endregion
 }

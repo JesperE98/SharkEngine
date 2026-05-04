@@ -2,14 +2,18 @@
 #include "Managers/WindowManager.h"
 
 #include <Core/Serialization/SceneSerializer.h>
-#include <Scene/SceneManager.h>
-#include <Scene/Scene.h>
 #include <Core/GameObject.h>
 #include <Core/Spatial/OctreeSystem.h>
+#include <Core/Utilities/FileDialog.h>
+
 #include <Components/Physics/AABBComponent.h>
+#include <Components/Rendering/MeshRendererComponent.h>
+
 #include <Graphics/Resources/MeshManager.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
-#include <Components/Rendering/MeshRendererComponent.h>
+
+#include <Scene/SceneManager.h>
+#include <Scene/Scene.h>
 #include <ImGui/imgui.h>
 
 
@@ -17,14 +21,21 @@ namespace Shark::Editor {
 
 	using Shark::Scene;
 	using Serialization::SceneSerializer;
+
 	using Core::SceneManager;
 	using Core::GameObject;
+	
+	using Utilities::FileDialog;
+
 	using Spatial::OctreeSystem;
+
 	using Resources::MeshManager;
+
 	using Graphics::PrimitiveMesh;
 	using Graphics::PrimitiveType;
 	using Graphics::Mesh;
 	using Graphics::Material;
+
 	using Components::MeshRendererComponent;
 	using Components::AABBComponent;
 
@@ -79,14 +90,40 @@ namespace Shark::Editor {
 	{
 		if(ImGui::BeginMenu("File")){
 			if (ImGui::MenuItem("New Scene", "Ctrl+N")) { /* TODO: SceneManager::Get().CreateNewScene(); */ }
+			if (ImGui::MenuItem("Save", "Ctrl+S")) {
+				if (m_CurrentScenePath.empty()) {
+					// No path yet - prompt for one
+					std::string path = FileDialog::SaveFile("Scene Files\0*.json\0");
+
+					if (!path.empty()) {
+						m_CurrentScenePath = path;
+						SaveSceneToPath(path);
+					}
+				} else {
+					SaveSceneToPath(m_CurrentScenePath);
+				}
+			}
+
+			if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S")) {
+				std::string path = FileDialog::SaveFile("Scene Files\0*.json\0");
+
+				if (!path.empty()) {
+					m_CurrentScenePath = path;
+					SaveSceneToPath(m_CurrentScenePath);
+				}
+			}
+			ImGui::Separator();
+
 			if (ImGui::MenuItem("Load Scene", "Ctrl+O")) { 
-				OnLoadScene();
+				std::string path = FileDialog::OpenFile("Scene Files\0*.json\0");
+				
+				if (!path.empty()) {
+					m_CurrentScenePath = path;
+					SceneManager::Get().LoadSceneFromFile(path);
+				}
 			}
 			ImGui::Separator();
-			if (ImGui::MenuItem("Save", "Ctrl+S")) { 
-				OnSaveScene();
-			}
-			ImGui::Separator();
+			
 			if (ImGui::MenuItem("Exit", "Alt+F4")) {
 				// Accessing the Engine context to close the app
 				/*glfwSetWindowShouldClose(EngineContext::Get().m_Window, true);*/
@@ -176,6 +213,16 @@ namespace Shark::Editor {
 			SE_ERR(Editor, "Failed to load scene from {}", path);
 		}
 	}
+
+	void EditorMenuBar::SaveSceneToPath(const std::string& path) {
+		Scene* scene = SceneManager::Get().GetActiveScene();
+
+		if (!scene) return;
+
+		SceneSerializer serializer(scene);
+		serializer.SaveToFile(path);
+	}
+
 	void EditorMenuBar::SpawnTestCubes(int count) {
 		Scene* scene = SceneManager::Get().GetActiveScene();
 		if (!scene) {

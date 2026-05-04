@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\ComponentRegistry.h" />
+    <ClInclude Include="Components\GoalTrigger.h" />
     <ClInclude Include="Core\App\Application.h" />
     <ClInclude Include="Components\Physics\AABBComponent.h" />
     <ClInclude Include="Components\Behavior.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="Core\Spatial\Octree.h" />
     <ClInclude Include="Core\Utilities\DebugRenderer.h" />
     <ClInclude Include="Core\Utilities\Delegate.h" />
+    <ClInclude Include="Core\Utilities\FileDialog.h" />
     <ClInclude Include="Graphics\Framebuffer\RenderTarget.h" />
     <ClInclude Include="Graphics\Framebuffer\PointShadowBuffer.h" />
     <ClInclude Include="Graphics\Framebuffer\ShadowBuffer.h" />
@@ -220,6 +223,8 @@
     <ClCompile Include="..\..\ThirdParty\glad\glad.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Components\ComponentRegistry.cpp" />
+    <ClCompile Include="Components\GoalTrigger.cpp" />
     <ClCompile Include="Components\Physics\AABBComponent.cpp" />
     <ClCompile Include="Components\Logic\CameraComponent.cpp" />
     <ClCompile Include="Components\Physics\RigidbodyComponent.cpp" />
@@ -233,6 +238,7 @@
     <ClCompile Include="Core\Spatial\OctreeSystem.cpp" />
     <ClCompile Include="Core\Spatial\OctreeSystem.h" />
     <ClCompile Include="Core\Utilities\DebugRenderer.cpp" />
+    <ClCompile Include="Core\Utilities\FileDialog.cpp" />
     <ClCompile Include="Graphics\Framebuffer\PointShadowBuffer.cpp" />
     <ClCompile Include="Graphics\Framebuffer\RenderTarget.cpp" />
     <ClCompile Include="Graphics\Framebuffer\ShadowBuffer.cpp" />

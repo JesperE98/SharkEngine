@@ -5,6 +5,7 @@
 #include <Core/Utilities/Debug.h>
 
 #include <Components/Component.h>
+#include <Components/ComponentRegistry.h>
 #include <Components/Logic/CameraComponent.h>
 #include <Components/Logic/CameraController.h>
 #include <Components/Rendering/MeshRendererComponent.h>
@@ -12,9 +13,11 @@
 #include <Components/PlayerController.h>
 #include <Components/Physics/AABBComponent.h>
 #include <Components/Physics/RigidbodyComponent.h>
+#include <Components/GoalTrigger.h>
 
 #include <Graphics/Resources/Material.h>
 #include <Graphics/Resources/MeshManager.h>
+#include <Graphics/Resources/PrimitiveMesh.h>
 
 #include <Math/MathUtils.h>
 
@@ -23,6 +26,8 @@
 
 #include <fstream>
 #include <filesystem>
+#include <algorithm>
+#include <cctype>
 
 namespace Shark::Serialization {
 
@@ -131,27 +136,14 @@ namespace Shark::Serialization {
 
 	json SceneSerializer::SerializeComponent(const Component* comp) {
 		// Try each concreate type. Returns first match
-		if (auto* c = dynamic_cast<const CameraComponent*>( comp )) {
-			return SerializeCamera(c);
-		}
-		if (auto* c = dynamic_cast<const CameraController*>( comp )) {
-			return SerializeCameraController(c);
-		}
-		if (auto* c = dynamic_cast<const MeshRendererComponent*>( comp )) {
-			return SerializeMeshRenderer(c);
-		}
-		if (auto* c = dynamic_cast<const AABBComponent*>( comp )) {
-			return SerializeAABB(c);
-		}
-		if (auto* c = dynamic_cast<const RigidbodyComponent*>( comp )) {
-			return SerializeRigidBody(c);
-		}
-		if (auto* c = dynamic_cast<const LightComponent*>( comp )) {
-			return SerializeLight(c);
-		}
-		if (auto* c = dynamic_cast<const PlayerController*>( comp )) {
-			return SerializePlayerController(c);
-		}
+		if (auto* c = dynamic_cast<const CameraComponent*>( comp ))			return SerializeCamera(c);
+		if (auto* c = dynamic_cast<const CameraController*>( comp ))		return SerializeCameraController(c);
+		if (auto* c = dynamic_cast<const MeshRendererComponent*>( comp ))	return SerializeMeshRenderer(c);
+		if (auto* c = dynamic_cast<const AABBComponent*>( comp ))			return SerializeAABB(c);
+		if (auto* c = dynamic_cast<const RigidbodyComponent*>( comp ))		return SerializeRigidBody(c);
+		if (auto* c = dynamic_cast<const LightComponent*>( comp ))			return SerializeLight(c);
+		if (auto* c = dynamic_cast<const PlayerController*>( comp ))		return SerializePlayerController(c);
+		if (auto* c = dynamic_cast<const GoalTrigger*>( comp ))				return SerializeGoalTrigger(c);
 
 		SE_WARN(Engine, "SceneSerializer: Unknow component type, skipping...");
 		return json(nullptr);
@@ -181,7 +173,14 @@ namespace Shark::Serialization {
 		json j;
 		j["type"] = "MeshRendererComponent";
 		j["enabled"] =	c->bEnabled;
-		j["meshPath"] = c->GetMeshPath();
+
+		std::string path = c->GetMeshPath();
+
+		if (!path.empty() && std::all_of(path.begin(), path.end(), ::isdigit)) {
+			j["meshPath"] = "Primitive:" + path;
+		} else {
+			j["meshPath"] = path;
+		}
 
 		if (c->GetMaterial()) {
 			j["material"] = SerializeMaterial(c->GetMaterial());
@@ -231,6 +230,14 @@ namespace Shark::Serialization {
 			{"jumpForce",		c->jumpForce},
 			{"dashForce",		c->dashForce},
 			{"dashCooldown",	c->dashCooldown},
+		};
+	}
+
+	nlohmann::json SceneSerializer::SerializeGoalTrigger(const Components::GoalTrigger* c) {
+		return {
+			{"type", "GoalTrigger"},
+			{"enabled", c->bEnabled},
+			{"nextLevel", c->nextLevel},
 		};
 	}
 
@@ -310,43 +317,23 @@ namespace Shark::Serialization {
 		}
 
 		std::string type = j.at("type").get<std::string>();
-		Component* result = nullptr;
+		Component* result = ComponentRegistry::Get().Create(type, owner);
 
-		if (type == "CameraComponent") {
-			CameraComponent* c = owner->AddComponent<CameraComponent>();
-			DeserializeCamera(j, c);
-			result = c;
-		} else if (type == "CameraController") {
-			CameraController* c = owner->AddComponent<CameraController>();
-			DeserializeCameraController(j, c);
-			result = c;
-		} else if (type == "MeshRendererComponent") {
-			MeshRendererComponent* c = owner->AddComponent<MeshRendererComponent>();
-			DeserializeMeshRenderer(j, c);
-			result = c;
-		} else if (type == "AABBComponent") {
-			AABBComponent* c = owner->AddComponent<AABBComponent>();
-			DeserializeAABB(j, c);
-			result = c;
-		} else if (type == "RigidbodyComponent") {
-			RigidbodyComponent* c = owner->AddComponent<RigidbodyComponent>();
-			DeserializeRigidbody(j, c);
-			result = c;
-		} else if (type == "LightComponent") {
-			LightComponent* c = owner->AddComponent<LightComponent>();
-			DeserializeLight(j, c);
-			result = c;
-		} else if (type == "PlayerController") {
-			PlayerController* c = owner->AddComponent<PlayerController>();
-			DeserializePlayerController(j, c);
-			result = c;
-		} else {
+		if (!result) {
 			SE_WARN(Engine, "Unknown component type: {}", type);
+			return nullptr;
 		}
 
-		if (result) {
-			result->bEnabled = j.value("enabled", true);
-		}
+		if (auto* c = dynamic_cast<CameraComponent*>( result ))				DeserializeCamera(j, c);
+		else if (auto* c = dynamic_cast<CameraController*>( result ))		DeserializeCameraController(j, c);
+		else if (auto* c = dynamic_cast<MeshRendererComponent*>( result ))	DeserializeMeshRenderer(j, c);
+		else if (auto* c = dynamic_cast<AABBComponent*>( result ))			DeserializeAABB(j, c);
+		else if (auto* c = dynamic_cast<RigidbodyComponent*>( result ))		DeserializeRigidbody(j, c);
+		else if (auto* c = dynamic_cast<LightComponent*>( result ))			DeserializeLight(j, c);
+		else if (auto* c = dynamic_cast<PlayerController*>( result ))		DeserializePlayerController(j, c);
+		else if (auto* c = dynamic_cast<GoalTrigger*>( result ))			DeserializeGoalTrigger(j, c);
+
+		result->bEnabled = j.value("enabled", true);
 
 		return result;
 	}
@@ -371,11 +358,13 @@ namespace Shark::Serialization {
 		// Synchronous loading
 		if (!meshPath.empty()) {
 			if (meshPath.starts_with("Primitive:")) {
-				// handle primitives seperately
+				// handle primitives separately
 				std::string typeStr = meshPath.substr(10);
+				int primTypeInt = std::stoi(typeStr);
+				PrimitiveType type = static_cast<PrimitiveType>(primTypeInt);
 
-				// Map back to PrimitveType and get mesh
-				// TODO: implement - depends on my PrimitiveMesh API
+				Mesh* mesh = MeshManager::Get().LoadMesh(type);
+				c->SetMesh(mesh);
 			} else {
 				Mesh* mesh = MeshManager::Get().LoadMeshSync(meshPath);
 				c->SetMesh(mesh);
@@ -418,6 +407,11 @@ namespace Shark::Serialization {
 		c->dashForce	= j.value("dashForce", 20.0f);
 		c->dashCooldown = j.value("dashCooldown", 1.0f);
 	}
+
+	void SceneSerializer::DeserializeGoalTrigger(const nlohmann::json& j, Components::GoalTrigger* c) {
+		c->nextLevel = j.value("nextLevel", "");
+	}
+
 	void SceneSerializer::DeserializeMaterial(const json& j, Material* mat) {
 		if (j.contains("diffusePath")) {
 			std::string path = j.at("diffusePath").get<std::string>();

@@ -43,6 +43,13 @@ namespace Shark::Core {
 		 */
 		Shark::Scene* LoadScene(const std::string& name);
 
+		/**
+		 * @brief Loads a scene from a JSON file on disk.
+		 * @param path File path to the scene JSON.
+		 * @return Pointer to the loaded scene, or nullptr on failure.
+		 */
+		Shark::Scene* LoadSceneFromFile(const std::string& path);
+
 		void UnloadActiveScene();
 		void SetActiveScene(Shark::Scene* scene);
 

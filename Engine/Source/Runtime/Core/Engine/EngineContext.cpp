@@ -11,11 +11,20 @@
 #include "Physics/PhysicsSystem.h"
 #include "Core/App/EditorStateManager.h"
 
-#include "Scene/Scene.h"
+#pragma region COMPONENTS
+#include <Components/ComponentRegistry.h>
 #include <Components/Logic/CameraComponent.h>
 #include <Components/Logic/CameraController.h>
-#include <Core/GameObject.h>
 #include <Components/Rendering/LightComponent.h>
+#include <Components/PlayerController.h>
+#include <Components/Rendering/MeshRendererComponent.h>
+#include <Components/Physics/AABBComponent.h>
+#include <Components/Physics/RigidbodyComponent.h>
+#include <Components/GoalTrigger.h>
+#pragma endregion
+
+#include "Scene/Scene.h"
+#include <Core/GameObject.h>
 #include <Core/Spatial/OctreeSystem.h>
 
 namespace Shark::Core
@@ -29,7 +38,8 @@ namespace Shark::Core
 	using Graphics::ForwardRenderer;
 	using Graphics::PrimitiveType;
 	using Physics::PhysicsSystem;
-
+	using Components::ComponentRegistry;
+	using Components::GoalTrigger;
 	using Components::CameraComponent;
 	using Components::CameraController;
 	using Components::LightComponent;
@@ -42,6 +52,8 @@ namespace Shark::Core
 		/* ----------------- Initialize Managers ----------------- */
 
 		PathManager::Get().Initialize();
+
+		RegisterComponents();
 
 		/* ----------------- Create Renderer ----------------- */
 		m_Renderer = new ForwardRenderer();
@@ -119,5 +131,18 @@ namespace Shark::Core
 
 		m_Window = nullptr;
 		SE_SUCC(Engine, "Engine Context shutdown complete!");
+	}
+
+	void EngineContext::RegisterComponents() {
+		using namespace Shark::Components;
+
+		ComponentRegistry::Get().Register<CameraComponent>("CameraComponent");
+		ComponentRegistry::Get().Register<CameraController>("CameraController");
+		ComponentRegistry::Get().Register<MeshRendererComponent>("MeshRendererComponent");
+		ComponentRegistry::Get().Register<LightComponent>("LightComponent");
+		ComponentRegistry::Get().Register<AABBComponent>("AABBComponent");
+		ComponentRegistry::Get().Register<RigidbodyComponent>("RigidbodyComponent");
+		ComponentRegistry::Get().Register<PlayerController>("PlayerController");
+		ComponentRegistry::Get().Register<GoalTrigger>("GoalTrigger");
 	}
 }

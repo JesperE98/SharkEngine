@@ -39,6 +39,9 @@ namespace Shark::Core {
 
 		EngineContext() = default;
 		~EngineContext() = default;
+
+		// Static helper class to register all components
+		static void RegisterComponents();
 	};
 }
 

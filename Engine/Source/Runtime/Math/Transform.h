@@ -28,9 +28,12 @@ namespace Shark::Math {
 		}
 
 		void LookAt(const Vector3& target, const Vector3& up = Vector3(0, 1, 0)) {
-			glm::mat4 look = glm::lookAt(glm::vec3(position), glm::vec3(target), glm::vec3(up));
+			glm::vec3 forward = glm::normalize(glm::vec3(target) - glm::vec3(position));
+			glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(up)));
+			glm::vec3 newUp = glm::cross(right, forward);
 
-			rotation = glm::quat_cast(look);
+			glm::mat3 rotMat(right, newUp, -forward); // -forward because camera looks down -Z
+			rotation = glm::quat_cast(rotMat);
 		}
 
 		void UpdateQuaternion() {

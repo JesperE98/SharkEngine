@@ -1,6 +1,8 @@
 #ifndef EDITOR_MENUBAR_H
 #define EDITOR_MENUBAR_H
 
+#include <string>
+
 namespace Shark::Editor {
 	class EditorMenuBar
 	{
@@ -11,6 +13,8 @@ namespace Shark::Editor {
 		void OnImGuiRender();
 
 	private:
+		std::string m_CurrentScenePath = "";
+
 		void DrawFileMenu();
 		void DrawEditMenu();
 		void DrawViewMenu();
@@ -19,6 +23,7 @@ namespace Shark::Editor {
 		void DrawHelpMenu();
 		void OnSaveScene();
 		void OnLoadScene();
+		void SaveSceneToPath(const std::string& path);
 		void SpawnTestCubes(int count);
 		void ClearTestCubes();
 	};

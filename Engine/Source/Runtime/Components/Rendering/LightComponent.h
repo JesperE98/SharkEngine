@@ -22,7 +22,7 @@ namespace Shark::Components {
 		float range;					// For Point Light Attenuation
 	};
 
-	class LightComponent : virtual public Component {
+	class LightComponent : public Component {
 	public:
 
 		LightType Type = LightType::Directional;

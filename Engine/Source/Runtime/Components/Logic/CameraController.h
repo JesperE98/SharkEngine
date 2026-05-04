@@ -4,7 +4,7 @@
 
 namespace Shark::Components {
 
-	class CameraController : virtual public SharkBehavior
+	class CameraController : public SharkBehavior
 	{
 	public:
 		explicit CameraController(float moveSpeed = 5.0f, float sensitivity = 0.1f);

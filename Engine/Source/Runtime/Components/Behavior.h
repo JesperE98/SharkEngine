@@ -4,7 +4,7 @@
 #include "Component.h"
 
 namespace Shark::Components {
-	class Behavior : virtual public Component
+	class Behavior : public Component
 	{
 	public:
 		virtual ~Behavior() = default;

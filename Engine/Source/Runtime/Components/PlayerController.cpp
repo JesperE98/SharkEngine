@@ -28,6 +28,22 @@ namespace Shark::Components {
 		GLFWwindow* window = glfwGetCurrentContext();
 		if (!window) return;
 
+		// Capture spawn position on first frame
+		if (!m_SpawnPointSet) {
+			m_SpawnPoint = GetOwner()->GetTransform().position;
+			m_SpawnPointSet = true;
+		}
+
+		// Death plane - respawn if player falls below killY
+		if (GetOwner()->GetTransform().position.y < killY) {
+			GetOwner()->GetTransform().position = m_SpawnPoint;
+			m_RigidbodyComp->velocity = { 0.0f, 0.0f, 0.0f };
+			SE_LOG(Engine, "Player respawned");
+		}
+
+		if (m_DashTimer > 0.0f)			m_DashTimer -= deltaTime;
+		if (m_DashActiveTimer > 0.0f)	m_DashActiveTimer -= deltaTime;
+
 #pragma region MOVEMENT
 
 		Vector3 moveDir = Vector3(0, 0, 0);
@@ -45,8 +61,10 @@ namespace Shark::Components {
 		}
 
 		// Applying horizontal velocity directly for snappier movement than forces
-		m_RigidbodyComp->velocity.x = moveDir.x * moveSpeed;
-		m_RigidbodyComp->velocity.z = moveDir.z * moveSpeed;
+		if (m_DashActiveTimer <= 0.0f) {
+			m_RigidbodyComp->velocity.x = moveDir.x * moveSpeed;
+			m_RigidbodyComp->velocity.z = moveDir.z * moveSpeed;
+		}
 
 #pragma endregion
 
@@ -66,9 +84,10 @@ namespace Shark::Components {
 		bool dashPressed = (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS);
 
 		if (dashPressed && !m_DashPressedLast && m_DashTimer <= 0.0f && len > 0.001f) {
-			m_RigidbodyComp->velocity.y = moveDir.x * dashForce;
-			m_RigidbodyComp->velocity.y = moveDir.z * dashForce;
+			m_RigidbodyComp->velocity.x = moveDir.x * dashForce;
+			m_RigidbodyComp->velocity.z = moveDir.z * dashForce;
 			m_DashTimer = dashCooldown;
+			m_DashActiveTimer = dashDuration;
 		}
 		m_DashPressedLast = dashPressed;
 	}

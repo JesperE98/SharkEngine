@@ -4,6 +4,7 @@
 #include "EditorWindow.h"
 
 namespace Shark::Core { class GameObject; class MessageSystem; }
+namespace Shark { class Scene; }
 
 namespace Shark::Editor {
 
@@ -32,6 +33,7 @@ namespace Shark::Editor {
 
 		void DrawObjectNode(Core::GameObject* obj, const char* filter);
 		bool NameMatchesFilter(const std::string& name, const char* filter);
+		void DrawRootDropZone(Scene* scene);
 	};
 }
 

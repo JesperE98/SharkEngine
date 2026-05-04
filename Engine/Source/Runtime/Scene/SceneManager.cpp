@@ -2,11 +2,13 @@
 #include "Scene.h"
 #include "Core/Utilities/Debug.h"
 #include <Core/Spatial/OctreeSystem.h>
+#include "Core/Serialization/SceneSerializer.h"
 
 namespace Shark::Core {
 
 	using Shark::Scene;
 	using Spatial::OctreeSystem;
+	using Serialization::SceneSerializer;
 
 	SceneManager& SceneManager::Get()
 	{
@@ -57,6 +59,29 @@ namespace Shark::Core {
 		return newScene;
 	}
 
+	Scene* SceneManager::LoadSceneFromFile(const std::string& path) {
+		UnloadActiveScene();
+
+		Scene* newScene = new Scene();
+		SceneSerializer serializer(newScene);
+
+		if (!serializer.LoadFromFile(path)) {
+			delete newScene;
+			SE_ERR(Engine, "Failed to load scene from file: {}", path);
+			return nullptr;
+		}
+
+		m_ActiveScene = newScene;
+		m_ActiveSceneName = path;
+
+		OctreeSystem::Get().RebuildFromScene(newScene);
+
+		SendTo(*this, EventType::SceneLoaded, path, newScene);
+
+		SE_LOG(Engine, "Loaded scene from file: {}", path);
+		return newScene;
+	}
+
 	void SceneManager::UnloadActiveScene()
 	{
 		if (!m_ActiveScene) return;
@@ -82,9 +107,21 @@ namespace Shark::Core {
 		Message msg;
 		while (inbox.Pop(msg)) {
 			switch (msg.type) {
-			case EventType::LoadScene:		LoadScene(msg.payload);	break;
-			case EventType::UnloadScene:	UnloadActiveScene();	break;
-			default: break;
+
+				case EventType::LoadScene:
+					if (msg.payload.ends_with(".json")) {
+						LoadSceneFromFile(msg.payload);
+					} else {
+						LoadScene(msg.payload);
+					}
+				
+					break;
+
+				case EventType::UnloadScene:	
+					UnloadActiveScene();	
+				
+					break;
+				default: break;
 			}
 		}
 	}

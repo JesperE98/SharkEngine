@@ -7,7 +7,7 @@
 
 namespace Shark::Components {
 
-	class MeshRendererComponent : virtual public Component
+	class MeshRendererComponent : public Component
 	{
 	public:
 

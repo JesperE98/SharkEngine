@@ -89,6 +89,9 @@ namespace Shark::Core {
 		std::vector<GameObject*> m_Children;
 		GameObject* m_Parent{ nullptr };
 #pragma endregion
+
+	private:
+		Math::Vector3 m_LocalOffsetFromParent = { 0, 5.0f, 10.0f };
 	};
 
 }
