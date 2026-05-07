@@ -147,6 +147,8 @@
   <ItemGroup>
     <ClInclude Include="Components\ComponentRegistry.h" />
     <ClInclude Include="Components\GoalTrigger.h" />
+    <ClInclude Include="Components\UI\LevelTimer.h" />
+    <ClInclude Include="Components\UI\MainMenuComponent.h" />
     <ClInclude Include="Core\App\Application.h" />
     <ClInclude Include="Components\Physics\AABBComponent.h" />
     <ClInclude Include="Components\Behavior.h" />
@@ -159,6 +161,7 @@
     <ClInclude Include="Core\App\EditorState.h" />
     <ClInclude Include="Core\App\EditorStateManager.h" />
     <ClInclude Include="Core\Events\SharkEvents.h" />
+    <ClInclude Include="Core\RecordsManager.h" />
     <ClInclude Include="Core\Serialization\SceneSerializer.h" />
     <ClInclude Include="Core\Spatial\Octree.h" />
     <ClInclude Include="Core\Utilities\DebugRenderer.h" />
@@ -231,9 +234,12 @@
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\Rendering\LightComponent.cpp" />
     <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp" />
+    <ClCompile Include="Components\UI\LevelTimer.cpp" />
+    <ClCompile Include="Components\UI\MainMenuComponent.cpp" />
     <ClCompile Include="Core\App\EditorStateManager.cpp" />
     <ClCompile Include="Core\Engine\EngineContext.cpp" />
     <ClCompile Include="Core\Events\SharkEvents.cpp" />
+    <ClCompile Include="Core\RecordsManager.cpp" />
     <ClCompile Include="Core\Serialization\SceneSerializer.cpp" />
     <ClCompile Include="Core\Spatial\OctreeSystem.cpp" />
     <ClCompile Include="Core\Spatial\OctreeSystem.h" />

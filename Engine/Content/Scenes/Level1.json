@@ -3,7 +3,7 @@
         {
             "components": [
                 {
-                    "aspectRatio": 0.7755318880081177,
+                    "aspectRatio": 1.237113356590271,
                     "enabled": true,
                     "farClip": 1000.0,
                     "fov": 45.0,
@@ -20,14 +20,14 @@
             "name": "Main Camera",
             "transform": {
                 "position": [
-                    -1.0202053785324097,
-                    8.620428085327148,
-                    16.961286544799805
+                    0.5175889730453491,
+                    3.2787697315216064,
+                    10.275718688964844
                 ],
                 "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
+                    -10.000006675720215,
+                    1.2000001668930054,
+                    -6.671569963145885e-09
                 ],
                 "scale": [
                     1.0,
@@ -67,58 +67,6 @@
                     1.0,
                     1.0,
                     1.0
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/Viking_House.png",
-                        "shininess": 32.0,
-                        "specularPath": "",
-                        "tiling": [
-                            1.0,
-                            1.0
-                        ],
-                        "useMipMaps": true
-                    },
-                    "meshPath": "Models/Viking_House.obj",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        0.05000000074505806,
-                        0.05000000074505806,
-                        0.07000000029802322
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        -2.609999895095825
-                    ],
-                    "type": "AABBComponent"
-                }
-            ],
-            "name": "VikingHouse",
-            "transform": {
-                "position": [
-                    -11.119999885559082,
-                    -1.4600000381469727,
-                    -6.590000152587891
-                ],
-                "rotation": [
-                    180.0,
-                    45.20000457763672,
-                    180.0
-                ],
-                "scale": [
-                    100.0,
-                    100.0,
-                    100.0
                 ]
             }
         },
@@ -168,9 +116,9 @@
                     0.0
                 ],
                 "scale": [
-                    20.0,
+                    10.0,
                     0.20000000298023224,
-                    20.0
+                    10.0
                 ]
             }
         },
@@ -227,9 +175,9 @@
             "name": "Player",
             "transform": {
                 "position": [
-                    -2.823406934738159,
-                    0.2499999850988388,
-                    2.092099666595459
+                    0.0,
+                    0.20000000298023224,
+                    1.5
                 ],
                 "rotation": [
                     0.0,
@@ -276,12 +224,12 @@
                     "type": "AABBComponent"
                 }
             ],
-            "name": "Platform",
+            "name": "Platform1",
             "transform": {
                 "position": [
-                    0.0,
+                    3.0,
                     1.0800000429153442,
-                    1.2400000095367432
+                    -3.75
                 ],
                 "rotation": [
                     0.0,
@@ -328,12 +276,12 @@
                     "type": "AABBComponent"
                 }
             ],
-            "name": "Platform2",
+            "name": "Platform3",
             "transform": {
                 "position": [
-                    -2.190000057220459,
-                    2.0,
-                    -0.7200000286102295
+                    -3.0,
+                    4.0,
+                    -3.75
                 ],
                 "rotation": [
                     0.0,
@@ -354,61 +302,9 @@
                     "material": {
                         "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "shininess": 32.0,
-                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
+                        "specularPath": "",
                         "tiling": [
-                            4.0,
-                            5.0
-                        ],
-                        "useMipMaps": true
-                    },
-                    "meshPath": "Primitive:1",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        0.5,
-                        0.5,
-                        0.5
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "type": "AABBComponent"
-                }
-            ],
-            "name": "Wall",
-            "transform": {
-                "position": [
-                    2.859999895095825,
-                    0.8399999737739563,
-                    0.49000000953674316
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    5.0,
-                    4.0
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/WoodFloor/WoodFloor_Color.png",
-                        "shininess": 32.0,
-                        "specularPath": "Textures/WoodFloor/WoodFloor_Color.png",
-                        "tiling": [
-                            5.0,
+                            3.0,
                             5.0
                         ],
                         "useMipMaps": true
@@ -435,17 +331,17 @@
             "name": "GoalPlatform",
             "transform": {
                 "position": [
-                    24.270000457763672,
-                    9.260000228881836,
-                    -9.100000381469727
+                    0.0,
+                    9.449999809265137,
+                    -7.75
                 ],
                 "rotation": [
                     0.0,
-                    89.98021697998047,
+                    -0.0,
                     0.0
                 ],
                 "scale": [
-                    5.0,
+                    3.0,
                     0.10000000149011612,
                     5.0
                 ]
@@ -485,16 +381,16 @@
                 },
                 {
                     "enabled": true,
-                    "nextLevel": "Content/Scenes/Level3.json",
+                    "nextLevel": "Content/Scenes/Level2.json",
                     "type": "GoalTrigger"
                 }
             ],
             "name": "Door",
             "transform": {
                 "position": [
-                    23.979999542236328,
-                    10.0600004196167,
-                    -10.819999694824219
+                    0.0,
+                    10.199999809265137,
+                    -9.380000114440918
                 ],
                 "rotation": [
                     0.0,
@@ -513,50 +409,50 @@
                 {
                     "enabled": true,
                     "material": {
-                        "diffusePath": "",
-                        "shininess": 32.0,
-                        "specularPath": "",
+                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
+                        "shininess": 128.0,
+                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "tiling": [
-                            1.0,
-                            1.0
+                            5.0,
+                            5.0
                         ],
                         "useMipMaps": true
                     },
-                    "meshPath": "Models/well.obj",
+                    "meshPath": "Primitive:1",
                     "type": "MeshRendererComponent"
                 },
                 {
                     "enabled": true,
                     "extents": [
-                        1.5,
-                        2.0,
-                        1.5
+                        0.5,
+                        10.0,
+                        0.02500000037252903
                     ],
                     "isStatic": true,
                     "offset": [
                         0.0,
-                        1.5,
+                        0.0,
                         0.0
                     ],
                     "type": "AABBComponent"
                 }
             ],
-            "name": "well",
+            "name": "Wall",
             "transform": {
                 "position": [
-                    -4.340000152587891,
-                    -0.36000001430511475,
-                    -5.539999961853027
+                    0.0,
+                    4.5,
+                    -5.0
                 ],
                 "rotation": [
-                    -179.99961853027344,
-                    -77.57999420166016,
-                    179.99951171875
+                    -270.0,
+                    -90.0,
+                    0.0
                 ],
                 "scale": [
-                    0.75,
-                    0.75,
-                    0.75
+                    10.0,
+                    0.5,
+                    10.0
                 ]
             }
         },
@@ -569,8 +465,8 @@
                         "shininess": 32.0,
                         "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "tiling": [
-                            2.0,
-                            6.5
+                            1.0,
+                            1.0
                         ],
                         "useMipMaps": true
                     },
@@ -593,12 +489,12 @@
                     "type": "AABBComponent"
                 }
             ],
-            "name": "Platform3",
+            "name": "Platform2",
             "transform": {
                 "position": [
-                    8.0,
-                    4.429999828338623,
-                    0.0
+                    0.0,
+                    2.5,
+                    -3.75
                 ],
                 "rotation": [
                     0.0,
@@ -606,9 +502,9 @@
                     0.0
                 ],
                 "scale": [
-                    6.5,
+                    2.0,
                     0.10000000149011612,
-                    2.049999952316284
+                    2.0
                 ]
             }
         },
@@ -621,8 +517,8 @@
                         "shininess": 32.0,
                         "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "tiling": [
-                            2.0,
-                            6.0
+                            1.0,
+                            1.0
                         ],
                         "useMipMaps": true
                     },
@@ -648,9 +544,9 @@
             "name": "Platform4",
             "transform": {
                 "position": [
-                    16.1299991607666,
-                    5.960000038146973,
-                    0.0
+                    0.0,
+                    6.0,
+                    -3.75
                 ],
                 "rotation": [
                     0.0,
@@ -658,7 +554,7 @@
                     0.0
                 ],
                 "scale": [
-                    6.5,
+                    2.0,
                     0.10000000149011612,
                     2.0
                 ]
@@ -673,8 +569,8 @@
                         "shininess": 32.0,
                         "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "tiling": [
-                            2.0,
-                            2.0
+                            1.0,
+                            1.0
                         ],
                         "useMipMaps": true
                     },
@@ -700,9 +596,9 @@
             "name": "Platform5",
             "transform": {
                 "position": [
-                    21.219999313354492,
-                    7.550000190734863,
-                    0.0
+                    3.0,
+                    7.5,
+                    -3.75
                 ],
                 "rotation": [
                     0.0,
@@ -725,8 +621,8 @@
                         "shininess": 32.0,
                         "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "tiling": [
-                            2.0,
-                            2.0
+                            1.0,
+                            1.0
                         ],
                         "useMipMaps": true
                     },
@@ -752,9 +648,9 @@
             "name": "Platform6",
             "transform": {
                 "position": [
-                    24.299999237060547,
-                    8.5,
-                    -3.5999999046325684
+                    0.0,
+                    9.0,
+                    -3.75
                 ],
                 "rotation": [
                     0.0,
@@ -795,6 +691,6 @@
             }
         }
     ],
-    "name": "Level 2",
+    "name": "Level 1",
     "version": 1
 }

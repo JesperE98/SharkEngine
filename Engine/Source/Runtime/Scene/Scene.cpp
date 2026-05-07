@@ -14,7 +14,7 @@ namespace Shark {
 
     Scene::Scene()
     {
-        SetName("DefaultScene");
+        SetName("");
     }
 
     Scene::~Scene()

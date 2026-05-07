@@ -14,6 +14,8 @@
 #include <Components/Physics/AABBComponent.h>
 #include <Components/Physics/RigidbodyComponent.h>
 #include <Components/GoalTrigger.h>
+#include <Components/UI/MainMenuComponent.h>
+#include <Components/UI/LevelTimer.h>
 
 #include <Graphics/Resources/Material.h>
 #include <Graphics/Resources/MeshManager.h>
@@ -144,6 +146,8 @@ namespace Shark::Serialization {
 		if (auto* c = dynamic_cast<const LightComponent*>( comp ))			return SerializeLight(c);
 		if (auto* c = dynamic_cast<const PlayerController*>( comp ))		return SerializePlayerController(c);
 		if (auto* c = dynamic_cast<const GoalTrigger*>( comp ))				return SerializeGoalTrigger(c);
+		if (auto* c = dynamic_cast<const MainMenuComponent*>( comp ))		return SerializeMainMenu(c);
+		if (auto* c = dynamic_cast<const LevelTimer*>( comp ))				return SerializeLevelTimer(c);
 
 		SE_WARN(Engine, "SceneSerializer: Unknow component type, skipping...");
 		return json(nullptr);
@@ -241,6 +245,20 @@ namespace Shark::Serialization {
 		};
 	}
 
+	nlohmann::json SceneSerializer::SerializeMainMenu(const Components::MainMenuComponent* c) {
+		return {
+			{"type", "MainMenuComponent"},
+			{"enabled", c->bEnabled},
+		};
+	}
+
+	nlohmann::json SceneSerializer::SerializeLevelTimer(const Components::LevelTimer* c) {
+		return { 
+			{"type", "LevelTimer"}, 
+			{"enabled", c->bEnabled} 
+		};
+	}
+
 	json SceneSerializer::SerializeMaterial(const Material* mat) {
 		return {
 			{"diffusePath",		mat->GetTexturePath()},
@@ -332,6 +350,8 @@ namespace Shark::Serialization {
 		else if (auto* c = dynamic_cast<LightComponent*>( result ))			DeserializeLight(j, c);
 		else if (auto* c = dynamic_cast<PlayerController*>( result ))		DeserializePlayerController(j, c);
 		else if (auto* c = dynamic_cast<GoalTrigger*>( result ))			DeserializeGoalTrigger(j, c);
+		else if (auto* c = dynamic_cast<MainMenuComponent*>( result ))		DeserializeMainMenu(j, c);
+		else if (auto* c = dynamic_cast<LevelTimer*>( result ))				DeserializeLevelTimer(j, c);
 
 		result->bEnabled = j.value("enabled", true);
 
@@ -410,6 +430,14 @@ namespace Shark::Serialization {
 
 	void SceneSerializer::DeserializeGoalTrigger(const nlohmann::json& j, Components::GoalTrigger* c) {
 		c->nextLevel = j.value("nextLevel", "");
+	}
+
+	void SceneSerializer::DeserializeMainMenu(const nlohmann::json& j, Components::MainMenuComponent* c) {
+		// Empty for now. No tunable fields
+	}
+
+	void SceneSerializer::DeserializeLevelTimer(const nlohmann::json& j, Components::LevelTimer* c) {
+		// No fields to populate for now...
 	}
 
 	void SceneSerializer::DeserializeMaterial(const json& j, Material* mat) {

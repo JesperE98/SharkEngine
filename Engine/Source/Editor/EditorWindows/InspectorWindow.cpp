@@ -2,6 +2,9 @@
 #include "Managers/LevelEditorManager.h"
 
 #pragma region Engine Includes
+#include <Scene/SceneManager.h>
+#include <Scene/Scene.h>
+
 #include <Components/ComponentRegistry.h>
 #include <Components/Rendering/MeshRendererComponent.h>
 #include <Components/Rendering/LightComponent.h>
@@ -10,6 +13,8 @@
 #include <Components/Physics/RigidbodyComponent.h>
 #include <Components/PlayerController.h>
 #include <Components/GoalTrigger.h>
+#include <Components/UI/MainMenuComponent.h>
+#include <Components/UI/LevelTimer.h>
 
 #include <Graphics/Resources/PrimitiveMesh.h>
 #include <Graphics/Resources/MeshManager.h>
@@ -54,6 +59,27 @@ namespace Shark::Editor {
 
 	void InspectorWindow::OnUpdateWindow(float deltaTime)
 	{
+		if (m_SelectedObject) {
+			auto* scene = Core::SceneManager::Get().GetActiveScene();
+
+			if (!scene) {
+				m_SelectedObject = nullptr;
+			} else {
+				bool found = false;
+
+				for (auto* obj : scene->GetGameObjects()) {
+					if (obj == m_SelectedObject) {
+						found = true;
+						break;
+					}
+				}
+
+				if (!found) {
+					m_SelectedObject = nullptr;
+				}
+			}
+		}
+
 		if (!m_SelectedObject) {
 			ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Select an object.");
 			return;
@@ -76,6 +102,8 @@ namespace Shark::Editor {
 		DrawComponentUI<RigidbodyComponent>("Rigidbody", m_SelectedObject);
 		DrawComponentUI<PlayerController>("Player Controller", m_SelectedObject);
 		DrawComponentUI<GoalTrigger>("Goal Trigger", m_SelectedObject);
+		DrawComponentUI<Components::MainMenuComponent>("Main Menu", m_SelectedObject);
+		DrawComponentUI<Components::LevelTimer>("Level Timer", m_SelectedObject);
 
 		// --- 4. Footer
 		DrawAddComponentButton(m_SelectedObject);
@@ -90,7 +118,7 @@ namespace Shark::Editor {
 	void InspectorWindow::DrawObjectName(GameObject* obj)
 	{
 		if (obj) {
-			static char nameBuffer[128];
+			static char nameBuffer[256];
 			strncpy_s(nameBuffer, obj->GetName().c_str(), sizeof(nameBuffer));
 			nameBuffer[sizeof(nameBuffer - 1)] = '\0'; // Ensures null-termination
 			ImGui::Text("Name");
@@ -400,6 +428,21 @@ namespace Shark::Editor {
 		ImGui::TextDisabled("(?)");
 		if (ImGui::IsItemHovered()) {
 			ImGui::SetTooltip("Path or name of the next level scene to load on trigger.");
+		}
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<Components::MainMenuComponent>(Components::MainMenuComponent* menu) {
+		ImGui::TextDisabled("(Renders the main menu UI)");
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<Components::LevelTimer>(Components::LevelTimer* timer) {
+		ImGui::TextDisabled("Elapsed: %.2fs", timer->GetElapsedTime());
+		ImGui::TextDisabled("Running: %s", timer->IsRunning() ? "Yes" : "No");
+
+		if (ImGui::Button("Reset Timer")) {
+			timer->Reset();
 		}
 	}
 #pragma endregion

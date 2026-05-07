@@ -1,8 +1,11 @@
 #include "GoalTrigger.h"
 #include "Core/GameObject.h"
+#include "Core/RecordsManager.h"
 #include "Physics/AABBComponent.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scene.h"
+#include "Components/UI/LevelTimer.h"
+
 
 
 namespace Shark::Components {
@@ -33,8 +36,20 @@ namespace Shark::Components {
 
 		if (OverlapsPlayer()) {
 			m_Triggered = true;
+
+			// Find timer in scene, stop it and submit time
+			Scene* scene = Core::SceneManager::Get().GetActiveScene();
+			if (scene) {
+				for (auto* obj : scene->GetGameObjects()) {
+					if (auto* timer = obj->GetComponent<LevelTimer>()) {
+						timer->Stop();
+						Core::RecordsManager::Get().SubmitTime(scene->GetName(), timer->GetElapsedTime());
+						break;
+					}
+				}
+			}
+
 			SE_LOG(Engine, "Level Complete!");
-			// TODO: load next level when SceneManager supports loading by file path
 
 			if (!nextLevel.empty()) {
 				Core::Message msg;

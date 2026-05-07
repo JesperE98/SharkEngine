@@ -1,0 +1,102 @@
+{
+    "gameObjects": [
+        {
+            "components": [
+                {
+                    "aspectRatio": 1.2164947986602783,
+                    "enabled": true,
+                    "farClip": 1000.0,
+                    "fov": 45.0,
+                    "nearClip": 0.10000000149011612,
+                    "type": "CameraComponent"
+                },
+                {
+                    "enabled": true,
+                    "mouseSensitivity": 0.10000000149011612,
+                    "moveSpeed": 5.0,
+                    "type": "CameraController"
+                }
+            ],
+            "name": "Main Camera",
+            "transform": {
+                "position": [
+                    0.0,
+                    0.0,
+                    5.0
+                ],
+                "rotation": [
+                    0.10000000894069672,
+                    0.8000000715255737,
+                    5.211529124915515e-11
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "color": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "enabled": true,
+                    "intensity": 1.0,
+                    "lightType": 0,
+                    "range": 10.0,
+                    "type": "LightComponent"
+                }
+            ],
+            "name": "Directional Light",
+            "transform": {
+                "position": [
+                    0.0,
+                    5.0,
+                    0.0
+                ],
+                "rotation": [
+                    -45.0,
+                    -45.000003814697266,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "enabled": true,
+                    "type": "MainMenuComponent"
+                }
+            ],
+            "name": "HUD",
+            "transform": {
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        }
+    ],
+    "name": "MainMenu",
+    "version": 1
+}

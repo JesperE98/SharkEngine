@@ -22,6 +22,8 @@ namespace Shark::Components {
 	class LightComponent;
 	class PlayerController;
 	class GoalTrigger;
+	class MainMenuComponent;
+	class LevelTimer;
 }
 
 namespace Shark::Graphics {
@@ -65,6 +67,8 @@ namespace Shark::Serialization {
 		nlohmann::json SerializeLight(const Components::LightComponent* c);
 		nlohmann::json SerializePlayerController(const Components::PlayerController* c);
 		nlohmann::json SerializeGoalTrigger(const Components::GoalTrigger* c);
+		nlohmann::json SerializeMainMenu(const Components::MainMenuComponent* c);
+		nlohmann::json SerializeLevelTimer(const Components::LevelTimer* c);
 
 		nlohmann::json SerializeMaterial(const Graphics::Material* mat);
 		nlohmann::json SerializeTransform(const Math::Transform& t);
@@ -89,6 +93,8 @@ namespace Shark::Serialization {
 		void DeserializeLight(const nlohmann::json& j, Components::LightComponent* c);
 		void DeserializePlayerController(const nlohmann::json& j, Components::PlayerController* c);
 		void DeserializeGoalTrigger(const nlohmann::json& j, Components::GoalTrigger* c);
+		void DeserializeMainMenu(const nlohmann::json& j, Components::MainMenuComponent* c);
+		void DeserializeLevelTimer(const nlohmann::json& j, Components::LevelTimer* c);
 
 		void DeserializeMaterial(const nlohmann::json& j, Graphics::Material* mat);
 		void DeserializeTransform(const nlohmann::json& j, Math::Transform& t);

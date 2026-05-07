@@ -9,12 +9,20 @@
 #include <Core/Engine/EngineContext.h>
 #include <Core/App/EditorStateManager.h>
 #include <Core/Utilities/Debug.h>
+#include <Core/GameObject.h>
+
 #include <Memory/MemoryManager.h>
+
 #include <Scene/SceneManager.h>
+#include <Scene/Scene.h>
+
 #include <Graphics/Resources/MeshManager.h>
 #include <Graphics/Resources/ShaderManager.h>
 #include <Graphics/Resources/TextureManager.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
+
+#include <Components/UI/MainMenuComponent.h>
+#include <Components/UI/LevelTimer.h>
 #pragma endregion
 
 #pragma region ImGUI libraries
@@ -68,6 +76,21 @@ namespace Shark {
 		BeginImGuiFrame();
 		WindowManager::Get().RenderWindows(0.0f); // deltaTime unused for UI
 		RenderPlayBar();
+
+		// Fix for main menu UI 
+		// TODO: Later implement a more solvable solution to this issue
+		auto* scene = SceneManager::Get().GetActiveScene();
+		if (scene) {
+			for (auto* obj : scene->GetGameObjects()) {
+				if (auto* menu = obj->GetComponent<Components::MainMenuComponent>()) {
+					menu->DrawUI();
+				}
+				if (auto* timer = obj->GetComponent<Components::LevelTimer>()) {
+					timer->DrawHUD();
+				}
+			}
+		}
+
 		ImGui::End();
 		EndImGuiFrame();
 	}

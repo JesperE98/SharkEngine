@@ -7,9 +7,12 @@
 #include "IO/Pathmanager.h"
 #include "Memory/MemoryManager.h"
 #include "Scene/SceneManager.h"
+
 #include "Core/Utilities/Debug.h"
-#include "Physics/PhysicsSystem.h"
 #include "Core/App/EditorStateManager.h"
+#include "Core/RecordsManager.h"
+
+#include "Physics/PhysicsSystem.h"
 
 #pragma region COMPONENTS
 #include <Components/ComponentRegistry.h>
@@ -21,6 +24,9 @@
 #include <Components/Physics/AABBComponent.h>
 #include <Components/Physics/RigidbodyComponent.h>
 #include <Components/GoalTrigger.h>
+#include "Components/UI/MainMenuComponent.h"
+#include "Components/UI/LevelTimer.h"
+
 #pragma endregion
 
 #include "Scene/Scene.h"
@@ -30,20 +36,28 @@
 namespace Shark::Core
 {
 	using IO::PathManager;
+
 	using Input::InputManager;
+
 	using Memory::MemoryManager;
+
 	using Resources::MeshManager;
 	using Resources::ShaderManager;
 	using Resources::TextureManager;
+
 	using Graphics::ForwardRenderer;
 	using Graphics::PrimitiveType;
+
 	using Physics::PhysicsSystem;
+
 	using Components::ComponentRegistry;
 	using Components::GoalTrigger;
 	using Components::CameraComponent;
 	using Components::CameraController;
 	using Components::LightComponent;
 	using Components::LightType;
+	using Components::MainMenuComponent;
+
 	using Spatial::OctreeSystem;
 
 	void EngineContext::Initialize() {
@@ -52,6 +66,7 @@ namespace Shark::Core
 		/* ----------------- Initialize Managers ----------------- */
 
 		PathManager::Get().Initialize();
+		RecordsManager::Get().Initialize();
 
 		RegisterComponents();
 
@@ -59,42 +74,43 @@ namespace Shark::Core
 		m_Renderer = new ForwardRenderer();
 
 		/* ----------------- Scene ----------------- */
-		SceneManager::Get().RegisterScene("EditorDefault", [](Scene* scene) {
-			// Empty default scene
-			GameObject* cam = new GameObject("Main Camera");
-			cam->AddComponent<CameraComponent>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-			cam->AddComponent<CameraController>(5.0f, 0.1f);
-			cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
-			scene->AddGameObject(cam);
+		//SceneManager::Get().RegisterScene("MainMenu", [](Scene* scene) {
+		//	// Empty default scene
+		//	GameObject* cam = new GameObject("Main Camera");
+		//	cam->AddComponent<CameraComponent>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+		//	cam->AddComponent<CameraController>(5.0f, 0.1f);
+		//	cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
+		//	scene->AddGameObject(cam);
 
-			GameObject* dLight = new GameObject("Directional Light");
-			dLight->AddComponent<LightComponent>();
-			dLight->GetComponent<LightComponent>()->Type = LightType::Directional;
-			dLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
-			dLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
-			dLight->GetTransform().rotation = { -45.0f, -45.0f, 0.0f };
-			scene->AddGameObject(dLight);
+		//	GameObject* dLight = new GameObject("Directional Light");
+		//	dLight->AddComponent<LightComponent>();
+		//	dLight->GetComponent<LightComponent>()->Type = LightType::Directional;
+		//	dLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+		//	dLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
+		//	dLight->GetTransform().rotation = { -45.0f, -45.0f, 0.0f };
+		//	scene->AddGameObject(dLight);
 
-			// Optional with Point Light
-			//GameObject* pLight = new GameObject("Point Light");
-			//pLight->AddComponent<LightComponent>();
-			//pLight->GetComponent<LightComponent>()->Type = LightType::Point;
-			//pLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
-			//pLight->GetTransform().position = { 0.0f, 1.5f, 0.0f };
-			//pLight->GetTransform().Rotate({ 0.0f, 0.0f, 0.0f });
-			//scene->AddGameObject(pLight);
-			});
+		//	// Optional with Point Light
+		//	//GameObject* pLight = new GameObject("Point Light");
+		//	//pLight->AddComponent<LightComponent>();
+		//	//pLight->GetComponent<LightComponent>()->Type = LightType::Point;
+		//	//pLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
+		//	//pLight->GetTransform().position = { 0.0f, 1.5f, 0.0f };
+		//	//pLight->GetTransform().Rotate({ 0.0f, 0.0f, 0.0f });
+		//	//scene->AddGameObject(pLight);
+		//	});
 
 		Components::AABB worldBounds;
 		worldBounds.min = { -50, -50, -50 };
 		worldBounds.max = { 50, 50, 50 };
 		OctreeSystem::Get().Initialize(worldBounds, 5, 8);
-
-		SceneManager::Get().LoadScene("EditorDefault");
+		
+		SceneManager::Get().LoadSceneFromFile("Content/Scenes/MainMenu.json");
 
 		/* ----------------- Check on Memory ----------------- */
 		InputManager::Get().Initialize(m_Window);
 		MemoryManager::Get().CheckMemoryStatus();
+
 
 		SE_SUCC(Engine, "Engine Context setup complete!");
 	}
@@ -144,5 +160,7 @@ namespace Shark::Core
 		ComponentRegistry::Get().Register<RigidbodyComponent>("RigidbodyComponent");
 		ComponentRegistry::Get().Register<PlayerController>("PlayerController");
 		ComponentRegistry::Get().Register<GoalTrigger>("GoalTrigger");
+		ComponentRegistry::Get().Register<MainMenuComponent>("MainMenuComponent");
+		ComponentRegistry::Get().Register<LevelTimer>("LevelTimer");
 	}
 }
