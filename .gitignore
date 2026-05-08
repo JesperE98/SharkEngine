@@ -399,3 +399,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Allow 3D models even if they end in .obj
+!*.obj
+!Content/Models/
