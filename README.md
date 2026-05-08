@@ -6,7 +6,9 @@
 2. Clone `git clone https://github.com/JesperE98/SharkEngine/`
 3. Open `SharkEngine.sln` in Visual Studio.
 4. Set the build config to `Release / x64`.
-5. Press F7 (build), then F5 (run).
+5. If Editor project isn't marked as startup project. Select Editor Project in Solution Explorer and Right click on it. You should be able to find a menu in the tab saying "Mark as Startup Project".
+7. Press F7 (build), then F5 (run).
+8. If it throws an error. Build Engine project first, thereafter Editor project, if building fails.
 
 ## Or run the prebuilt binary
 
