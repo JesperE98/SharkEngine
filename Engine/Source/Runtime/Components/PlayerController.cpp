@@ -129,14 +129,14 @@ namespace Shark::Components {
 			moveDir.z /= len;
 		}
 
+		updateDash(window, moveDir, len);
+		updateJump(window);
+
 		// Applying horizontal velocity directly for snappier movement than forces
 		if (m_DashActiveTimer <= 0.0f) {
 			m_RigidbodyComp->velocity.x = moveDir.x * moveSpeed;
 			m_RigidbodyComp->velocity.z = moveDir.z * moveSpeed;
 		}
-
-		updateJump(window);
-		updateDash(window, moveDir, len);
 	}
 
 	void PlayerController::updateJump(GLFWwindow* window) {
@@ -152,11 +152,16 @@ namespace Shark::Components {
 		bool dashPressed = ( glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS );
 
 		if (dashPressed && !m_DashPressedLast && m_DashTimer <= 0.0f && len > 0.001f) {
+
 			m_RigidbodyComp->velocity.x = moveDir.x * dashForce;
 			m_RigidbodyComp->velocity.z = moveDir.z * dashForce;
+
 			m_DashTimer = dashCooldown;
 			m_DashActiveTimer = dashDuration;
+
+			m_RigidbodyComp->velocity.y = 0.0f;
 		}
+
 		m_DashPressedLast = dashPressed;
 	}
 }

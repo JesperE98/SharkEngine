@@ -16,7 +16,7 @@ namespace Shark::Components {
 
 		float moveSpeed		= 8.0f;
 		float jumpForce		= 10.0f;
-		float dashForce		= 20.0f;
+		float dashForce		= 15.0f;
 		float dashCooldown	= 1.0f;
 		float dashDuration	= 0.15f;
 		float killY			= -20.0f;
