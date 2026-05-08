@@ -37,10 +37,6 @@ namespace Shark::Core {
 		for (auto* child : m_Children) {
 			child->Tick(deltaTime);
 		}
-
-		if (bMarkedForDeletion == true) {
-			OnDelete();
-		}
 	}
 
 	void GameObject::OnDelete()

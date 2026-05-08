@@ -1,14 +1,20 @@
 #include "ForwardRenderPass.h"
 #include "Scene/Scene.h"
 #include "Core/GameObject.h"
+
 #include "Components/Rendering/MeshRendererComponent.h"
 #include "Components/Rendering/LightComponent.h"
 #include "Components/Logic/CameraComponent.h"
+#include "Components/Rendering/TerrainComponent.h"
+
 #include "Graphics/Framebuffer/Framebuffer.h"
 #include "Graphics/Resources/Shader.h"
-#include "Core/Engine/Engine.h"
 
 namespace Shark::Graphics {
+
+
+    constexpr unsigned int RENDER_WIDTH = 1280;
+    constexpr unsigned int RENDER_HEIGHT = 840;
 
     using Shark::Scene;
     using Components::CameraComponent;
@@ -34,18 +40,24 @@ namespace Shark::Graphics {
         else {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             // Add this line to fix the "Tiny Scene" issue
-            glViewport(0, 0, Core::WINDOW_WIDTH, Core::WINDOW_HEIGHT);
+            glViewport(0, 0, RENDER_WIDTH, RENDER_HEIGHT);
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
     }
 
-    void ForwardRenderPass::Execute(float deltaTime, Scene* scene, CameraComponent* cam, std::vector<LightData> lights) {
+    void ForwardRenderPass::Execute(
+        float deltaTime, Scene* scene, CameraComponent* cam, std::vector<LightData> lights, const std::vector<Core::GameObject*>* visibleObjects) {
 		glm::mat4 viewMatrix = cam->GetViewMatrix();
 		glm::mat4 projectionMatrix = cam->GetProjectionMatrix();
 
-        // Loop trough all rendereables in scene
-        for (auto* obj : scene->GetGameObjects()) {
+        const auto& objects = visibleObjects ? *visibleObjects : scene->GetGameObjects();
+
+        // Loop through all renderables in scene
+        for (auto* obj : objects) {
+            if (!obj || obj->bMarkedForDeletion) continue;
+
+
             MeshRendererComponent* meshRenderer = obj->GetComponent<MeshRendererComponent>();
             if (!meshRenderer || !meshRenderer->GetMaterial()) continue;
 
@@ -85,6 +97,42 @@ namespace Shark::Graphics {
             UpdateLights(shader, lights);
 
             meshRenderer->Render(); // Draws Mesh
+        }
+
+        // Loop 2: Terrain rendering
+        for (auto* obj : objects) {
+            if (!obj || obj->bMarkedForDeletion) continue;
+
+            Components::TerrainComponent* terrain = obj->GetComponent<Components::TerrainComponent>();
+            if (!terrain) continue;
+
+            auto* meshRenderer = obj->GetComponent<MeshRendererComponent>();
+            if (!meshRenderer || !meshRenderer->GetMaterial()) continue;
+
+            Shader* shader = meshRenderer->GetMaterial()->GetShader();
+            if (!shader) continue;
+
+            shader->Use();
+
+            for (int i = 0; i < 4; i++) {
+                glActiveTexture(GL_TEXTURE2 + i);
+                if (i == 0 && m_ShadowMapIDs[i] != 0) {
+                    glBindTexture(GL_TEXTURE_2D, m_ShadowMapIDs[i]);
+                } else {
+                    glBindTexture(GL_TEXTURE_2D, 0);
+                }
+
+                shader->SetInt("uPointShadowMaps[" + std::to_string(i) + "]", 6 + i);
+            }
+            shader->SetFloat("uPointShadowFarPlane", m_PointShadowFarPlane);
+
+            UpdateCameraTransform(shader, cam, viewMatrix, projectionMatrix);
+            UpdateLights(shader, lights);
+
+            shader->SetMatrix4("uModel", obj->GetTransform().GetModelMatrix());
+            meshRenderer->GetMaterial()->Bind();
+
+            terrain->Render();
         }
     }
 

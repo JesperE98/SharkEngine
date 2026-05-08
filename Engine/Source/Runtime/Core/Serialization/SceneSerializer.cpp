@@ -16,6 +16,8 @@
 #include <Components/GoalTrigger.h>
 #include <Components/UI/MainMenuComponent.h>
 #include <Components/UI/LevelTimer.h>
+#include <Components/Rendering/TerrainComponent.h>
+#include <Components/AIController.h>
 
 #include <Graphics/Resources/Material.h>
 #include <Graphics/Resources/MeshManager.h>
@@ -148,6 +150,8 @@ namespace Shark::Serialization {
 		if (auto* c = dynamic_cast<const GoalTrigger*>( comp ))				return SerializeGoalTrigger(c);
 		if (auto* c = dynamic_cast<const MainMenuComponent*>( comp ))		return SerializeMainMenu(c);
 		if (auto* c = dynamic_cast<const LevelTimer*>( comp ))				return SerializeLevelTimer(c);
+		if (auto* c = dynamic_cast<const TerrainComponent*>( comp ))		return SerializeTerrainComponent(c);
+		if (auto* c = dynamic_cast<const AIController*>( comp ))			return SerializeAIController(c);
 
 		SE_WARN(Engine, "SceneSerializer: Unknow component type, skipping...");
 		return json(nullptr);
@@ -259,6 +263,25 @@ namespace Shark::Serialization {
 		};
 	}
 
+	nlohmann::json SceneSerializer::SerializeTerrainComponent(const Components::TerrainComponent* c) {
+		return {
+			{"type",			"TerrainComponent"},
+			{"enabled",			c->bEnabled},
+			{"heightmapPath",	c->HeightmapPath},
+			{"heightScale",		c->HeightScale},
+			{"xzScale",			c->xzScale},
+		};
+	}
+
+	nlohmann::json SceneSerializer::SerializeAIController(const Components::AIController* c) {
+		return {
+			{"type",			"AIController"},
+			{"enabled",			c->bEnabled},
+			{"patrolSpeed",		c->PatrolSpeed},
+			{"patrolDistance",	c->PatrolDistance},
+		};
+	}
+
 	json SceneSerializer::SerializeMaterial(const Material* mat) {
 		return {
 			{"diffusePath",		mat->GetTexturePath()},
@@ -352,6 +375,9 @@ namespace Shark::Serialization {
 		else if (auto* c = dynamic_cast<GoalTrigger*>( result ))			DeserializeGoalTrigger(j, c);
 		else if (auto* c = dynamic_cast<MainMenuComponent*>( result ))		DeserializeMainMenu(j, c);
 		else if (auto* c = dynamic_cast<LevelTimer*>( result ))				DeserializeLevelTimer(j, c);
+		else if (auto* c = dynamic_cast<TerrainComponent*>( result ))		DeserializeTerrainComponent(j, c);
+		else if (auto* c = dynamic_cast<AIController*>( result ))			DeserializeAIController(j, c);
+
 
 		result->bEnabled = j.value("enabled", true);
 
@@ -438,6 +464,21 @@ namespace Shark::Serialization {
 
 	void SceneSerializer::DeserializeLevelTimer(const nlohmann::json& j, Components::LevelTimer* c) {
 		// No fields to populate for now...
+	}
+
+	void SceneSerializer::DeserializeTerrainComponent(const nlohmann::json& j, Components::TerrainComponent* c) {
+		std::string path	= j.value("heightmapPath", "");
+		float hScale		= j.value("heightScale", 25.0f);
+		float xzSc			= j.value("xzScale", 1.0f);
+
+		if (!path.empty()) {
+			c->LoadTerrain(path, hScale, xzSc);
+		}
+	}
+
+	void SceneSerializer::DeserializeAIController(const nlohmann::json& j, Components::AIController* c) {
+		c->PatrolSpeed		= j.value("patrolSpeed", 3.0f);
+		c->PatrolDistance	= j.value("patrolDistance", 10.0f);
 	}
 
 	void SceneSerializer::DeserializeMaterial(const json& j, Material* mat) {

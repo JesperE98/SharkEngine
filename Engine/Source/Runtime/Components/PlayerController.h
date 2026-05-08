@@ -4,6 +4,8 @@
 #include "SharkBehavior.h"
 #include "Math/Vector3.h"
 
+struct GLFWwindow;
+
 namespace Shark::Components {
 
 	class RigidbodyComponent;
@@ -35,6 +37,10 @@ namespace Shark::Components {
 		Math::Vector3 m_SpawnPoint = { 0.0f, 0.0f, 0.0f };
 
 		bool m_SpawnPointSet = false;
+
+		void updateMovement(GLFWwindow* window);
+		void updateJump(GLFWwindow* window);
+		void updateDash(GLFWwindow* window, const Math::Vector3& moveDir, float len);
 	};
 }
 

@@ -1,7 +1,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "Interfaces/IRenderable.h"
+#include "IRenderable.h"
 #include <vector>
 #include <string>
 #include "Math/Vector2.h"
@@ -16,7 +16,7 @@ namespace Shark::Graphics
 		Math::Vector3 normal;		// vn
 	};
 
-	class Mesh : public Shark::Interfaces::IRenderable
+	class Mesh : public IRenderable
 	{
 	public:
 		unsigned int VBO{ 0 };

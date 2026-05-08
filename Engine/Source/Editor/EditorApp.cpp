@@ -20,6 +20,7 @@
 #include <Graphics/Resources/ShaderManager.h>
 #include <Graphics/Resources/TextureManager.h>
 #include <Graphics/Resources/PrimitiveMesh.h>
+#include <Graphics/Rendering/ForwardRenderer.h>
 
 #include <Components/UI/MainMenuComponent.h>
 #include <Components/UI/LevelTimer.h>
@@ -90,6 +91,7 @@ namespace Shark {
 				}
 			}
 		}
+		RenderFrustumCullingStatsWindow();
 
 		ImGui::End();
 		EndImGuiFrame();
@@ -193,6 +195,24 @@ namespace Shark {
 			sm.IsPlaying() ? "Playing" :
 			sm.IsPaused() ? "Paused" : "Editing");
 
+		ImGui::End();
+	}
+
+	void EditorApp::RenderFrustumCullingStatsWindow() {
+		ImGui::SetNextWindowPos(ImVec2(10, 60), ImGuiCond_Always);
+		ImGui::SetNextWindowBgAlpha(0.4f);
+
+		ImGuiWindowFlags flags =
+			ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+
+		ImGui::Begin("##CullStats", nullptr, flags);
+
+		auto* renderer = static_cast<Graphics::ForwardRenderer*>(Core::EngineContext::Get().GetRenderer());
+
+		if (renderer) {
+			ImGui::Text("Drawn Objects: %d | Culled Objects: %d", renderer->GetDrawnCount(), renderer->GetCulledCount());
+		}
 		ImGui::End();
 	}
 }

@@ -159,6 +159,36 @@ namespace Shark::Spatial {
 	}
 
 	template<typename T>
+	void Octree<T>::QueryFrustum(const Math::Frustum& frustum, std::vector<T>& results) const {
+		std::function<void(const Node*)> traverse = [&](const Node* node) {
+			if (!node) {
+				return;
+			}
+
+			// If this entire node is outside the frustum, skip it and all children
+			if (!frustum.IsAABBVisible(node->bounds)) {
+				return;
+			}
+
+			// Node is at least partially visible - test individual items
+			for (const auto& [payload, bounds] : node->items) {
+				if (frustum.IsAABBVisible(bounds)) {
+					results.push_back(payload);
+				}
+			}
+
+			// Recurse into children
+			if (!node->isLeaf) {
+				for (const auto& child : node->children) {
+					traverse(child.get());
+				}
+			}
+		};
+
+		traverse(m_Root.get());
+	}
+
+	template<typename T>
 	void Octree<T>::VisitNodes(const Node* node, const std::function<void(const AABB&)>& fn) const {
 
 		if (!node) return;

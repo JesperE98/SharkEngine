@@ -25,9 +25,9 @@
                     10.275718688964844
                 ],
                 "rotation": [
-                    -10.000006675720215,
-                    1.2000001668930054,
-                    -6.671569963145885e-09
+                    0.0,
+                    -0.0,
+                    0.0
                 ],
                 "scale": [
                     1.0,
@@ -127,9 +127,9 @@
                 {
                     "enabled": true,
                     "material": {
-                        "diffusePath": "",
+                        "diffusePath": "Textures/container2.png",
                         "shininess": 32.0,
-                        "specularPath": "",
+                        "specularPath": "Textures/container2_specular.png",
                         "tiling": [
                             1.0,
                             1.0
@@ -401,58 +401,6 @@
                     1.0,
                     1.5,
                     0.10000000149011612
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "shininess": 128.0,
-                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "tiling": [
-                            5.0,
-                            5.0
-                        ],
-                        "useMipMaps": true
-                    },
-                    "meshPath": "Primitive:1",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        0.5,
-                        10.0,
-                        0.02500000037252903
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "type": "AABBComponent"
-                }
-            ],
-            "name": "Wall",
-            "transform": {
-                "position": [
-                    0.0,
-                    4.5,
-                    -5.0
-                ],
-                "rotation": [
-                    -270.0,
-                    -90.0,
-                    0.0
-                ],
-                "scale": [
-                    10.0,
-                    0.5,
-                    10.0
                 ]
             }
         },

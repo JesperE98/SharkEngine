@@ -55,9 +55,9 @@ namespace Shark::Core {
 		SharkEvents::OnLogAdded().Broadcast(entry);
 
 		std::cout << 
-			FColor::DarkGrey.Code << '[' << timeStamp << "]: "
+			FColor::White.Code << '[' << timeStamp << "]: "
+			<< CategoryToString(category) << " "
 			<< color.Code << '[' << level << "] "
-			<< CategoryToString(category) << ": "
 			<< fullMessage << FColor::White.Code
 			<< std::endl;
 	}
@@ -82,9 +82,9 @@ namespace Shark::Core {
 		SharkEvents::OnLogAdded().Broadcast(entry);
 
 		std::cout <<
-			FColor::DarkGrey.Code << '[' << timeStamp << "]: "
-			<< color.Code << '[' << level << "] "
-			<< CategoryToString(category) << ": "
+			FColor::White.Code << '[' << timeStamp << "]: "
+			<< CategoryToString(category) << " "
+			<< color.Code << '[' << level << "] " 
 			<< fullMessage << FColor::White.Code
 			<< std::endl;
 	}

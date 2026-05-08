@@ -8,6 +8,9 @@
 
 namespace Shark { class Scene; }
 namespace Shark::Components { class CameraComponent; struct LightData; }
+namespace Shark::Core {
+	class GameObject;
+}
 
 namespace Shark::Graphics {
 	class Shader;
@@ -25,12 +28,18 @@ namespace Shark::Graphics {
 		virtual void Begin() = 0;
 
 		// Called to render scene
-		virtual void Execute(
-			float deltaTime, 
-			Shark::Scene* scene, 
-			Components::CameraComponent* cam, 
-			std::vector<Components::LightData> lights) = 0;
 		virtual void Execute(Scene* scene, const std::vector<Components::LightData>& lights) = 0;
+		virtual void Execute(
+			float deltaTime,
+			Shark::Scene* scene,
+			Components::CameraComponent* cam,
+			std::vector<Components::LightData> lights) = 0;
+		virtual void Execute(
+			float deltaTime,
+			Shark::Scene* scene,
+			Components::CameraComponent* cam,
+			std::vector<Components::LightData> lights,
+			const std::vector<Core::GameObject*>* visibleObjects) = 0;
 
 		virtual void UpdateCameraTransform(
 			Shader* shader,

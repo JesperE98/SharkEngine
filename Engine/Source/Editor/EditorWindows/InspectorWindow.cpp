@@ -8,6 +8,7 @@
 #include <Components/ComponentRegistry.h>
 #include <Components/Rendering/MeshRendererComponent.h>
 #include <Components/Rendering/LightComponent.h>
+#include <Components/Rendering/TerrainComponent.h>
 #include <Components/Logic/CameraComponent.h>
 #include <Components/Physics/AABBComponent.h>
 #include <Components/Physics/RigidbodyComponent.h>
@@ -15,6 +16,7 @@
 #include <Components/GoalTrigger.h>
 #include <Components/UI/MainMenuComponent.h>
 #include <Components/UI/LevelTimer.h>
+#include <Components/AIController.h>
 
 #include <Graphics/Resources/PrimitiveMesh.h>
 #include <Graphics/Resources/MeshManager.h>
@@ -104,6 +106,8 @@ namespace Shark::Editor {
 		DrawComponentUI<GoalTrigger>("Goal Trigger", m_SelectedObject);
 		DrawComponentUI<Components::MainMenuComponent>("Main Menu", m_SelectedObject);
 		DrawComponentUI<Components::LevelTimer>("Level Timer", m_SelectedObject);
+		DrawComponentUI<Components::TerrainComponent>("Terrain Component", m_SelectedObject);
+		DrawComponentUI<Components::AIController>("AI Controller", m_SelectedObject);
 
 		// --- 4. Footer
 		DrawAddComponentButton(m_SelectedObject);
@@ -444,6 +448,47 @@ namespace Shark::Editor {
 		if (ImGui::Button("Reset Timer")) {
 			timer->Reset();
 		}
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<Components::TerrainComponent>(Components::TerrainComponent* tc) {
+		static char pathBuffer[256] = "";
+
+		if (strcmp(pathBuffer, tc->HeightmapPath.c_str()) != 0) {
+			strncpy_s(pathBuffer, tc->HeightmapPath.c_str(), sizeof(pathBuffer));
+			pathBuffer[sizeof(pathBuffer) - 1] = '\0';
+		}
+
+		ImGui::Text("Heightmap Path");
+		if (ImGui::InputText("##HeightmapPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
+			tc->HeightmapPath = std::string(pathBuffer);
+			SE_LOG(Editor, "Heightmap path set to: {}", pathBuffer);
+		}
+
+		ImGui::DragFloat("Height Scale", &tc->HeightScale, 0.5f, 0.1f, 100.0f);
+		ImGui::DragFloat("XZ Scale", &tc->xzScale, 0.1f, 0.1f, 10.0f);
+
+		ImGui::Spacing();
+
+		if (ImGui::Button("Load Terrain")) {
+			if (!tc->HeightmapPath.empty()) {
+				tc->LoadTerrain(tc->HeightmapPath, tc->HeightScale, tc->xzScale);
+			}
+		}
+
+		ImGui::SameLine();
+
+		if (tc->GetTerrain()) {
+			ImGui::TextDisabled("Loaded (%.0f x %.0f", tc->GetTerrain()->GetWidth(), tc->GetTerrain()->GetDepth());
+		} else {
+			ImGui::TextDisabled("Not loaded");
+		}
+	}
+
+	template<>
+	void InspectorWindow::OnComponentUI<Components::AIController>(Components::AIController* aiComp) {
+		ImGui::DragFloat("Patrol Speed", &aiComp->PatrolSpeed, 0.1f, 0.0f, 20.0f);
+		ImGui::DragFloat("Patrol Distance", &aiComp->PatrolDistance, 0.5f, 0.0f, 50.0f);
 	}
 #pragma endregion
 }

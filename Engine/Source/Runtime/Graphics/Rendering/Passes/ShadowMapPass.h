@@ -31,6 +31,12 @@ namespace Shark::Graphics {
 		int m_ActiveShadowCount{ 0 };
 
 		void Execute(float dt, Shark::Scene* s, Components::CameraComponent* c, std::vector<Components::LightData> l) override final {}
+		virtual void Execute(
+			float deltaTime,
+			Shark::Scene* scene,
+			Components::CameraComponent* cam,
+			std::vector<Components::LightData> lights,
+			const std::vector<Core::GameObject*>* visibleObjects) override final {}
 		virtual void UpdateCameraTransform(Graphics::Shader* shader, Components::CameraComponent* cam, glm::mat4& view, glm::mat4& projection) override final { }
 		virtual void UpdateLights(Graphics::Shader* shader, std::vector<Components::LightData>& lights) override final { }
 	};

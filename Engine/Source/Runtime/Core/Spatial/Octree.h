@@ -1,13 +1,16 @@
 #ifndef SHARK_OCTREE_H
 #define SHARK_OCTREE_H
 
+#include "Components/Physics/AABBComponent.h"
+#include "Math/Vector3.h"
+#include "Math/Frustum.h"
+
 #include <array>
 #include <memory>
 #include <vector>
 #include <unordered_map>
 #include <functional>
-#include <Components/Physics/AABBComponent.h>
-#include <Math/Vector3.h>
+
 
 namespace Shark::Spatial {
 
@@ -30,6 +33,7 @@ namespace Shark::Spatial {
 		size_t Size() const { return m_ItemLookup.size(); }
 		void ForEachNodeBounds(const std::function<void(const AABB&)>& fn) const;
 		void ForEachNodeBoundsWithDepth(const std::function<void(const AABB&, int depth)>& fn) const;
+		void QueryFrustum(const Math::Frustum& frustum, std::vector<T>& results) const;
 
 	private:
 		struct Node {

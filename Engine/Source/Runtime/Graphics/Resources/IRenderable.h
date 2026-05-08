@@ -1,7 +1,7 @@
 #ifndef RENDERABLE_H
 #define RENDERABLE_H
 
-namespace Shark::Interfaces {
+namespace Shark::Graphics {
 
 	class IRenderable
 	{

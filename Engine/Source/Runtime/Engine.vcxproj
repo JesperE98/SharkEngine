@@ -145,8 +145,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\AIController.h" />
     <ClInclude Include="Components\ComponentRegistry.h" />
     <ClInclude Include="Components\GoalTrigger.h" />
+    <ClInclude Include="Components\Rendering\TerrainComponent.h" />
     <ClInclude Include="Components\UI\LevelTimer.h" />
     <ClInclude Include="Components\UI\MainMenuComponent.h" />
     <ClInclude Include="Core\App\Application.h" />
@@ -176,10 +178,12 @@
     <ClInclude Include="Graphics\Rendering\RenderingConstants.h" />
     <ClInclude Include="Graphics\Resources\MeshManager.h" />
     <ClInclude Include="Graphics\Resources\ShaderManager.h" />
+    <ClInclude Include="Graphics\Resources\Terrain.h" />
     <ClInclude Include="Graphics\Resources\TextureManager.h" />
     <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="IO\PathManager.h" />
     <ClInclude Include="Managers\PhysicsSystem.h" />
+    <ClInclude Include="Math\Frustum.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Core\Engine\Engine.h" />
     <ClInclude Include="Core\Engine\EngineContext.h" />
@@ -215,7 +219,7 @@
     <ClInclude Include="Graphics\Resources\PrimitiveMesh.h" />
     <ClInclude Include="Graphics\Resources\Shader.h" />
     <ClInclude Include="Graphics\Resources\Texture.h" />
-    <ClInclude Include="Interfaces\IRenderable.h" />
+    <ClInclude Include="Graphics\Resources\IRenderable.h" />
     <ClInclude Include="Components\SharkBehavior.h" />
     <ClInclude Include="Managers\TextureManager.h" />
     <ClInclude Include="Managers\ShaderManager.h" />
@@ -226,6 +230,7 @@
     <ClCompile Include="..\..\ThirdParty\glad\glad.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Components\AIController.cpp" />
     <ClCompile Include="Components\ComponentRegistry.cpp" />
     <ClCompile Include="Components\GoalTrigger.cpp" />
     <ClCompile Include="Components\Physics\AABBComponent.cpp" />
@@ -234,6 +239,7 @@
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\Rendering\LightComponent.cpp" />
     <ClCompile Include="Components\Rendering\MeshRendererComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TerrainComponent.cpp" />
     <ClCompile Include="Components\UI\LevelTimer.cpp" />
     <ClCompile Include="Components\UI\MainMenuComponent.cpp" />
     <ClCompile Include="Core\App\EditorStateManager.cpp" />
@@ -254,6 +260,7 @@
     <ClCompile Include="Graphics\Rendering\Renderer.cpp" />
     <ClCompile Include="Graphics\Resources\MeshManager.cpp" />
     <ClCompile Include="Graphics\Resources\ShaderManager.cpp" />
+    <ClCompile Include="Graphics\Resources\Terrain.cpp" />
     <ClCompile Include="Graphics\Resources\TextureManager.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="IO\PathManager.cpp" />

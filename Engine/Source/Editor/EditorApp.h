@@ -23,6 +23,7 @@ namespace Shark {
 		void BeginImGuiFrame();
 		void EndImGuiFrame();
 		void RenderPlayBar();
+		void RenderFrustumCullingStatsWindow();
 	};
 }
 

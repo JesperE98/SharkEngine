@@ -35,16 +35,20 @@ namespace Shark {
     void Scene::Update(float deltaTime) {
 
         for (GameObject* obj : m_GameObjects) {
+            if (!obj || obj->bMarkedForDeletion) continue;
+
             obj->Tick(deltaTime);
         }
 
         for (GameObject* obj : m_ObjectsToDestroy) {
-			auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), obj);
-			if (it != m_GameObjects.end()) {
-                delete *it;
+            auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), obj);
+            if (it != m_GameObjects.end()) {
+                delete* it;
                 m_GameObjects.erase(it);
             }
         }
+
+        m_ObjectsToDestroy.clear();
     }
 
     void Scene::AddGameObject(GameObject* obj)
@@ -59,6 +63,10 @@ namespace Shark {
 
     void Scene::DestroyGameObject(Shark::Core::GameObject* obj)
     {
+        if (!obj) return;
+        if (obj->bMarkedForDeletion) return;
+
+        obj->bMarkedForDeletion = true;
         m_ObjectsToDestroy.push_back(obj);
     }
 

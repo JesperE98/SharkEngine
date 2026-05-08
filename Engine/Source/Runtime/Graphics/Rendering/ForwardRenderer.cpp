@@ -11,6 +11,7 @@
 #include "Components/Logic/CameraComponent.h"
 #include "Components/Physics/AABBComponent.h"
 #include "Scene/Scene.h"
+#include "Math/Frustum.h"
 
 
 namespace Shark::Graphics {
@@ -90,6 +91,8 @@ namespace Shark::Graphics {
 	{
 		std::vector<LightData> sceneLights;
 		for (auto* obj : scene->GetGameObjects()) {
+			if (!obj || obj->bMarkedForDeletion) continue;
+
 			if (auto* lightComp = obj->GetComponent<LightComponent>()) {
 				sceneLights.push_back(lightComp->GetLightData());
 			}
@@ -112,7 +115,8 @@ namespace Shark::Graphics {
 		m_SkyPass->Begin();
 		m_SkyPass->Execute(scene, sceneLights);
 		m_SkyPass->End();
-		
+	
+
 		// Forward pass always renders
 		m_ForwardPass->Begin();
 
@@ -133,7 +137,28 @@ namespace Shark::Graphics {
 			);
 		}
 
-		m_ForwardPass->Execute(deltaTime, scene, cam, { sceneLights });
+		// ====== FRUSTU CULLING =======
+		// Build frustum from camera
+		Math::Frustum frustum;
+		glm::mat4 vp = cam->GetProjectionMatrix() * cam->GetViewMatrix();
+		frustum.ExtractFromViewProjection(vp);
+
+		// Query octree for visible objects
+		auto visibleObjects = OctreeSystem::Get().QueryFrustum(frustum);
+		//std::vector<Core::GameObject*> visibleObjects;
+
+		// Include objects not in the octree (no AABB = always visible)
+		for (auto* obj : scene->GetGameObjects()) {
+			if (!obj->GetComponent<AABBComponent>() && !obj->bMarkedForDeletion) {
+				visibleObjects.push_back(obj);
+			}
+		}
+
+		// Track stats for debug display
+		m_DrawnCount = static_cast<int>( visibleObjects.size() );
+		m_CulledCount = static_cast<int>( scene->GetGameObjects().size() ) - m_DrawnCount;
+
+		m_ForwardPass->Execute(deltaTime, scene, cam, { sceneLights }, &visibleObjects);
 
 		// TEMPORARY: Build Octree from scene AABBs and draw wireframe
 		if (OctreeSystem::Get().IsDebugDrawEnabled()) {

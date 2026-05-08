@@ -2,7 +2,6 @@
 #define SHARK_OCTREE_SYSTEM_H
 
 #include "Octree.h"
-#include <Components/Physics/AABBComponent.h>
 
 #include <memory>
 
@@ -12,6 +11,15 @@ namespace Shark::Core {
 
 namespace Shark {
 	class Scene;
+}
+
+namespace Shark::Components {
+	struct AABB;
+	class AABBComponent;
+}
+
+namespace Shark::Math {
+	struct Frustum;
 }
 
 namespace Shark::Spatial {
@@ -76,6 +84,7 @@ namespace Shark::Spatial {
 		 */
 		void ForEachNodeBoundsWithDepth(const std::function<void(const Components::AABB&, int)>& fn) const;
 
+		std::vector<Core::GameObject*> QueryFrustum(const Math::Frustum& frustum) const;
 	private:
 
 		OctreeSystem() = default;

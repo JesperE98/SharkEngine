@@ -3,7 +3,7 @@
         {
             "components": [
                 {
-                    "aspectRatio": 1.8511966466903687,
+                    "aspectRatio": 1.1701030731201172,
                     "enabled": true,
                     "farClip": 1000.0,
                     "fov": 45.0,
@@ -20,14 +20,14 @@
             "name": "Main Camera",
             "transform": {
                 "position": [
-                    -1.8761076927185059,
-                    10.199586868286133,
-                    20.14243507385254
+                    4.758722305297852,
+                    2.271172523498535,
+                    7.470431327819824
                 ],
                 "rotation": [
-                    -26.099994659423828,
-                    -2.300002336502075,
-                    1.0680776085791877e-07
+                    -25.100017547607422,
+                    36.49985885620117,
+                    0.0
                 ],
                 "scale": [
                     1.0,
@@ -86,39 +86,24 @@
                     },
                     "meshPath": "Models/Viking_House.obj",
                     "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        0.05000000074505806,
-                        0.05000000074505806,
-                        0.07000000029802322
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        -2.609999895095825
-                    ],
-                    "type": "AABBComponent"
                 }
             ],
-            "name": "VikingHouse",
+            "name": "Models/Viking_House.obj",
             "transform": {
                 "position": [
-                    -11.119999885559082,
-                    -1.4600000381469727,
-                    -6.590000152587891
+                    -2.3499999046325684,
+                    -0.05000000074505806,
+                    0.0
                 ],
                 "rotation": [
-                    -180.0,
-                    -45.20000457763672,
-                    180.0
+                    0.0,
+                    -0.0,
+                    0.0
                 ],
                 "scale": [
-                    100.0,
-                    100.0,
-                    100.0
+                    10.0,
+                    10.0,
+                    10.0
                 ]
             }
         },
@@ -168,9 +153,9 @@
                     0.0
                 ],
                 "scale": [
-                    20.0,
-                    0.20000000298023224,
-                    20.0
+                    10.0,
+                    0.5,
+                    10.0
                 ]
             }
         },
@@ -179,9 +164,9 @@
                 {
                     "enabled": true,
                     "material": {
-                        "diffusePath": "Textures/container2.png",
+                        "diffusePath": "",
                         "shininess": 32.0,
-                        "specularPath": "Textures/container2_specular.png",
+                        "specularPath": "",
                         "tiling": [
                             1.0,
                             1.0
@@ -228,7 +213,7 @@
             "transform": {
                 "position": [
                     -2.823406934738159,
-                    0.2499999850988388,
+                    0.25,
                     2.092099666595459
                 ],
                 "rotation": [
@@ -328,10 +313,10 @@
                     "type": "AABBComponent"
                 }
             ],
-            "name": "Platform2",
+            "name": "Platform",
             "transform": {
                 "position": [
-                    -2.190000057220459,
+                    -1.9800000190734863,
                     2.0,
                     -0.7200000286102295
                 ],
@@ -404,9 +389,9 @@
                 {
                     "enabled": true,
                     "material": {
-                        "diffusePath": "Textures/WoodFloor/WoodFloor_Color.png",
+                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
                         "shininess": 32.0,
-                        "specularPath": "Textures/WoodFloor/WoodFloor_Color.png",
+                        "specularPath": "",
                         "tiling": [
                             5.0,
                             5.0
@@ -423,7 +408,7 @@
                         0.5,
                         0.5
                     ],
-                    "isStatic": true,
+                    "isStatic": false,
                     "offset": [
                         0.0,
                         0.0,
@@ -432,16 +417,16 @@
                     "type": "AABBComponent"
                 }
             ],
-            "name": "GoalPlatform",
+            "name": "Platform",
             "transform": {
                 "position": [
-                    24.270000457763672,
-                    9.260000228881836,
-                    -9.100000381469727
+                    7.199999809265137,
+                    4.5,
+                    0.6299999952316284
                 ],
                 "rotation": [
                     0.0,
-                    89.98021697998047,
+                    -0.0,
                     0.0
                 ],
                 "scale": [
@@ -470,31 +455,16 @@
                 },
                 {
                     "enabled": true,
-                    "extents": [
-                        0.5,
-                        0.5,
-                        3.0
-                    ],
-                    "isStatic": false,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        0.36000001430511475
-                    ],
-                    "type": "AABBComponent"
-                },
-                {
-                    "enabled": true,
-                    "nextLevel": "Content/Scenes/Level3.json",
+                    "nextLevel": "Content/Scenes/Level2.json",
                     "type": "GoalTrigger"
                 }
             ],
             "name": "Door",
             "transform": {
                 "position": [
-                    23.979999542236328,
-                    10.0600004196167,
-                    -10.819999694824219
+                    8.630000114440918,
+                    5.389999866485596,
+                    -0.7300000190734863
                 ],
                 "rotation": [
                     0.0,
@@ -522,58 +492,6 @@
                         ],
                         "useMipMaps": true
                     },
-                    "meshPath": "Models/well.obj",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        1.5,
-                        2.0,
-                        1.5
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        1.5,
-                        0.0
-                    ],
-                    "type": "AABBComponent"
-                }
-            ],
-            "name": "well",
-            "transform": {
-                "position": [
-                    -4.340000152587891,
-                    -0.36000001430511475,
-                    -5.539999961853027
-                ],
-                "rotation": [
-                    -179.9981689453125,
-                    77.57999420166016,
-                    -179.99774169921875
-                ],
-                "scale": [
-                    0.75,
-                    0.75,
-                    0.75
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "shininess": 32.0,
-                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "tiling": [
-                            2.0,
-                            6.5
-                        ],
-                        "useMipMaps": true
-                    },
                     "meshPath": "Primitive:1",
                     "type": "MeshRendererComponent"
                 },
@@ -591,195 +509,17 @@
                         0.0
                     ],
                     "type": "AABBComponent"
-                }
-            ],
-            "name": "Platform3",
-            "transform": {
-                "position": [
-                    8.0,
-                    4.429999828338623,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    6.5,
-                    0.10000000149011612,
-                    2.049999952316284
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "shininess": 32.0,
-                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "tiling": [
-                            2.0,
-                            6.0
-                        ],
-                        "useMipMaps": true
-                    },
-                    "meshPath": "Primitive:1",
-                    "type": "MeshRendererComponent"
                 },
                 {
-                    "enabled": true,
-                    "extents": [
-                        0.5,
-                        0.5,
-                        0.5
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "type": "AABBComponent"
+                    "patrolDistance": 10.0,
+                    "patrolSpeed": 3.0
                 }
             ],
-            "name": "Platform4",
-            "transform": {
-                "position": [
-                    16.1299991607666,
-                    5.960000038146973,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    6.5,
-                    0.10000000149011612,
-                    2.0
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "shininess": 32.0,
-                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "tiling": [
-                            2.0,
-                            2.0
-                        ],
-                        "useMipMaps": true
-                    },
-                    "meshPath": "Primitive:1",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        0.5,
-                        0.5,
-                        0.5
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "type": "AABBComponent"
-                }
-            ],
-            "name": "Platform5",
-            "transform": {
-                "position": [
-                    21.219999313354492,
-                    7.550000190734863,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    2.0,
-                    0.10000000149011612,
-                    2.0
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "shininess": 32.0,
-                        "specularPath": "Textures/PavingStones/PavingStones_Color.jpg",
-                        "tiling": [
-                            2.0,
-                            2.0
-                        ],
-                        "useMipMaps": true
-                    },
-                    "meshPath": "Primitive:1",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "extents": [
-                        0.5,
-                        0.5,
-                        0.5
-                    ],
-                    "isStatic": true,
-                    "offset": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "type": "AABBComponent"
-                }
-            ],
-            "name": "Platform6",
-            "transform": {
-                "position": [
-                    24.299999237060547,
-                    8.5,
-                    -3.5999999046325684
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    2.0,
-                    0.10000000149011612,
-                    2.0
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "type": "LevelTimer"
-                }
-            ],
-            "name": "HUD",
+            "name": "Platform",
             "transform": {
                 "position": [
                     0.0,
-                    0.0,
+                    0.30000001192092896,
                     0.0
                 ],
                 "rotation": [
@@ -795,6 +535,6 @@
             }
         }
     ],
-    "name": "Level 2",
+    "name": "DefaultScene",
     "version": 1
 }

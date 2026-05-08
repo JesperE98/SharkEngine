@@ -59,6 +59,9 @@ namespace Shark::Core {
 
 		template<typename T>
 		T* GetComponent() {
+
+			if (bMarkedForDeletion) return nullptr;
+
 			auto it = m_ComponentMap.find(std::type_index(typeid(T)));
 
 			if(it != m_ComponentMap.end()){

@@ -24,6 +24,8 @@ namespace Shark::Components {
 	class GoalTrigger;
 	class MainMenuComponent;
 	class LevelTimer;
+	class TerrainComponent;
+	class AIController;
 }
 
 namespace Shark::Graphics {
@@ -69,6 +71,8 @@ namespace Shark::Serialization {
 		nlohmann::json SerializeGoalTrigger(const Components::GoalTrigger* c);
 		nlohmann::json SerializeMainMenu(const Components::MainMenuComponent* c);
 		nlohmann::json SerializeLevelTimer(const Components::LevelTimer* c);
+		nlohmann::json SerializeTerrainComponent(const Components::TerrainComponent* c);
+		nlohmann::json SerializeAIController(const Components::AIController* c);
 
 		nlohmann::json SerializeMaterial(const Graphics::Material* mat);
 		nlohmann::json SerializeTransform(const Math::Transform& t);
@@ -95,6 +99,8 @@ namespace Shark::Serialization {
 		void DeserializeGoalTrigger(const nlohmann::json& j, Components::GoalTrigger* c);
 		void DeserializeMainMenu(const nlohmann::json& j, Components::MainMenuComponent* c);
 		void DeserializeLevelTimer(const nlohmann::json& j, Components::LevelTimer* c);
+		void DeserializeTerrainComponent(const nlohmann::json& j, Components::TerrainComponent* c);
+		void DeserializeAIController(const nlohmann::json& j, Components::AIController* c);
 
 		void DeserializeMaterial(const nlohmann::json& j, Graphics::Material* mat);
 		void DeserializeTransform(const nlohmann::json& j, Math::Transform& t);

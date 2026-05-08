@@ -24,6 +24,8 @@ namespace Shark::Graphics
 		void OnEndFrame() override final;
 		void SetTarget(Framebuffer* fb);
 		ShadowMapPass* GetShadowPass() const;
+		int GetDrawnCount() const { return m_DrawnCount; }
+		int GetCulledCount() const { return m_CulledCount; }
 	private:
 		Framebuffer* m_SceneFb				{ nullptr }; // Main scene target
 		ShadowBuffer* m_ShadowFb			{ nullptr }; // Shadow map target (optional)
@@ -34,6 +36,8 @@ namespace Shark::Graphics
 
 		std::unique_ptr<Spatial::Octree<Core::GameObject*>> m_DebugOctree;
 		bool m_DrawOctree = true; // Toggle via inspector later
+		int m_DrawnCount;
+		int m_CulledCount;
 	};
 }
 

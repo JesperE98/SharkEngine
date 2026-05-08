@@ -54,7 +54,7 @@
     <ClInclude Include="Graphics\Resources\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IRenderable.h">
+    <ClInclude Include="Graphics\Resources\IRenderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\Component.h">
@@ -243,6 +243,18 @@
     <ClInclude Include="Core\RecordsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Frustum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Resources\Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Rendering\TerrainComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AIController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Engine\Engine.cpp">
@@ -411,6 +423,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\RecordsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Resources\Terrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Rendering\TerrainComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AIController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

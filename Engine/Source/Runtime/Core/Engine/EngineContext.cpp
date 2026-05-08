@@ -26,6 +26,8 @@
 #include <Components/GoalTrigger.h>
 #include "Components/UI/MainMenuComponent.h"
 #include "Components/UI/LevelTimer.h"
+#include "Components/Rendering/TerrainComponent.h"
+#include "Components/AIController.h"
 
 #pragma endregion
 
@@ -74,31 +76,6 @@ namespace Shark::Core
 		m_Renderer = new ForwardRenderer();
 
 		/* ----------------- Scene ----------------- */
-		//SceneManager::Get().RegisterScene("MainMenu", [](Scene* scene) {
-		//	// Empty default scene
-		//	GameObject* cam = new GameObject("Main Camera");
-		//	cam->AddComponent<CameraComponent>(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-		//	cam->AddComponent<CameraController>(5.0f, 0.1f);
-		//	cam->GetTransform().position = { 0.0f, 0.0f, 5.0f };
-		//	scene->AddGameObject(cam);
-
-		//	GameObject* dLight = new GameObject("Directional Light");
-		//	dLight->AddComponent<LightComponent>();
-		//	dLight->GetComponent<LightComponent>()->Type = LightType::Directional;
-		//	dLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
-		//	dLight->GetTransform().position = { 0.0f, 5.0f, 0.0f };
-		//	dLight->GetTransform().rotation = { -45.0f, -45.0f, 0.0f };
-		//	scene->AddGameObject(dLight);
-
-		//	// Optional with Point Light
-		//	//GameObject* pLight = new GameObject("Point Light");
-		//	//pLight->AddComponent<LightComponent>();
-		//	//pLight->GetComponent<LightComponent>()->Type = LightType::Point;
-		//	//pLight->GetComponent<LightComponent>()->Color = { 1.0f, 1.0f, 1.0f };
-		//	//pLight->GetTransform().position = { 0.0f, 1.5f, 0.0f };
-		//	//pLight->GetTransform().Rotate({ 0.0f, 0.0f, 0.0f });
-		//	//scene->AddGameObject(pLight);
-		//	});
 
 		Components::AABB worldBounds;
 		worldBounds.min = { -50, -50, -50 };
@@ -162,5 +139,7 @@ namespace Shark::Core
 		ComponentRegistry::Get().Register<GoalTrigger>("GoalTrigger");
 		ComponentRegistry::Get().Register<MainMenuComponent>("MainMenuComponent");
 		ComponentRegistry::Get().Register<LevelTimer>("LevelTimer");
+		ComponentRegistry::Get().Register<TerrainComponent>("TerrainComponent");
+		ComponentRegistry::Get().Register<AIController>("AIController");
 	}
 }

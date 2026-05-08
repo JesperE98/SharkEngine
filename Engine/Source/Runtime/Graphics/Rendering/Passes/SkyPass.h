@@ -37,6 +37,13 @@ namespace Shark::Graphics {
 			Components::CameraComponent* cam,
 			std::vector<Components::LightData> lights) override final {};
 
+		virtual void Execute(
+			float deltaTime,
+			Shark::Scene* scene,
+			Components::CameraComponent* cam,
+			std::vector<Components::LightData> lights,
+			const std::vector<Core::GameObject*>* visibleObjects) override final {}
+
 		void UpdateCameraTransform(
 			Graphics::Shader* shader,
 			Components::CameraComponent* cam,
