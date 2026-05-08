@@ -3,6 +3,7 @@
 #include <Scene/Scene.h>
 #include <Core/GameObject.h>
 #include <Core/Utilities/Debug.h>
+#include <IO/PathManager.h>
 
 #include <Components/Component.h>
 #include <Components/ComponentRegistry.h>
@@ -52,24 +53,32 @@ namespace Shark::Serialization {
 			return false;
 		}
 
+		std::string fullPath;
+
+		if (path.find(":") != std::string::npos || path.starts_with("/")) {
+			fullPath = path;
+		} else {
+			fullPath = IO::PathManager::Get().GetPath(IO::PathCategory::Content, path);
+		}
+
 		// Ensure the directory exists
-		std::filesystem::path filepath(path);
+		std::filesystem::path filepath(fullPath);
 		std::filesystem::create_directories(filepath.parent_path());
 
 		// Build JSON
 		json sceneJson = SerializeScene();
 
 		// Write to disk
-		std::ofstream file(path);
+		std::ofstream file(fullPath);
 		if (!file.is_open()) {
-			SE_ERR(Engine, "Failed to open file for writing: {}", path);
+			SE_ERR(Engine, "Failed to open file for writing: {}", fullPath);
 			return false;
 		}
 
 		file << sceneJson.dump(4); // 4-space indent
 		file.close();
 
-		SE_SUCC(Engine, "Scene saved: {}", path);
+		SE_SUCC(Engine, "Scene saved: {}", fullPath);
 		return true;
 	}
 
@@ -79,14 +88,22 @@ namespace Shark::Serialization {
 			return false;
 		}
 
-		if (!std::filesystem::exists(path)) {
+		std::string fullPath;
+
+		if (path.find(":") != std::string::npos || path.starts_with("/")) {
+			fullPath = path;
+		} else {
+			fullPath = IO::PathManager::Get().GetPath(IO::PathCategory::Content, path);
+		}
+
+		if (!std::filesystem::exists(fullPath)) {
 			SE_ERR(Engine, "Scene file does not exists. {}", path);
 			return false;
 		}
 
-		std::ifstream file(path);
+		std::ifstream file(fullPath);
 		if (!file.is_open()) {
-			SE_ERR(Engine, "Failed to open scene file: {}", path);
+			SE_ERR(Engine, "Failed to open scene file: {}", fullPath);
 			return false;
 		}
 
@@ -95,13 +112,13 @@ namespace Shark::Serialization {
 			file >> sceneJson;
 		}
 		catch(const json::parse_error& e) {
-			SE_ERR(Engine, "JSON parse error in {}: {}", path, e.what());
+			SE_ERR(Engine, "JSON parse error in {}: {}", fullPath, e.what());
 			return false;
 		}
 
 		DeserializeScene(sceneJson);
 
-		SE_SUCC(Engine, "Scene loaded: {}", path);
+		SE_SUCC(Engine, "Scene loaded: {}", fullPath);
 		return true;
 	}
 

@@ -2,7 +2,6 @@
 #define EDITOR_STATE_MANAGER_H
 
 #include "EditorState.h"
-
 namespace Shark::Core {
 	class EditorStateManager {
 	public:
@@ -17,6 +16,7 @@ namespace Shark::Core {
 		EditorStateManager& operator=(const EditorStateManager&)	= delete;
 	private:
 		EditorState m_State = EditorState::Edit;
+		
 
 		EditorStateManager() = default;
 		~EditorStateManager();

@@ -1,4 +1,5 @@
 #include "EditorStateManager.h"
+#include <Components/SharkBehavior.h>
 
 namespace Shark::Core {
 	EditorStateManager& EditorStateManager::Get()
@@ -14,7 +15,15 @@ namespace Shark::Core {
 
 	void EditorStateManager::OnSetState(EditorState e)
 	{
+
+		Components::SharkBehavior sharkBehavior;
 		m_State = e;
+
+		switch (e) {
+			case EditorState::Play:
+				sharkBehavior.BeginPlay();
+				break;
+		}
 	}
 
 

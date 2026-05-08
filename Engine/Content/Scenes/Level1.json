@@ -381,11 +381,11 @@
                 },
                 {
                     "enabled": true,
-                    "nextLevel": "Content/Scenes/Level2.json",
+                    "nextLevel": "Scenes/Level2.json",
                     "type": "GoalTrigger"
                 }
             ],
-            "name": "Door",
+            "name": "Goal",
             "transform": {
                 "position": [
                     0.0,

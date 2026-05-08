@@ -1,5 +1,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
+
+#include "IO/PathManager.h"
+
 #include "Core/Utilities/Debug.h"
 #include <Core/Spatial/OctreeSystem.h>
 #include "Core/Serialization/SceneSerializer.h"

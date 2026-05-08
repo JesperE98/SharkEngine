@@ -82,7 +82,7 @@ namespace Shark::Core
 		worldBounds.max = { 50, 50, 50 };
 		OctreeSystem::Get().Initialize(worldBounds, 5, 8);
 		
-		SceneManager::Get().LoadSceneFromFile("Content/Scenes/MainMenu.json");
+		SceneManager::Get().LoadSceneFromFile("Scenes/MainMenu.json");
 
 		/* ----------------- Check on Memory ----------------- */
 		InputManager::Get().Initialize(m_Window);

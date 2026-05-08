@@ -37,9 +37,9 @@ namespace Shark::Components {
 		ImGui::Spacing();
 
 		static const LevelEntry levels[] = {
-			{"Level 1", "Content/Scenes/Level1.json"},
-			{"Level 2", "Content/Scenes/Level2.json"},
-			{"Level 3", "Content/Scenes/Level3.json"},
+			{"Level 1", "Scenes/Level1.json"},
+			{"Level 2", "Scenes/Level2.json"},
+			{"Level 3", "Scenes/Level3.json"},
 		};
 
 		for (const auto& lvl : levels) {
