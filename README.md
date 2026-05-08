@@ -10,9 +10,9 @@
 
 ## Or run the prebuilt binary
 
-1. Download the latest release ZIP fomr [link].
+1. Download the latest release ZIP from [https://github.com/JesperE98/SharkEngine].
 2. Extract anywhere.
-3. Double-click `Editor.exe`.
+3. Double-click `Editor.exe` located at "..\SharkEngine\Engine\Binaries\x64\Debug\Editor.exe".
 
 ## How to play
 
