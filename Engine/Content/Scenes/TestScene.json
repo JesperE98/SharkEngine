@@ -3,7 +3,7 @@
         {
             "components": [
                 {
-                    "aspectRatio": 1.1701030731201172,
+                    "aspectRatio": 1.819979190826416,
                     "enabled": true,
                     "farClip": 1000.0,
                     "fov": 45.0,
@@ -20,14 +20,14 @@
             "name": "Main Camera",
             "transform": {
                 "position": [
-                    4.758722305297852,
-                    2.271172523498535,
-                    7.470431327819824
+                    0.7133809924125671,
+                    12.565587043762207,
+                    25.390331268310547
                 ],
                 "rotation": [
-                    -25.100017547607422,
-                    36.49985885620117,
-                    0.0
+                    -26.56502342224121,
+                    -3.415093203784636e-07,
+                    1.2722220568423936e-14
                 ],
                 "scale": [
                     1.0,
@@ -212,9 +212,9 @@
             "name": "Player",
             "transform": {
                 "position": [
-                    -2.823406934738159,
-                    0.25,
-                    2.092099666595459
+                    0.7133810520172119,
+                    7.565402507781982,
+                    15.390327453613281
                 ],
                 "rotation": [
                     0.0,
@@ -509,10 +509,6 @@
                         0.0
                     ],
                     "type": "AABBComponent"
-                },
-                {
-                    "patrolDistance": 10.0,
-                    "patrolSpeed": 3.0
                 }
             ],
             "name": "Platform",
@@ -520,6 +516,50 @@
                 "position": [
                     0.0,
                     0.30000001192092896,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "enabled": true,
+                    "material": {
+                        "diffusePath": "Textures/Viking_House.png",
+                        "shininess": 32.0,
+                        "specularPath": "Textures/Viking_House.png",
+                        "tiling": [
+                            1.0,
+                            1.0
+                        ],
+                        "useMipMaps": true
+                    },
+                    "meshPath": "Models/quadPlane.obj",
+                    "type": "MeshRendererComponent"
+                },
+                {
+                    "enabled": true,
+                    "heightScale": 10.0,
+                    "heightmapPath": "Heightmaps/iceland_heightmap.png",
+                    "type": "TerrainComponent",
+                    "xzScale": 0.10000000149011612
+                }
+            ],
+            "name": "Terrain",
+            "transform": {
+                "position": [
+                    0.0,
+                    0.0,
                     0.0
                 ],
                 "rotation": [

@@ -20,14 +20,14 @@
             "name": "Main Camera",
             "transform": {
                 "position": [
-                    -21.329710006713867,
-                    15.756037712097168,
-                    -18.453096389770508
+                    -9.394207000732422,
+                    13.656492233276367,
+                    19.31532096862793
                 ],
                 "rotation": [
-                    -20.9000244140625,
-                    -89.00025177001953,
-                    4.893262666882947e-05
+                    -26.56501007080078,
+                    5.464150035550119e-06,
+                    0.0
                 ],
                 "scale": [
                     1.0,
@@ -175,9 +175,9 @@
             "name": "Player",
             "transform": {
                 "position": [
-                    -11.731795310974121,
-                    8.462989807128906,
-                    4.0279130935668945
+                    -9.394207954406738,
+                    8.656355857849121,
+                    9.31531810760498
                 ],
                 "rotation": [
                     0.0,
@@ -231,50 +231,6 @@
                         ],
                         "useMipMaps": true
                     },
-                    "meshPath": "Models/quadPlane.obj",
-                    "type": "MeshRendererComponent"
-                },
-                {
-                    "enabled": true,
-                    "heightScale": 20.0,
-                    "heightmapPath": "Heightmaps/iceland_heightmap.png",
-                    "type": "TerrainComponent",
-                    "xzScale": 0.5
-                }
-            ],
-            "name": "Terrain",
-            "transform": {
-                "position": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    89.98021697998047,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "components": [
-                {
-                    "enabled": true,
-                    "material": {
-                        "diffusePath": "Textures/Viking_House.png",
-                        "shininess": 32.0,
-                        "specularPath": "Textures/Viking_House.png",
-                        "tiling": [
-                            1.0,
-                            1.0
-                        ],
-                        "useMipMaps": true
-                    },
                     "meshPath": "Models/Viking_House.obj",
                     "type": "MeshRendererComponent"
                 },
@@ -302,8 +258,8 @@
                     -11.699999809265137
                 ],
                 "rotation": [
-                    -175.10000610351563,
-                    -45.39996337890625,
+                    175.10000610351563,
+                    45.39996337890625,
                     -180.0
                 ],
                 "scale": [
@@ -354,8 +310,8 @@
                     5.900000095367432
                 ],
                 "rotation": [
-                    180.0,
-                    46.899993896484375,
+                    -180.0,
+                    -46.899993896484375,
                     180.0
                 ],
                 "scale": [
@@ -667,7 +623,7 @@
             "name": "Enemy",
             "transform": {
                 "position": [
-                    -15.0,
+                    -14.200155258178711,
                     10.550000190734863,
                     -27.739999771118164
                 ],
@@ -725,7 +681,7 @@
             "name": "Enemy2",
             "transform": {
                 "position": [
-                    -16.82900047302246,
+                    -16.029129028320313,
                     7.96999979019165,
                     -4.420000076293945
                 ],
@@ -783,7 +739,7 @@
             "name": "Enemy3",
             "transform": {
                 "position": [
-                    -5.0,
+                    -5.799844264984131,
                     10.550000190734863,
                     -35.18000030517578
                 ],
@@ -1165,6 +1121,50 @@
                     1.0,
                     2.0,
                     0.10000000149011612
+                ]
+            }
+        },
+        {
+            "components": [
+                {
+                    "enabled": true,
+                    "material": {
+                        "diffusePath": "Textures/Viking_House.png",
+                        "shininess": 32.0,
+                        "specularPath": "Textures/Viking_House.png",
+                        "tiling": [
+                            1.0,
+                            1.0
+                        ],
+                        "useMipMaps": true
+                    },
+                    "meshPath": "Models/quadPlane.obj",
+                    "type": "MeshRendererComponent"
+                },
+                {
+                    "enabled": true,
+                    "heightScale": 20.0,
+                    "heightmapPath": "Heightmaps/iceland_heightmap.png",
+                    "type": "TerrainComponent",
+                    "xzScale": 0.5
+                }
+            ],
+            "name": "Terrain2",
+            "transform": {
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
                 ]
             }
         }

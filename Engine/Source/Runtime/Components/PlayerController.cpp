@@ -68,10 +68,12 @@ namespace Shark::Components {
 				float localZ = playerPos.z - terrainTransform.position.z;
 
 				float terrainHeight = terrainComp->GetTerrain()->GetHeightAt(localX, localZ);
+				//float terrainHeight = terrainComp->GetTerrain()->GetHeightAt(-playerPos.x, playerPos.z);
+
 				terrainHeight += terrainTransform.position.y; // offset by terrain's world Y
 
-				/*SE_LOG(Engine, "Player Y: {} | Terrain H: {} | LocalX: {} | LocalZ: {}",
-					   playerPos.y, terrainHeight, localX, localZ);*/
+				SE_LOG(Engine, "Player Y: {} | Terrain H: {} | LocalX: {} | LocalZ: {}",
+					   playerPos.y, terrainHeight, localX, localZ);
 
 				// Push player up if below terrain
 				float playerFeetY = playerPos.y - 0.5f; // half the player's height

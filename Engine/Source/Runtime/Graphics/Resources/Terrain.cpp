@@ -76,7 +76,7 @@ namespace Shark::Graphics {
 		glBindVertexArray(0);
 	}
 
-	float Terrain::GetHeightAt(float worldX, float worldZ) const {
+	float Terrain::GetHeightAt(float localX, float localZ) const {
 		if (m_HeightData.empty()) {
 			SE_ERR(Rendering, "Height Data map are empty.");
 			return 0.0f;
@@ -86,8 +86,8 @@ namespace Shark::Graphics {
 		float halfDepth = ( m_Height - 1 ) * m_XZScale * 0.5f;
 
 		// Convert world coords to grid coords
-		float gridX = (worldX + halfWidth) / m_XZScale;
-		float gridZ = (worldZ + halfDepth) / m_XZScale;
+		float gridX = (localX + halfWidth) / m_XZScale;
+		float gridZ = (localZ + halfDepth) / m_XZScale;
 
 		// Clamp to valid range
 		if (gridX < 0) gridX = 0;
