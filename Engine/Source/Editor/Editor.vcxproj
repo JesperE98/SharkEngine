@@ -144,7 +144,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\ThirdParty;$(SolutionDir)Engine\ThirdParty\glad;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Engine\Binaries\$(Platform)\$(Configuration);$(SolutionDir)Engine\ThirdParty\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
