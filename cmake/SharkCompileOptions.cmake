@@ -9,6 +9,23 @@ if(SHARK_ENABLE_IPO)
     endif()
 endif()
 
+# Removes files inside IDE/CMake build folders (cmake-build-*, CMakeFiles, ...)
+# from a globbed source list. An IDE that once opened a subfolder as its own
+# project can leave such folders behind, and their generated .cpp files
+# (e.g. CMakeCXXCompilerId.cpp with its own main()) would otherwise be compiled.
+function(shark_exclude_build_dirs list_var)
+    set(_kept "")
+    foreach(_file IN LISTS ${list_var})
+        # Only look at the part below the current folder, so the location of
+        # the checkout itself (e.g. C:/build/SharkEngine) doesn't matter.
+        file(RELATIVE_PATH _rel "${CMAKE_CURRENT_SOURCE_DIR}" "${_file}")
+        if(NOT _rel MATCHES "(^|/)(cmake-build-[^/]*|CMakeFiles|build|out)/")
+            list(APPEND _kept "${_file}")
+        endif()
+    endforeach()
+    set(${list_var} ${_kept} PARENT_SCOPE)
+endfunction()
+
 # Settings that apply to every target we build (our own code and third party).
 function(shark_common_options target)
     if(MSVC)

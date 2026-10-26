@@ -13,6 +13,12 @@
 #   nlohmann_json::nlohmann_json    3.12.0    vendored, header only
 #   stb                             2.30      vendored (stb_image)
 
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    message(FATAL_ERROR
+        "This folder is part of SharkEngine and can't be built on its own. "
+        "Open the repository root (the folder with the top-level CMakeLists.txt) instead.")
+endif()
+
 set(THIRDPARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # --------------------------------------------------------------------------

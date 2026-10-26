@@ -1,10 +1,17 @@
 # SharkEngine runtime (static library).
 
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    message(FATAL_ERROR
+        "This folder is part of SharkEngine and can't be built on its own. "
+        "Open the repository root (the folder with the top-level CMakeLists.txt) instead.")
+endif()
+
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
 )
+shark_exclude_build_dirs(ENGINE_SOURCES)
 
 # Shaders are not compiled, but listed so they show up in the IDE.
 file(GLOB ENGINE_SHADERS CONFIGURE_DEPENDS "${SHARK_ENGINE_DIR}/Shaders/*.glsl")

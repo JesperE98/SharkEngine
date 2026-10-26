@@ -1,9 +1,16 @@
 # SharkEngine editor (executable).
 
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    message(FATAL_ERROR
+        "This folder is part of SharkEngine and can't be built on its own. "
+        "Open the repository root (the folder with the top-level CMakeLists.txt) instead.")
+endif()
+
 file(GLOB_RECURSE EDITOR_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
 )
+shark_exclude_build_dirs(EDITOR_SOURCES)
 
 add_executable(Editor ${EDITOR_SOURCES})
 
