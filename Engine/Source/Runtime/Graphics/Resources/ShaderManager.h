@@ -1,6 +1,7 @@
 #ifndef SHADERMANAGER_H
 #define SHADERMANAGER_H
 
+#include <string>
 #include "Core/Messaging/MessageSystem.h"
 
 #include <unordered_map>

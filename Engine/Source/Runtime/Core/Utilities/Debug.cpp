@@ -1,3 +1,4 @@
+#include <cstring>
 #include "Debug.h"
 #include "Core/Events/SharkEvents.h"
 

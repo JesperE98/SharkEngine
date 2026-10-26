@@ -1,6 +1,7 @@
 #ifndef LIGHTCOMPONENT_H
 #define LIGHTCOMPONENT_H
 
+#include <cstdint>
 #include "Components/Component.h"
 #include "Math/Vector3.h"
 

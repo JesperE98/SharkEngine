@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "GameObject.h"
 #include "App/EditorStateManager.h"
 

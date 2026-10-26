@@ -20,7 +20,7 @@ namespace Shark::Graphics {
 
 		static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
-		virtual ~Renderer() = default;
+		virtual ~Renderer(); // Defined in Renderer.cpp, where RenderPass is a complete type
 		virtual void OnInitialize() = 0;
 		virtual void OnBeginFrame() = 0;
 		virtual void OnRenderScene(float deltaTime, Shark::Scene* scene, Components::CameraComponent* cam) = 0;

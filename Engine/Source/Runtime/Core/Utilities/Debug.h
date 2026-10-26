@@ -1,6 +1,7 @@
 #ifndef ENGINE_CORE_UTILITIES_DEBUG_H
 #define ENGINE_CORE_UTILITIES_DEBUG_H
 
+#include <cstdint>
 #include "Time.h"
 #include "FColor.h"
 #include <string>

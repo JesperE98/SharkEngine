@@ -1,6 +1,7 @@
 #ifndef TERRAIN_COMPONENT_H
 #define TERRAIN_COMPONENT_H
 
+#include <memory>
 #include "Components/Component.h"
 #include "Graphics/Resources/Terrain.h"
 

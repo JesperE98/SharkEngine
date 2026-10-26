@@ -1,6 +1,7 @@
 #ifndef SHARK_OCTREE_H
 #define SHARK_OCTREE_H
 
+#include <algorithm>
 #include "Components/Physics/AABBComponent.h"
 #include "Math/Vector3.h"
 #include "Math/Frustum.h"

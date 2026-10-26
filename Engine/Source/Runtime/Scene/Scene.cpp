@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Scene.h"
 #include <Core/GameObject.h>
 #include <Components/Logic/CameraController.h>

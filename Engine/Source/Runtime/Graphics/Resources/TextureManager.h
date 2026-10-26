@@ -1,6 +1,7 @@
 #ifndef TEXTUREMANAGER_H
 #define TEXTUREMANAGER_H
 
+#include <string>
 #include "Core/Messaging/MessageSystem.h"
 #include <unordered_map>
 

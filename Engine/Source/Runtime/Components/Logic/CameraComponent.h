@@ -1,6 +1,7 @@
 #ifndef CAMERACOMPONENT_H
 #define CAMERACOMPONENT_H
 
+#include <cstdint>
 #include "Components/Component.h"
 #include <Math/Vector3.h>
 

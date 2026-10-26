@@ -1,6 +1,8 @@
 #ifndef ENGINE_CORE_MESSAGING_MESSAGEQUEUE_H
 #define ENGINE_CORE_MESSAGING_MESSAGEQUEUE_H
 
+#include <string>
+#include <cstdint>
 #include <queue>
 #include <mutex>
 

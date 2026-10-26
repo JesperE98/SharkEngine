@@ -1,6 +1,7 @@
 #ifndef PATHMANAGER_H
 #define PATHMANAGER_H
 
+#include <cstdint>
 #include <string>
 
 namespace Shark::IO {

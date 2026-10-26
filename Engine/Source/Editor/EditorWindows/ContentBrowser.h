@@ -1,6 +1,7 @@
 #ifndef CONTENT_BROWSER_H
 #define CONTENT_BROWSER_H
 
+#include <cstdint>
 #include "EditorWindow.h"
 #include <vector>
 #include <filesystem>

@@ -3,7 +3,7 @@
 #include "IO/PathManager.h"
 
 #include <glad/glad.h>
-#include <stb/image.h>
+#include <stb/stb_image.h>
 
 namespace Shark::Graphics {
 

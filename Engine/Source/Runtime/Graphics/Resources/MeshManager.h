@@ -54,12 +54,13 @@ namespace Shark::Resources {
 		template<typename T>
 		void ProcessLoadRequest(const T& value);
 
-		template<>
-		void ProcessLoadRequest<std::string>(const std::string& path);
-		template<>
-		void ProcessLoadRequest<Graphics::PrimitiveType>(const Graphics::PrimitiveType& type);
-
 	};
+
+	// Explicit specializations must be declared at namespace scope (not inside the class).
+	template<>
+	void MeshManager::ProcessLoadRequest<std::string>(const std::string& path);
+	template<>
+	void MeshManager::ProcessLoadRequest<Graphics::PrimitiveType>(const Graphics::PrimitiveType& type);
 }
 
 #endif

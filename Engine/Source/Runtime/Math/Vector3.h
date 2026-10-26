@@ -37,8 +37,10 @@ namespace Shark::Math {
 		static const Vector3 Backward;
 #pragma endregion
 	};
-}
-inline std::ostream& operator<<(std::ostream& os, const Shark::Math::Vector3& vec) {
-	os << "Vector3(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
-	return os;
+
+	// Lives in Shark::Math so argument-dependent lookup finds it from templates (e.g. Debug::PackArgs).
+	inline std::ostream& operator<<(std::ostream& os, const Vector3& vec) {
+		os << "Vector3(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+		return os;
+	}
 }

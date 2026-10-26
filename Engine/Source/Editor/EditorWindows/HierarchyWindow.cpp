@@ -1,3 +1,4 @@
+#include <cstring>
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
 #include "Managers/LevelEditorManager.h"
